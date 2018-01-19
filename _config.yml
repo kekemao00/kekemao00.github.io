@@ -3,10 +3,10 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
+title: MaoKe's Blog
 subtitle:
-description:
-author: John Doe
+description: 好的代码本身就是最好的说明文档
+author: Mao Ke
 language:
 timezone:
 
@@ -72,9 +72,11 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: git@github.com:kekemao00/kekemao00.github.io.git
+  branch: master
