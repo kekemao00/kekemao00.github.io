@@ -1,0 +1,935 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>/Users/jack/Documents/GitHub/kekemao00.github.io/themes/next/.README.md.html</title>
+
+
+<style type="text/css">
+body {
+	color: #333;
+	font: 13px/1.4 "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	background: transparent;
+	color: #4183c4;
+	text-decoration: none;
+}
+
+a:active,
+a:hover {
+	outline: 0 none;
+	text-decoration: underline;
+}
+
+abbr[title] {
+	border-bottom: 1px dotted;
+}
+
+b,
+strong {
+	font-weight: bold;
+}
+
+dfn {
+	font-style: italic;
+}
+h1 {
+	font-size: 2em;
+	margin: 0.67em 0;
+}
+mark {
+	background: #ff0;
+	color: #000;
+}
+small {
+	font-size: 80%;
+}
+sub, sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+sup {
+	top: -0.5em;
+}
+sub {
+	bottom: -0.25em;
+}
+img {
+	border: 0 none;
+}
+svg:not(:root) {
+	overflow: hidden;
+}
+figure {
+	margin: 1em 40px;
+}
+hr {
+	box-sizing: content-box;
+	height: 0;
+}
+
+code,
+kbd,
+pre,
+samp {
+	font-family: monospace,monospace;
+	font-size: 1em;
+}
+
+pre {
+	overflow: auto;
+	font: 12px Consolas,"Liberation Mono",Menlo,Courier,monospace;
+	margin-bottom: 0;
+	margin-top: 0;
+}
+
+.markdown-body {
+	padding: 30px;
+	font-size: 16px;
+	line-height: 1.6;
+	word-wrap: break-word;
+}
+
+.markdown-body>*:first-child {
+	margin-top: 0 !important;
+}
+
+.markdown-body>*:last-child {
+	margin-bottom: 0 !important;
+}
+
+.markdown-body .absent {
+	color: #c00;
+}
+
+.markdown-body .anchor {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	display: block;
+	padding-right: 6px;
+	padding-left: 30px;
+	margin-left: -30px;
+}
+
+.markdown-body .anchor:focus {
+	outline: none;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+	position: relative;
+	margin-top: 1em;
+	margin-bottom: 16px;
+	font-weight: bold;
+	line-height: 1.4;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+	display: none;
+	color: #000;
+	vertical-align: middle;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+	padding-left: 8px;
+	margin-left: -30px;
+	line-height: 1;
+	text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+	display: inline-block;
+}
+
+.markdown-body h1 tt,
+.markdown-body h1 code,
+.markdown-body h2 tt,
+.markdown-body h2 code,
+.markdown-body h3 tt,
+.markdown-body h3 code,
+.markdown-body h4 tt,
+.markdown-body h4 code,
+.markdown-body h5 tt,
+.markdown-body h5 code,
+.markdown-body h6 tt,
+.markdown-body h6 code {
+	font-size: inherit;
+}
+
+.markdown-body h1 {
+	padding-bottom: 0.3em;
+	font-size: 2.25em;
+	line-height: 1.2;
+	border-bottom: 1px solid #eee;
+}
+
+.markdown-body h2 {
+	padding-bottom: 0.3em;
+	font-size: 1.75em;
+	line-height: 1.225;
+	border-bottom: 1px solid #eee;
+}
+
+.markdown-body h3 {
+	font-size: 1.5em;
+	line-height: 1.43;
+}
+
+.markdown-body h4 {
+	font-size: 1.25em;
+}
+
+.markdown-body h5 {
+	font-size: 1em;
+}
+
+.markdown-body h6 {
+	font-size: 1em;
+	color: #777;
+}
+
+.markdown-body p,.markdown-body blockquote,
+.markdown-body ul,.markdown-body ol,
+.markdown-body dl,.markdown-body table,
+.markdown-body pre {
+	margin-top: 0;
+	margin-bottom: 16px;
+}
+
+.markdown-body hr {
+	height: 4px;
+	padding: 0;
+	margin: 16px 0;
+	background-color: #e7e7e7;
+	border: 0 none;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+	padding-left: 2em;
+}
+
+.markdown-body ul.no-list,
+.markdown-body ol.no-list {
+	padding: 0;
+	list-style-type: none;
+}
+
+.markdown-body ul ul,
+.markdown-body ul ol,
+.markdown-body ol ol,
+.markdown-body ol ul {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.markdown-body li>p {
+	margin-top: 16px;
+}
+
+.markdown-body dl {
+	padding: 0;
+}
+
+.markdown-body dl dt {
+	padding: 0;
+	margin-top: 16px;
+	font-size: 1em;
+	font-style: italic;
+	font-weight: bold;
+}
+
+.markdown-body dl dd {
+	padding: 0 16px;
+	margin-bottom: 16px;
+}
+
+.markdown-body blockquote {
+	padding: 0 15px;
+	color: #777;
+	border-left: 4px solid #ddd;
+}
+
+.markdown-body blockquote>:first-child {
+	margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+	margin-bottom: 0;
+}
+
+.markdown-body table {
+	display: block;
+	width: 100%;
+	overflow: auto;
+	word-break: normal;
+	word-break: keep-all;
+}
+
+.markdown-body table th {
+	font-weight: bold;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+	padding: 6px 13px;
+	border: 1px solid #ddd;
+}
+
+.markdown-body table tr {
+	background-color: #fff;
+	border-top: 1px solid #ccc;
+}
+
+.markdown-body table tr:nth-child(2n) {
+	background-color: #f8f8f8;
+}
+
+.markdown-body img {
+	max-width: 100%;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.markdown-body span.frame {
+	display: block;
+	overflow: hidden;
+}
+
+.markdown-body span.frame>span {
+	display: block;
+	float: left;
+	width: auto;
+	padding: 7px;
+	margin: 13px 0 0;
+	overflow: hidden;
+	border: 1px solid #ddd;
+}
+
+.markdown-body span.frame span img {
+	display: block;
+	float: left;
+}
+
+.markdown-body span.frame span span {
+	display: block;
+	padding: 5px 0 0;
+	clear: both;
+	color: #333;
+}
+
+.markdown-body span.align-center {
+	display: block;
+	overflow: hidden;
+	clear: both;
+}
+
+.markdown-body span.align-center>span {
+	display: block;
+	margin: 13px auto 0;
+	overflow: hidden;
+	text-align: center;
+}
+
+.markdown-body span.align-center span img {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.markdown-body span.align-right {
+	display: block;
+	overflow: hidden;
+	clear: both;
+}
+
+.markdown-body span.align-right>span {
+	display: block;
+	margin: 13px 0 0;
+	overflow: hidden;
+	text-align: right;
+}
+
+.markdown-body span.align-right span img {
+	margin: 0;
+	text-align: right;
+}
+
+.markdown-body span.float-left {
+	display: block;
+	float: left;
+	margin-right: 13px;
+	overflow: hidden;
+}
+
+.markdown-body span.float-left span {
+	margin: 13px 0 0;
+}
+
+.markdown-body span.float-right {
+	display: block;
+	float: right;
+	margin-left: 13px;
+	overflow: hidden;
+}
+
+.markdown-body span.float-right>span {
+	display: block;
+	margin: 13px auto 0;
+	overflow: hidden;
+	text-align: right;
+}
+
+.markdown-body code,.markdown-body tt {
+	padding: 0;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	margin: 0;
+	font-size: 85%;
+	background-color: rgba(0,0,0,0.04);
+	border-radius: 3px;
+}
+
+.markdown-body code:before,
+.markdown-body code:after,
+.markdown-body tt:before,
+.markdown-body tt:after {
+	letter-spacing: -0.2em;
+	content: "\00a0";
+}
+
+.markdown-body code br,
+.markdown-body tt br {
+	display: none;
+}
+
+.markdown-body del code {
+	text-decoration: inherit;
+}
+
+.markdown-body pre>code {
+	padding: 0;
+	margin: 0;
+	font-size: 100%;
+	word-break: normal;
+	white-space: pre;
+	background: transparent;
+	border: 0;
+}
+
+.markdown-body .highlight {
+	margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+	padding: 16px;
+	overflow: auto;
+	font-size: 85%;
+	line-height: 1.45;
+	background-color: #f7f7f7;
+	border-radius: 3px;
+}
+
+.markdown-body .highlight pre {
+	margin-bottom: 0;
+	word-break: normal;
+}
+
+.markdown-body pre {
+	word-wrap: normal;
+}
+
+.markdown-body pre code,
+.markdown-body pre tt {
+	display: inline;
+	max-width: initial;
+	padding: 0;
+	margin: 0;
+	overflow: initial;
+	line-height: inherit;
+	word-wrap: normal;
+	background-color: transparent;
+	border: 0;
+}
+
+.markdown-body pre code:before,
+.markdown-body pre code:after,
+.markdown-body pre tt:before,
+.markdown-body pre tt:after {
+	content: normal;
+}
+
+.highlight .pl-coc,
+.highlight .pl-entl,
+.highlight .pl-entm,
+.highlight .pl-eoa,
+.highlight .pl-mai .pl-sf,
+.highlight .pl-mm,
+.highlight .pl-pdv,
+.highlight .pl-sc,
+.highlight .pl-som,
+.highlight .pl-sr,
+.highlight .pl-v,
+.highlight .pl-vpf {
+	color: #0086b3;
+}
+.highlight .pl-eoac,
+.highlight .pl-mdht,
+.highlight .pl-mi1,
+.highlight .pl-mri,
+.highlight .pl-va,
+.highlight .pl-vpu {
+	color: #008080;
+}
+.highlight .pl-c,
+.highlight .pl-pdc {
+	color: #b4b7b4;
+	font-style: italic;
+}
+.highlight .pl-k,
+.highlight .pl-ko,
+.highlight .pl-kolp,
+.highlight .pl-mc,
+.highlight .pl-mr,
+.highlight .pl-ms,
+.highlight .pl-s,
+.highlight .pl-sok,
+.highlight .pl-st {
+	color: #6e5494;
+}
+.highlight .pl-ef,
+.highlight .pl-enf,
+.highlight .pl-enm,
+.highlight .pl-entc,
+.highlight .pl-eoi,
+.highlight .pl-sf,
+.highlight .pl-smc {
+	color: #d12089;
+}
+.highlight .pl-ens,
+.highlight .pl-eoai,
+.highlight .pl-kos,
+.highlight .pl-mh .pl-pdh,
+.highlight .pl-mp,
+.highlight .pl-pde,
+.highlight .pl-stp {
+	color: #458;
+}
+.highlight .pl-enti {
+	color: #d12089;
+	font-weight: bold;
+}
+.highlight .pl-cce,
+.highlight .pl-enc,
+.highlight .pl-kou,
+.highlight .pl-mq {
+	color: #f93;
+}
+.highlight .pl-mp1 .pl-sf {
+	color: #458;
+	font-weight: bold;
+}
+.highlight .pl-cos,
+.highlight .pl-ent,
+.highlight .pl-md,
+.highlight .pl-mdhf,
+.highlight .pl-ml,
+.highlight .pl-pdc1,
+.highlight .pl-pds,
+.highlight .pl-s1,
+.highlight .pl-scp,
+.highlight .pl-sol {
+	color: #df5000;
+}
+.highlight .pl-c1,
+.highlight .pl-cn,
+.highlight .pl-pse,
+.highlight .pl-pse .pl-s2,
+.highlight .pl-vi {
+	color: #a31515;
+}
+.highlight .pl-mb,
+.highlight .pl-pdb {
+	color: #df5000;
+	font-weight: bold;
+}
+.highlight .pl-mi,
+.highlight .pl-pdi {
+	color: #6e5494;
+	font-style: italic;
+}
+.highlight .pl-ms1 {
+	background-color: #f5f5f5;
+}
+.highlight .pl-mdh,
+.highlight .pl-mdi {
+	font-weight: bold;
+}
+.highlight .pl-mdr {
+	color: #0086b3;
+	font-weight: bold;
+}
+.highlight .pl-s2 {
+	color: #333;
+}
+.highlight .pl-ii {
+	background-color: #df5000;
+	color: #fff;
+}
+.highlight .pl-ib {
+	background-color: #f93;
+}
+.highlight .pl-id {
+	background-color: #a31515;
+	color: #fff;
+}
+.highlight .pl-iu {
+	background-color: #b4b7b4;
+}
+.highlight .pl-mo {
+	color: #969896;
+}
+
+</style>
+
+
+<script type="text/javascript">
+
+function getDocumentScrollTop() 
+{
+   var res = document.body.scrollTop || document.documentElement.scrollTop || window.pageYOffset || 0;
+   // alert(res);
+   return res;
+}
+
+function setDocumentScrollTop(ypos) 
+{
+	window.scrollTo(0, ypos);
+}
+
+</script>
+
+
+</head>
+<body class="markdown-body">
+<p align="right"><a title="New &laquo;NexT&raquo; 6.0.0 version [Reloaded]" href="https://github.com/theme-next/hexo-theme-next">NexT v6.0.0 here 
+  <g-emoji alias="triangular_flag_on_post" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f6a9.png" ios-version="6.0">
+   🚩
+  </g-emoji></a></p> 
+<h1 align="center"> <a id="next" class="anchor" href="#next" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>NexT</h1> 
+<p align="center">NexT is a high quality elegant <a href="http://hexo.io" rel="nofollow">Hexo</a> theme. It is crafted from scratch, with love.</p> 
+<p><a href="https://gitter.im/iissnan/hexo-theme-next?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge" rel="nofollow"><img src="https://camo.githubusercontent.com/da2edb525cde1455a622c58c0effc3a90b9a181c/68747470733a2f2f6261646765732e6769747465722e696d2f4a6f696e253230436861742e737667" alt="gitter-image" data-canonical-src="https://badges.gitter.im/Join%20Chat.svg" style="max-width:100%;" /></a> <a href="https://github.com/theme-next/hexo-theme-next"><img src="https://camo.githubusercontent.com/4fe59e7d6a53105f25607ec8bdb42b7a0a7ed180/68747470733a2f2f696d672e736869656c64732e696f2f6d61696e74656e616e63652f7965732f323031372e737667" alt="mnt-image" data-canonical-src="https://img.shields.io/maintenance/yes/2017.svg" style="max-width:100%;" /></a> <a href="https://travis-ci.org/iissnan/hexo-theme-next?branch=master" title="Travis CI" rel="nofollow"><img src="https://camo.githubusercontent.com/96e52d9a374f0e19a9a5b94b53dd612976cf8f4f/68747470733a2f2f7472617669732d63692e6f72672f696973736e616e2f6865786f2d7468656d652d6e6578742e7376673f6272616e63683d6d6173746572" alt="travis-image" data-canonical-src="https://travis-ci.org/iissnan/hexo-theme-next.svg?branch=master" style="max-width:100%;" /></a> <a href="https://github.com/iissnan/hexo-theme-next/releases"><img src="https://camo.githubusercontent.com/1864dfe1ad69be7b3b30e29505e87e175e32ff15/68747470733a2f2f696d672e736869656c64732e696f2f6769746875622f72656c656173652f696973736e616e2f6865786f2d7468656d652d6e6578742e737667" alt="rel-image" data-canonical-src="https://img.shields.io/github/release/iissnan/hexo-theme-next.svg" style="max-width:100%;" /></a> <a href="http://hexo.io" rel="nofollow"><img src="https://camo.githubusercontent.com/9a3ed64801222d45980fb085e7e059e31314d335/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6865786f2d253345253344253230332e302d626c75652e737667" alt="hexo-image" data-canonical-src="https://img.shields.io/badge/hexo-%3E%3D%203.0-blue.svg" style="max-width:100%;" /></a> <a href=".LICENSE.md.html"><img src="https://camo.githubusercontent.com/3f7996bf7bd441deb7199c498aaa835164dee8da/68747470733a2f2f696d672e736869656c64732e696f2f6475622f6c2f766962652d642e737667" alt="lic-image" data-canonical-src="https://img.shields.io/dub/l/vibe-d.svg" style="max-width:100%;" /></a></p> 
+<ul> 
+ <li><a href=".README.cn.md.html">Chinese Documentation</a></li> 
+</ul> 
+<h2> <a id="live-preview" class="anchor" href="#live-preview" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Live Preview</h2> 
+<ul> 
+ <li> 
+  <g-emoji alias="heart_decoration" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f49f.png" ios-version="6.0">
+   💟
+  </g-emoji> Muse scheme: <a href="https://leaferx.online" rel="nofollow">LEAFERx</a> | <a href="https://notes.wanghao.work" rel="nofollow">XiaMo</a> | <a href="https://oawan.me" rel="nofollow">OAwan</a> </li> 
+ <li> 
+  <g-emoji alias="six_pointed_star" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f52f.png" ios-version="6.0">
+   🔯
+  </g-emoji> Mist scheme: <a href="https://blog.zzbd.org" rel="nofollow">Jeff</a> | <a href="http://uchuhimo.me" rel="nofollow">uchuhimo</a> | <a href="http://www.ixirong.com" rel="nofollow">xirong</a> </li> 
+ <li> 
+  <g-emoji alias="pisces" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/2653.png" ios-version="6.0">
+   ♓️
+  </g-emoji> Pisces scheme: <a href="http://notes.iissnan.com" rel="nofollow">Vi</a> | <a href="https://acris.me" rel="nofollow">Acris</a> | <a href="https://rainylog.com" rel="nofollow">Rainy</a> </li> 
+ <li> 
+  <g-emoji alias="gemini" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/264a.png" ios-version="6.0">
+   ♊️
+  </g-emoji> Gemini scheme: <a href="https://almostover.ru" rel="nofollow">Ivan.Nginx</a> | <a href="http://sh.alynx.xyz" rel="nofollow">Alynx</a> | <a href="https://raincal.top" rel="nofollow">Raincal</a> </li> 
+</ul> 
+<p>More NexT examples <a href="https://github.com/iissnan/hexo-theme-next/issues/119">here</a>.</p> 
+<h2> <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2> 
+<p><strong>1.</strong> Change dir to <strong>hexo root</strong> directory. There must be <code>node_modules</code>, <code>source</code>, <code>themes</code> and other directories:</p> 
+<div class="highlight highlight-source-shell">
+ <pre>$ <span class="pl-c1">cd</span> hexo
+$ ls
+_config.yml  node_modules  package.json  public  scaffolds  <span class="pl-c1">source</span>  themes</pre>
+</div> 
+<p><strong>2.</strong> Get theme from GitHub. There are several variants to do it:</p> 
+<h3> <a id="download-latest-release-version" class="anchor" href="#download-latest-release-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download <a href="https://github.com/iissnan/hexo-theme-next/releases/latest">latest release version</a>.</h3> 
+<p>At most cases <strong>stable</strong>. Recommended for most users.</p> 
+<p><a href="http://lmgtfy.com/?q=linux+curl+tar+wget+install" rel="nofollow"><img src="https://camo.githubusercontent.com/3b473b802436866fc5ea894c0ebd2c046e188d80/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f696e7374616c6c253230776974682532302d6375726c253230253743253230746172253230253743253230776765742d626c75652e737667" alt="curl-tar-wget-image" data-canonical-src="https://img.shields.io/badge/install%20with%20-curl%20%7C%20tar%20%7C%20wget-blue.svg" style="max-width:100%;" /></a></p> 
+<div class="highlight highlight-source-shell">
+ <pre>$ mkdir themes/next
+$ curl -s https://api.github.com/repos/iissnan/hexo-theme-next/releases/latest <span class="pl-k">|</span> grep tarball_url <span class="pl-k">|</span> cut -d <span class="pl-s"><span class="pl-pds">'</span>&quot;<span class="pl-pds">'</span></span> -f 4 <span class="pl-k">|</span> wget -i - -O- <span class="pl-k">|</span> tar -zx -C themes/next --strip-components=1</pre>
+</div> 
+<h3> <a id="download-tagged-release-version" class="anchor" href="#download-tagged-release-version" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download <a href="https://github.com/iissnan/hexo-theme-next/releases">tagged release version</a>.</h3> 
+<p>You must define version. Replace <code>v5.1.2</code> with any version from <a href="https://github.com/iissnan/hexo-theme-next/tags">tags list</a>.</p> 
+<p><a href="http://lmgtfy.com/?q=linux+curl+tar+install" rel="nofollow"><img src="https://camo.githubusercontent.com/00e450262721bd14e659c074c9278afa1684eac8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f696e7374616c6c253230776974682532302d6375726c2532302537432532307461722d626c75652e737667" alt="curl-tar-image" data-canonical-src="https://img.shields.io/badge/install%20with%20-curl%20%7C%20tar-blue.svg" style="max-width:100%;" /></a></p> 
+<div class="highlight highlight-source-shell">
+ <pre>$ mkdir themes/next
+$ curl -L https://api.github.com/repos/iissnan/hexo-theme-next/tarball/v5.1.2 <span class="pl-k">|</span> tar -zxv -C themes/next --strip-components=1</pre>
+</div> 
+<p><a href="http://lmgtfy.com/?q=linux+git+install" rel="nofollow"><img src="https://camo.githubusercontent.com/ae0b0015c0c97b21b862dbc433ab895d21bc8910/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f696e7374616c6c253230776974682532302d6769742d626c75652e737667" alt="git-image" data-canonical-src="https://img.shields.io/badge/install%20with%20-git-blue.svg" style="max-width:100%;" /></a></p> 
+<div class="highlight highlight-source-shell">
+ <pre>$ git clone --branch v5.1.2 https://github.com/iissnan/hexo-theme-next themes/next</pre>
+</div> 
+<h3> <a id="download-latest-master-branch" class="anchor" href="#download-latest-master-branch" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download <a href="https://github.com/iissnan/hexo-theme-next/archive/master.zip">latest master branch</a>.</h3> 
+<p>May be <strong>unstable</strong>, but includes latest features. Recommended for developers.</p> 
+<p><a href="http://lmgtfy.com/?q=linux+curl+tar+install" rel="nofollow"><img src="https://camo.githubusercontent.com/00e450262721bd14e659c074c9278afa1684eac8/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f696e7374616c6c253230776974682532302d6375726c2532302537432532307461722d626c75652e737667" alt="curl-tar-image" data-canonical-src="https://img.shields.io/badge/install%20with%20-curl%20%7C%20tar-blue.svg" style="max-width:100%;" /></a></p> 
+<div class="highlight highlight-source-shell">
+ <pre>$ mkdir themes/next
+$ curl -L https://api.github.com/repos/iissnan/hexo-theme-next/tarball <span class="pl-k">|</span> tar -zxv -C themes/next --strip-components=1</pre>
+</div> 
+<p><a href="http://lmgtfy.com/?q=linux+git+install" rel="nofollow"><img src="https://camo.githubusercontent.com/ae0b0015c0c97b21b862dbc433ab895d21bc8910/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f696e7374616c6c253230776974682532302d6769742d626c75652e737667" alt="git-image" data-canonical-src="https://img.shields.io/badge/install%20with%20-git-blue.svg" style="max-width:100%;" /></a></p> 
+<div class="highlight highlight-source-shell">
+ <pre>$ git clone https://github.com/iissnan/hexo-theme-next themes/next</pre>
+</div> 
+<p>Clone command will give you the <strong>whole repository</strong>. And in any time you can switch to any tagged release.<br /> Get tags list:</p> 
+<div class="highlight highlight-source-shell">
+ <pre>$ <span class="pl-c1">cd</span> themes/next
+$ git tag -l
+…
+v5.0.0
+v5.0.1
+v5.1.0
+v5.1.1
+v5.1.2</pre>
+</div> 
+<p>For example, you want to switch on <code>v5.1.0</code> <a href="https://github.com/iissnan/hexo-theme-next/tags">tagged release version</a>. Input the following command:</p> 
+<div class="highlight highlight-source-shell">
+ <pre>$ git checkout tags/v5.1.0
+Note: checking out <span class="pl-s"><span class="pl-pds">'</span>tags/v5.1.0<span class="pl-pds">'</span></span>.
+…
+HEAD now on 1f72f68... CSS: Remove global list-style setting of ul</pre>
+</div> 
+<p>And if you want to switch back on <a href="https://github.com/iissnan/hexo-theme-next/commits/master">master branch</a>, input this command:</p> 
+<div class="highlight highlight-source-shell">
+ <pre>$ git checkout master</pre>
+</div> 
+<p><strong>3.</strong> Set theme in main <strong>hexo root config</strong> <code>_config.yml</code> file:</p> 
+<pre><code>theme: next
+</code></pre> 
+<h3> <a id="bugs" class="anchor" href="#bugs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bugs</h3> 
+<p>For those who also encounter <strong>Error: Cannot find module 'hexo-util'</strong> <a href="https://github.com/iissnan/hexo-theme-next/issues/1490">issue</a>, please check your NPM version.</p> 
+<ul> 
+ <li> <code>&gt; 3</code>: Still not work. Please remove <code>node_modules</code> directory and reinstall using <code>npm install</code>.</li> 
+ <li> <code>&lt; 3</code>: Please add <code>hexo-util</code> explicitly via <code>npm install --save-dev hexo-util</code> to you site package deps.</li> 
+</ul> 
+<h2> <a id="update" class="anchor" href="#update" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update</h2> 
+<div class="highlight highlight-source-shell">
+ <pre>$ <span class="pl-c1">cd</span> themes/next
+$ git pull</pre>
+</div> 
+<h3> <a id="bugs-1" class="anchor" href="#bugs-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Bugs</h3> 
+<blockquote> 
+ <p>Commit your changes or stash them before you can merge</p> 
+</blockquote> 
+<p>You must Commit, Stash or Discard local changes. See <a href="https://stackoverflow.com/a/15745424/5861495" rel="nofollow">here</a> how to do it.</p> 
+<h3> <a id="theme-configurations-using-hexo-data-files-328" class="anchor" href="#theme-configurations-using-hexo-data-files-328" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Theme configurations using Hexo data files (<a href="https://github.com/iissnan/hexo-theme-next/issues/328">#328</a>)</h3> 
+<p>Currently, it is not smooth to update NexT theme from pulling or downloading new releases. It is quite often running into conflict status when updating NexT theme via <code>git pull</code>, or need to merge configurations manually when upgrading to new releases.</p> 
+<p>At present, NexT encourages users to store some options in site's <code>_config.yml</code> and other options in theme's <code>_config.yml</code>. This approach is applicable, but has some drawbacks:</p> 
+<ol> 
+ <li>Configurations are splited into two pieces</li> 
+ <li>Users maybe confuse which place should be for options</li> 
+</ol> 
+<p>In order to resolve this issue, NexT will take advantage of Hexo <a href="https://hexo.io/docs/data-files.html" rel="nofollow">Data files</a>. Because Data files is introduced in Hexo 3, so you need upgrade Hexo to 3.0 (or above) to use this feature.</p> 
+<p>If you prefer Hexo 2.x, you can still use the old approach for configurations. NexT is still compatible with Hexo 2.x.</p> 
+<h4> <a id="benefits" class="anchor" href="#benefits" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Benefits</h4> 
+<p>With this feature, now you can put all your configurations into one place (<code>source/_data/next.yml</code>), you don't need to touch <code>next/_config.yml</code>. If there are any new options in new releases, you just need to copy those options from <code>next/_config.yml</code>, paste into <code>_data/next.yml</code> and set their values to whatever you want.</p> 
+<h4> <a id="how-to-use-this-feature" class="anchor" href="#how-to-use-this-feature" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to use this feature</h4> 
+<ol> 
+ <li>Please ensure you are using Hexo 3 (or above)</li> 
+ <li>Create an file named <code>next.yml</code> in site's <code>source/_data</code> directory (create <code>_data</code> directory if it did not exist)</li> 
+ <li>Copy NexT theme options both in site's <code>_config.yml</code> and theme's <code>_config.yml</code> into <code>next.yml</code>.</li> 
+ <li>Use <code>--config source/_data/next.yml</code> parameter to start server, generate or deploy.<br /> For example: <code>hexo clean --config source/_data/next.yml &amp;&amp; hexo g --config source/_data/next.yml</code>.</li> 
+</ol> 
+<h2> <a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h2> 
+<h3> <a id="multiple-languages-support-including" class="anchor" href="#multiple-languages-support-including" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multiple languages support, including:</h3> 
+<p>
+ <g-emoji alias="cn" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1e8-1f1f3.png" ios-version="6.0">
+  🇨🇳
+ </g-emoji> Simplified Chinese &amp; Traditional Chinese.<br /> 
+ <g-emoji alias="us" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1fa-1f1f8.png" ios-version="6.0">
+  🇺🇸
+ </g-emoji> English<br /> 
+ <g-emoji alias="ru" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1f7-1f1fa.png" ios-version="6.0">
+  🇷🇺
+ </g-emoji> Russian<br /> 
+ <g-emoji alias="fr" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1eb-1f1f7.png" ios-version="6.0">
+  🇫🇷
+ </g-emoji> French<br /> 
+ <g-emoji alias="de" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1e9-1f1ea.png" ios-version="6.0">
+  🇩🇪
+ </g-emoji> German<br /> 
+ <g-emoji alias="jp" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1ef-1f1f5.png" ios-version="6.0">
+  🇯🇵
+ </g-emoji> Japanese<br /> 
+ <g-emoji alias="indonesia" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1ee-1f1e9.png" ios-version="8.3">
+  🇮🇩
+ </g-emoji> Indonesian<br /> 
+ <g-emoji alias="portugal" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1f5-1f1f9.png" ios-version="8.3">
+  🇵🇹
+ </g-emoji> Portuguese (Brazil)<br /> 
+ <g-emoji alias="kr" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1f0-1f1f7.png" ios-version="6.0">
+  🇰🇷
+ </g-emoji> Korean<br /> 
+ <g-emoji alias="it" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1ee-1f1f9.png" ios-version="6.0">
+  🇮🇹
+ </g-emoji> Italian<br /> 
+ <g-emoji alias="netherlands" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1f3-1f1f1.png" ios-version="8.3">
+  🇳🇱
+ </g-emoji> Dutch<br /> 
+ <g-emoji alias="vietnam" fallback-src="https://assets-cdn.github.com/images/icons/emoji/unicode/1f1fb-1f1f3.png" ios-version="8.3">
+  🇻🇳
+ </g-emoji> Vietnamese</p> 
+<p>Default language is English.</p> 
+<div class="highlight highlight-source-yaml">
+ <pre><span class="pl-ent">language</span>: <span class="pl-s">en</span>
+<span class="pl-c"><span class="pl-c">#</span> language: zh-Hans</span>
+<span class="pl-c"><span class="pl-c">#</span> language: zh-hk</span>
+<span class="pl-c"><span class="pl-c">#</span> language: zh-tw</span>
+<span class="pl-c"><span class="pl-c">#</span> language: ru</span>
+<span class="pl-c"><span class="pl-c">#</span> language: fr-FR</span>
+<span class="pl-c"><span class="pl-c">#</span> language: de</span>
+<span class="pl-c"><span class="pl-c">#</span> language: ja</span>
+<span class="pl-c"><span class="pl-c">#</span> language: id</span>
+<span class="pl-c"><span class="pl-c">#</span> language: pt</span>
+<span class="pl-c"><span class="pl-c">#</span> language: pt-BR</span>
+<span class="pl-c"><span class="pl-c">#</span> language: ko</span>
+<span class="pl-c"><span class="pl-c">#</span> language: it</span>
+<span class="pl-c"><span class="pl-c">#</span> language: nl-NL</span>
+<span class="pl-c"><span class="pl-c">#</span> language: vi</span></pre>
+</div> 
+<p>Set <code>language</code> field as following in site <code>_config.yml</code> to change to Chinese.</p> 
+<div class="highlight highlight-source-yaml">
+ <pre><span class="pl-ent">language</span>: <span class="pl-s">zh-Hans</span></pre>
+</div> 
+<h3> <a id="comment-support" class="anchor" href="#comment-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Comment support.</h3> 
+<p>NexT has native support for <code>DuoShuo</code> and <code>Disqus</code> comment systems.</p> 
+<p>Add the following snippets to your <code>_config.yml</code>:</p> 
+<div class="highlight highlight-source-yaml">
+ <pre><span class="pl-ent">duoshuo</span>:
+  <span class="pl-ent">enable</span>: <span class="pl-c1">true</span>
+  <span class="pl-ent">shortname</span>: <span class="pl-s">your-duoshuo-shortname</span></pre>
+</div> 
+<p>OR</p> 
+<div class="highlight highlight-source-yaml">
+ <pre><span class="pl-ent">disqus_shortname</span>: <span class="pl-s">your-disqus-shortname</span></pre>
+</div> 
+<h3> <a id="tags-page" class="anchor" href="#tags-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tags page.</h3> 
+<blockquote> 
+ <p>Add a tags page contains all tags in your site.</p> 
+</blockquote> 
+<ul> 
+ <li> <p>Create a page named <code>tags</code></p> <pre><code>  hexo new page &quot;tags&quot;
+</code></pre> </li> 
+ <li> <p>Edit tags page, set page type to <code>tags</code>.</p> <pre><code>  title: All tags
+  date: 2014-12-22 12:39:04
+  type: &quot;tags&quot;
+</code></pre> </li> 
+ <li> <p>Add <code>tags</code> to theme <code>_config.yml</code>:</p> <pre><code>  menu:
+    home: /
+    archives: /archives
+    tags: /tags
+</code></pre> </li> 
+</ul> 
+<h3> <a id="categories-page" class="anchor" href="#categories-page" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Categories page.</h3> 
+<blockquote> 
+ <p>Add a categories page contains all categories in your site.</p> 
+</blockquote> 
+<ul> 
+ <li> <p>Create a page named <code>categories</code></p> <pre><code>  hexo new page &quot;categories&quot;
+</code></pre> </li> 
+ <li> <p>Edit categories page, set page type to <code>categories</code>.</p> <pre><code>  title: All categories
+  date: 2014-12-22 12:39:04
+  type: &quot;categories&quot;
+</code></pre> </li> 
+ <li> <p>Add <code>categories</code> to theme <code>_config.yml</code>:</p> <pre><code>  menu:
+    home: /
+    archives: /archives
+    categories: /categories
+</code></pre> </li> 
+</ul> 
+<h3> <a id="social-media" class="anchor" href="#social-media" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Social Media</h3> 
+<p>NexT can automatically add links to your Social Media accounts:</p> 
+<div class="highlight highlight-source-yaml">
+ <pre><span class="pl-ent">social</span>:
+  <span class="pl-ent">GitHub</span>: <span class="pl-s">your-github-url</span>
+  <span class="pl-ent">Twitter</span>: <span class="pl-s">your-twitter-url</span>
+  <span class="pl-ent">Weibo</span>: <span class="pl-s">your-weibo-url</span>
+  <span class="pl-ent">DouBan</span>: <span class="pl-s">your-douban-url</span>
+  <span class="pl-ent">ZhiHu</span>: <span class="pl-s">your-zhihu-url</span></pre>
+</div> 
+<h3> <a id="feed-link" class="anchor" href="#feed-link" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Feed link.</h3> 
+<blockquote> 
+ <p>Show a feed link.</p> 
+</blockquote> 
+<p>Set <code>rss</code> field in theme's <code>_config.yml</code>, as the following value:</p> 
+<ol> 
+ <li> <p><code>rss: false</code> will totally disable feed link.</p> </li> 
+ <li> <p><code>rss:</code> use sites' feed link. This is the default option.</p> <p>Follow the installation instruction in the plugin's README. After the configuration is done for this plugin, the feed link is ready too.</p> </li> 
+ <li> <p><code>rss: http://your-feed-url</code> set specific feed link.</p> </li> 
+</ol> 
+<h3> <a id="up-to-5-code-highlight-themes-built-in" class="anchor" href="#up-to-5-code-highlight-themes-built-in" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Up to 5 code highlight themes built-in.</h3> 
+<p>NexT uses <a href="https://github.com/chriskempson/tomorrow-theme">Tomorrow Theme</a> with 5 themes for you to choose from. Next use <code>normal</code> by default. Have a preview about <code>normal</code> and <code>night</code>:</p> 
+<p><a href="https://camo.githubusercontent.com/7a9f96afc55fa895abef31b27cba7986d245ebb3/687474703a2f2f696973736e616e2e636f6d2f6e657875732f6e6578742f746f6d6f72726f772d6e6f726d616c2e706e67" target="_blank" rel="nofollow"><img src="https://camo.githubusercontent.com/7a9f96afc55fa895abef31b27cba7986d245ebb3/687474703a2f2f696973736e616e2e636f6d2f6e657875732f6e6578742f746f6d6f72726f772d6e6f726d616c2e706e67" alt="Tomorrow Normal Preview" data-canonical-src="http://iissnan.com/nexus/next/tomorrow-normal.png" style="max-width:100%;" /></a> <a href="https://camo.githubusercontent.com/0948683de79d009688923b3eda78d9dfa6c2f5c4/687474703a2f2f696973736e616e2e636f6d2f6e657875732f6e6578742f746f6d6f72726f772d6e696768742e706e67" target="_blank" rel="nofollow"><img src="https://camo.githubusercontent.com/0948683de79d009688923b3eda78d9dfa6c2f5c4/687474703a2f2f696973736e616e2e636f6d2f6e657875732f6e6578742f746f6d6f72726f772d6e696768742e706e67" alt="Tomorrow Night Preview" data-canonical-src="http://iissnan.com/nexus/next/tomorrow-night.png" style="max-width:100%;" /></a></p> 
+<p>Head over to <a href="https://github.com/chriskempson/tomorrow-theme">Tomorrow Theme</a> for more details.</p> 
+<h2> <a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration</h2> 
+<p>NexT comes with few configurations.</p> 
+<div class="highlight highlight-source-yaml">
+ <pre>
+<span class="pl-c"><span class="pl-c">#</span> Menu configuration.</span>
+<span class="pl-ent">menu</span>:
+  <span class="pl-ent">home</span>: <span class="pl-s">/</span>
+  <span class="pl-ent">archives</span>: <span class="pl-s">/archives</span>
+
+<span class="pl-c"><span class="pl-c">#</span> Favicon</span>
+<span class="pl-ent">favicon</span>: <span class="pl-s">/favicon.ico</span>
+
+<span class="pl-c"><span class="pl-c">#</span> Avatar (put the image into next/source/images/)</span>
+<span class="pl-c"><span class="pl-c">#</span> can be any image format supported by web browsers (JPEG,PNG,GIF,SVG,..)</span>
+<span class="pl-ent">avatar</span>: <span class="pl-s">/default_avatar.png</span>
+
+<span class="pl-c"><span class="pl-c">#</span> Code highlight theme</span>
+<span class="pl-c"><span class="pl-c">#</span> available: normal | night | night eighties | night blue | night bright</span>
+<span class="pl-ent">highlight_theme</span>: <span class="pl-s">normal</span>
+
+<span class="pl-c"><span class="pl-c">#</span> Fancybox for image gallery</span>
+<span class="pl-ent">fancybox</span>: <span class="pl-c1">true</span>
+
+<span class="pl-c"><span class="pl-c">#</span> Specify the date when the site was setup</span>
+<span class="pl-ent">since</span>: <span class="pl-c1">2013</span>
+</pre>
+</div> 
+<h2> <a id="browser-support" class="anchor" href="#browser-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Browser support</h2> 
+<p><a href="https://camo.githubusercontent.com/31ac3f0ce805dc34a29b615131caa26cbf4dc127/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f62726f777365722d2532306368726f6d6525323025374325323066697265666f782532302537432532306f706572612532302537432532307361666172692532302537432532306965253230253345253344253230392d6c69676874677265792e737667" target="_blank" rel="nofollow"><img src="https://camo.githubusercontent.com/31ac3f0ce805dc34a29b615131caa26cbf4dc127/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f62726f777365722d2532306368726f6d6525323025374325323066697265666f782532302537432532306f706572612532302537432532307361666172692532302537432532306965253230253345253344253230392d6c69676874677265792e737667" alt="browser-image" data-canonical-src="https://img.shields.io/badge/browser-%20chrome%20%7C%20firefox%20%7C%20opera%20%7C%20safari%20%7C%20ie%20%3E%3D%209-lightgrey.svg" style="max-width:100%;" /></a></p> 
+<p><a href="https://www.browserstack.com/" rel="nofollow"><img src=".github/browserstack_logo.png" alt="Browser Stack" style="max-width:100%;" /></a></p> 
+<blockquote> 
+ <p><strong>BrowserStack</strong> is a cloud-based cross-browser testing tool that enables developers to test their websites across various browsers on different operating systems and mobile devices, without requiring users to install virtual machines, devices or emulators.</p> 
+</blockquote> 
+<h2> <a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contributing</h2> 
+<p>Contribution is welcome, feel free to open an issue and fork. Waiting for your pull request.</p>
+</body>
+</html>
