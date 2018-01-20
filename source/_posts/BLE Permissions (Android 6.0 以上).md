@@ -28,7 +28,7 @@ permalink: ble-android6
   
   `android.permission.ACCESS_COARSE_LOCATION`
   
-  - Google 官方文档这样描述
+- Google 官方文档这样描述
   
   > __Access to Hardware Identifier__
   

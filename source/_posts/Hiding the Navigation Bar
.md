@@ -1,3 +1,14 @@
+title: Hiding the Navigation Bar
+date: 2018-1-20 05:06:33
+tags: 
+ - Navigation Bar
+comments: true
+categories: 
+ - Android
+ - UI
+permalink: hiding-navigationBar
+---
+
 去除虚拟导航
 
 developer.android.com: [Hiding the Navigation Bar]

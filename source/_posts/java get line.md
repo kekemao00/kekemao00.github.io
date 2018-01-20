@@ -1,4 +1,14 @@
+title: Java 获取当前行
+date: 2018-1-20 05:06:33
+tags: 
+ - Java
+comments: true
+categories: 
+ - Java
+permalink: java-line
+---
 # java 获取当前行
+
 
 ```java
  /**
