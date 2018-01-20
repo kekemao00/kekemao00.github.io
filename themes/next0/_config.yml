@@ -1,4 +1,4 @@
-    # ===============================================================
+# ===============================================================
 # ========================= ATTENTION! ==========================
 # ===============================================================
 # NexT repository is moving here: https://github.com/theme-next
@@ -68,18 +68,17 @@ footer:
 # ---------------------------------------------------------------
 # SEO Settings
 # ---------------------------------------------------------------
-
 # Canonical, set a canonical link tag in your hexo, you could use it for your SEO of blog.
 # See: https://support.google.com/webmasters/answer/139066
 # Tips: Before you open this tag, remember set up your URL in hexo _config.yml ( ex. url: http://yourdomain.com )
 canonical: true
 
 # Change headers hierarchy on site-subtitle (will be main site description) and on all post/pages titles for better SEO-optimization.
-seo: false
+seo: true
 
 # If true, will add site-subtitle to index page, added in main hexo config.
-# subtitle: Subtitle
-index_with_subtitle: false
+subtitle: 独角博客
+index_with_subtitle: true
 
 
 # ---------------------------------------------------------------
@@ -127,15 +126,15 @@ scheme: Muse
 # Key is the link label showing to end users.
 # Value before `||` delimeter is the target permalink.
 # Value after `||` delimeter is the name of FontAwesome icon. If icon (with or without delimeter) is not specified, globe icon will be loaded.
-#social:
-  #GitHub: https://github.com/kekemao00 || github
-  #E-Mail: mailto:kekemao00@gmail.com || envelope
-  #Google: https://plus.google.com/kekemao00 || google
-  #Twitter: https://twitter.com/yourname || twitter
-  #FB Page: https://www.facebook.com/kekemao || facebook
+social:
+  GitHub: https://github.com/kekemao00 || github
+  E-Mail: mailto:kekemao00@gmail.com || envelope
+  Google: https://plus.google.com/104279607426298043544 || google
+  Twitter: https://twitter.com/mk38953223 || twitter
+  FB Page: https://www.facebook.com/kekemao00 || facebook
   #VK Group: https://vk.com/yourname || vk
-  #StackOverflow: https://stackoverflow.com/users/8118332/maoke || stack-overflow
-  #YouTube: https://youtube.com/yourname || youtube
+  StackOverflow: https://stackoverflow.com/users/8118332/maoke || stack-overflow
+  YouTube: https://www.youtube.com/channel/UCfKoXDPUoQAT425keyRszRQ || youtube
   #Instagram: https://instagram.com/yourname || instagram
   #Skype: skype:yourname?call|chat || skype
 
@@ -155,7 +154,7 @@ links_layout: block
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.gif
 # in site  directory(source/uploads): /uploads/avatar.gif
-#avatar: /images/avatar.gif
+# avatar: /images/avatar.gif
 
 # Table Of Contents in the Sidebar
 toc:
@@ -165,13 +164,13 @@ toc:
   number: true
 
   # If true, all words will placed on next lines if header width longer then sidebar width.
-  wrap: false
+  wrap: true
 
 # Creative Commons 4.0 International License.
 # http://creativecommons.org/
 # Available: by | by-nc | by-nc-nd | by-nc-sa | by-nd | by-sa | zero
-#creative_commons: by-nc-sa
-#creative_commons:
+creative_commons: by-nc-sa
+# creative_commons:
 
 sidebar:
   # Sidebar Position, available value: left | right (only for Pisces | Gemini).
@@ -195,7 +194,7 @@ sidebar:
   b2t: false
 
   # Scroll percent label in b2t button.
-  scrollpercent: false
+  scrollpercent:    
 
   # Enable sidebar on narrow view (only for Muse | Mist).
   onmobile: false
@@ -278,7 +277,7 @@ custom_logo:
 # Available value:
 #    normal | night | night eighties | night blue | night bright
 # https://github.com/chriskempson/tomorrow-theme
-highlight_theme: normal
+highlight_theme: night eighties
 
 
 # ---------------------------------------------------------------
@@ -532,7 +531,7 @@ rating:
 # Show number of visitors to each article.
 # You can visit https://leancloud.cn get AppID and AppKey.
 leancloud_visitors:
-  enable: false
+  enable: true
   app_id: #<app_id>
   app_key: #<app_key>
 
@@ -573,7 +572,7 @@ busuanzi_count:
 
 
 # Enable baidu push so that the blog will push the url to baidu automatically which is very helpful for SEO
-baidu_push: false
+baidu_push: true
 
 # Google Calendar
 # Share your recent schedule to others via calendar page
