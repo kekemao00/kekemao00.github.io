@@ -1,7 +1,7 @@
-title: GitHub Link  
+title: GitHub's Links  
 date: 2018-1-20 05:06:33  
 comments: true  
-permalink: github-link  
+permalink: github-links  
 categories: 
  - GitHub  
 tags: 
