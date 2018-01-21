@@ -1,13 +1,14 @@
 title: BLE 始终扫描不到蓝牙
 date: 2018-1-20 05:06:33
-tags: 
- - BLE
- - Android
 comments: true
+permalink: ble-android6
 categories: 
  - Android
  - BLE
-permalink: ble-android6
+tags: 
+ - BLE
+ - Android
+ 
 ---
 
 # BLE 始终扫描不到蓝牙
@@ -24,9 +25,11 @@ permalink: ble-android6
   
   各种查阅资料后，找到根本原因：
   
-  android 6.0之后要用蓝牙还需要添加一个模糊定位的权限
+  android 6.0之后要用蓝牙还需要添加一个模糊定位的权限  
   
-  `android.permission.ACCESS_COARSE_LOCATION`
+``` java
+  android.permission.ACCESS_COARSE_LOCATION
+```
   
 - Google 官方文档这样描述
   
@@ -49,7 +52,7 @@ permalink: ble-android6
   
     我的代码：
 
-      ```java
+``` java
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {//如果 API level 是大于等于 23(Android 6.0) 时
             //判断是否具有权限
             if (ContextCompat.checkSelfPermission(this,
@@ -65,11 +68,11 @@ permalink: ble-android6
                         REQUEST_CODE_ACCESS_COARSE_LOCATION);
             }
         }
-        ``` 
+``` 
          
 ## 结果
 
-完美解决。
+问题解决。
 
 <!--以下是本文用到的超链接-->
 

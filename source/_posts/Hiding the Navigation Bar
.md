@@ -1,12 +1,13 @@
 title: Hiding the Navigation Bar
 date: 2018-1-20 05:06:33
-tags: 
- - Navigation Bar
 comments: true
+permalink: hiding-navigationBar
 categories: 
  - Android
  - UI
-permalink: hiding-navigationBar
+tags: 
+ - Navigation Bar
+
 ---
 
 去除虚拟导航
@@ -14,7 +15,7 @@ permalink: hiding-navigationBar
 developer.android.com: [Hiding the Navigation Bar]
 
 
-```java
+``` java
 private void hideSystemNavigationBar() {
         if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) {
             View view = this.getWindow().getDecorView();

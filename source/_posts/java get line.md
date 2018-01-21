@@ -1,16 +1,17 @@
 title: Java 获取当前行
 date: 2018-1-20 05:06:33
-tags: 
- - Java
 comments: true
+permalink: java-line
 categories: 
  - Java
-permalink: java-line
+tags: 
+ - Java
+ 
 ---
 # java 获取当前行
 
 
-```java
+``` java
  /**
      * 获取当前代码行号
      *

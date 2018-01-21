@@ -1,21 +1,22 @@
 title: Android 中 HOME, MENU, BACK 按键的监听
 date: 2018-1-22 01:59:33
+comments: true
+permalink: keyevent-listen
+categories: 
+ - Android
 tags: 
  - KeyEvent
  - HOME
  - BACK
  - MENU
-comments: true
-categories: 
- - Android
-permalink: keyevent-listen
+ 
 ---
 
 ## Back 键的监听
 
 对于 Back 键的监听比较容易, 可以在多个系统回调处拦截, 比如在 activity 的下列方法中都可以收到 Back 键按下的事件:  
 
-```java
+``` java
 <span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start"></span><span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start"></span>]
 @Override
 public void onBackPressed() {
@@ -66,7 +67,7 @@ return super.onKeyDown(keyCode, event);
 
 - 接收器实现如下:
 
-```
+``` java
 package com.mengdd.hellohome;
 
 import android.content.BroadcastReceiver;
@@ -122,18 +123,19 @@ _注意不同手机的按键不同, 所以需要对不同理由做区分._
 
 - 广播接收器的注册有两种方式
 
-  - 一种是静态注册, 即写在 manifest 里面声明;
+  - 一种是静态注册, 即写在 manifest 里面声明;  
+  
   - 另一种是动态注册, 即在 Java 代码里面注册.
   
-上面对 Home 键实现监听的这个 receiver,静态注册如下:
+上面对 Home 键实现监听的这个 receiver, 静态注册如下:
 
-```java
+``` 	java
  <receiver android:name="com.mengdd.hellohome.HomeWatcherReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.CLOSE_SYSTEM_DIALOGS" />
             </intent-filter>
         </receiver>
 ```
-<span style="color: red;">但是发现静态注册不起作用,即收不到 onReceive 回调.</span>
+<span style="color: red;">但是发现静态注册不起作用, 即收不到 onReceive 回调.</span>
 
 <a href="http://blog.kekemao.top">独角博客</a><font color="skyblue"> 转自：<a href="http://blog.csdn.net/cc20032706" rel="noopener" target="_blank">摄氏三十七度</a>的 <a href="http://blog.csdn.net/cc20032706/article/details/49472425" rel="noopener" target="_blank">Android Back Home 键监听_广播监听</a></font>

@@ -1,11 +1,12 @@
 title: GitHub Link
 date: 2018-1-20 05:06:33
-tags: 
- - GitHub
 comments: true
+permalink: github-link
 categories: 
  - GitHub
-permalink: github-link
+tags: 
+ - GitHub
+ 
 ---
 
 ## GitHub   
