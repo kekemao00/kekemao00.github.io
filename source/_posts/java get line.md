@@ -1,11 +1,11 @@
-title: Java 获取当前行
-date: 2018-1-20 05:06:33
-comments: true
-permalink: java-line
+title: Java 获取当前行  
+date: 2018-1-20 05:06:33  
+comments: true  
+permalink: java-line  
 categories: 
- - Java
+ - Java  
 tags: 
- - Java
+ - Java  
  
 ---
 # java 获取当前行

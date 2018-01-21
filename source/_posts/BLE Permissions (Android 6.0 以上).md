@@ -1,13 +1,13 @@
-title: BLE 始终扫描不到蓝牙
-date: 2018-1-20 05:06:33
-comments: true
-permalink: ble-android6
+title: BLE 始终扫描不到蓝牙  
+date: 2018-1-20 05:06:33  
+comments: true  
+permalink: ble-android6  
 categories: 
- - Android
- - BLE
+ - Android  
+ - BLE  
 tags: 
- - BLE
- - Android
+ - BLE  
+ - Android  
  
 ---
 

@@ -1,14 +1,14 @@
-title: Android 中 HOME, MENU, BACK 按键的监听
-date: 2018-1-22 01:59:33
-comments: true
-permalink: keyevent-listen
+title: Android 中 HOME, MENU, BACK 按键的监听  
+date: 2018-1-22 01:59:33  
+comments: true  
+permalink: keyevent-listen  
 categories: 
- - Android
+ - Android  
 tags: 
- - KeyEvent
- - HOME
- - BACK
- - MENU
+ - KeyEvent  
+ - HOME  
+ - BACK  
+ - MENU  
  
 ---
 

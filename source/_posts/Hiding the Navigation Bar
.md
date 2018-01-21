@@ -1,12 +1,12 @@
-title: Hiding the Navigation Bar
-date: 2018-1-20 05:06:33
-comments: true
-permalink: hiding-navigationBar
+title: Hiding the Navigation Bar  
+date: 2018-1-20 05:06:33  
+comments: true  
+permalink: hiding-navigationBar  
 categories: 
- - Android
- - UI
+ - Android  
+ - UI  
 tags: 
- - Navigation Bar
+ - Navigation Bar  
 
 ---
 

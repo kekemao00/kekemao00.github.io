@@ -1,27 +1,27 @@
 ---
-title: Git 移除仓库文件
-date: 2018-01-22 02:18:57
-comments: true
-permalink: git-rm
+title: Git 移除仓库文件  
+date: 2018-01-22 02:18:57  
+comments: true  
+permalink: git-rm  
 categories: 
- - Git
+ - Git  
 tags: 
- - Git
- - .gitignore
+ - Git  
+ - .gitignore  
  
 ---
 
 # 场景
 
-- 问题
+## 问题
    
   .idea 目录加入 .gitignore 无效  
 
-- 原因
+## 原因
 
   对应的目录或者文件已经被 git 跟踪  
 
-- 解决方法：  
+## 解决方法：  
 
 ``` bash
 git rm -r --cached .idea
@@ -44,7 +44,7 @@ git rm --cached -r files-path
 
 附：Android 项目中可移除的文件及文件夹清单( [.gitignore] )
 
-``` gitignore
+``` bash
 *.iml
 .gradle
 /local.properties
