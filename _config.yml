@@ -14,7 +14,8 @@ timezone:
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://kekemao00.github.io
 root: /
-permalink: :year:month:day/:title/
+permalink: :year/:month:day/:title.html
+#permalink: :title.html
 permalink_defaults:
 
 # Directory
@@ -69,8 +70,11 @@ time_format: HH:mm:ss
 per_page: 10
 pagination_dir: page
 
-# Extensions
-## Plugins: https://hexo.io/plugins/
+## Extensions
+#Plugins: https://hexo.io/plugins/
+Plugins:
+ hexo-generator-sitemap
+ hexo-generator-baidu-sitemap
 ## Themes: https://hexo.io/themes/
 theme: next0
 
@@ -80,3 +84,10 @@ deploy:
   type: git
   repo: git@github.com:kekemao00/kekemao00.github.io.git
   branch: master
+  
+# hexo sitemap网站地图
+sitemap:
+ sitemap.xml
+baidusitemap:
+ baidusitemap.xml
+ 
