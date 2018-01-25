@@ -7,3 +7,4 @@ public/
 .deploy*/
 *.html
 source/_posts/*.html
+source/_posts/*.md.html

@@ -639,7 +639,14 @@ function setDocumentScrollTop(ypos)
 
 </head>
 <body class="markdown-body">
-<h2> <a id="title-ble-始终扫描不到蓝牙date-2018-1-20-050633tags-ble" class="anchor" href="#title-ble-%E5%A7%8B%E7%BB%88%E6%89%AB%E6%8F%8F%E4%B8%8D%E5%88%B0%E8%93%9D%E7%89%99date-2018-1-20-050633tags-ble" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>title: BLE 始终扫描不到蓝牙 date: 2018-1-20 05:06:33 tags: BLE</h2> 
+<p>title: BLE 始终扫描不到蓝牙<br /> date: 2018-1-20 05:06:33<br /> comments: true<br /> permalink: ble-android6<br /> categories:</p> 
+<ul> 
+ <li>Android</li> 
+ <li>BLE<br /> tags:</li> 
+ <li>BLE</li> 
+ <li>Android</li> 
+</ul> 
+<hr /> 
 <h1> <a id="ble-始终扫描不到蓝牙" class="anchor" href="#ble-%E5%A7%8B%E7%BB%88%E6%89%AB%E6%8F%8F%E4%B8%8D%E5%88%B0%E8%93%9D%E7%89%99" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>BLE 始终扫描不到蓝牙</h1> 
 <h2> <a id="背景" class="anchor" href="#%E8%83%8C%E6%99%AF" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>背景</h2> 
 <p><em>基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。</em></p> 
@@ -650,64 +657,63 @@ function setDocumentScrollTop(ypos)
 </blockquote> 
 <p>各种查阅资料后，找到根本原因：</p> 
 <p>android 6.0之后要用蓝牙还需要添加一个模糊定位的权限</p> 
-<p><code>android.permission.ACCESS_COARSE_LOCATION</code></p> 
+<div class="highlight highlight-source-java">
+ <pre>  <span class="pl-smi">android.permission<span class="pl-k">.</span>ACCESS_COARSE_LOCATION</span></pre>
+</div> 
 <ul> 
- <li>Google 官方文档这样描述</li> 
+ <li> <p>Google 官方文档这样描述</p> 
+  <blockquote> 
+   <p><strong>Access to Hardware Identifier</strong></p> 
+  </blockquote> 
+  <blockquote> 
+   <p>To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The <a href="https://developer.android.com/reference/android/net/wifi/WifiInfo.html#getMacAddress()" rel="nofollow">WifiInfo.getMacAddress()</a> and the <a href="https://developer.android.com/reference/android/bluetooth/BluetoothAdapter.html#getAddress()" rel="nofollow">BluetoothAdapter.getAddress()</a> methods now return a constant value of <em>02:00:00:00:00:00</em></p> 
+  </blockquote> 
+  <blockquote> 
+   <p>To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_FINE_LOCATION" rel="nofollow">ACCESS_FINE_LOCATION</a> or <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_COARSE_LOCATION" rel="nofollow">ACCESS_COARSE_LOCATION</a> permissions:</p> 
+  </blockquote> 
+  <blockquote> 
+   <ul> 
+    <li><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.html#getScanResults()" rel="nofollow">WifiManager.getScanResults()</a></li> 
+   </ul> 
+  </blockquote> 
+  <blockquote> 
+   <ul> 
+    <li><a href="https://developer.android.com/reference/android/bluetooth/BluetoothDevice.html#ACTION_FOUND" rel="nofollow">BluetoothDevice.ACTION_FOUND</a></li> 
+   </ul> 
+  </blockquote> 
+  <blockquote> 
+   <ul> 
+    <li><a href="https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback)" rel="nofollow">BluetoothLeScanner.startScan()</a></li> 
+   </ul> 
+  </blockquote> 
+  <blockquote> 
+   <blockquote> 
+    <p><strong>Note:</strong> When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address.</p> 
+   </blockquote> 
+  </blockquote> </li> 
 </ul> 
-<blockquote> 
- <p><strong>Access to Hardware Identifier</strong></p> 
-</blockquote> 
-<blockquote> 
- <p>To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The <a href="https://developer.android.com/reference/android/net/wifi/WifiInfo.html#getMacAddress()" rel="nofollow">WifiInfo.getMacAddress()</a> and the <a href="https://developer.android.com/reference/android/bluetooth/BluetoothAdapter.html#getAddress()" rel="nofollow">BluetoothAdapter.getAddress()</a> methods now return a constant value of <em>02:00:00:00:00:00</em></p> 
-</blockquote> 
-<blockquote> 
- <p>To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_FINE_LOCATION" rel="nofollow">ACCESS_FINE_LOCATION</a> or <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_COARSE_LOCATION" rel="nofollow">ACCESS_COARSE_LOCATION</a> permissions:</p> 
-</blockquote> 
-<blockquote> 
- <ul> 
-  <li><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.html#getScanResults()" rel="nofollow">WifiManager.getScanResults()</a></li> 
- </ul> 
-</blockquote> 
-<blockquote> 
- <ul> 
-  <li><a href="https://developer.android.com/reference/android/bluetooth/BluetoothDevice.html#ACTION_FOUND" rel="nofollow">BluetoothDevice.ACTION_FOUND</a></li> 
- </ul> 
-</blockquote> 
-<blockquote> 
- <ul> 
-  <li><a href="https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback)" rel="nofollow">BluetoothLeScanner.startScan()</a></li> 
- </ul> 
-</blockquote> 
-<blockquote> 
- <blockquote> 
-  <p><strong>Note:</strong> When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address.</p> 
- </blockquote> 
-</blockquote> 
 <h2> <a id="解决问题" class="anchor" href="#%E8%A7%A3%E5%86%B3%E9%97%AE%E9%A2%98" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>解决问题</h2> 
 <ul> 
- <li>只需要在扫描 BLE 设备之前动态向用户申请位置权限 
-  <ul> 
-   <li> <p>我的代码：</p> 
-    <div class="highlight highlight-source-java">
-     <pre><span class="pl-k">if</span> (<span class="pl-smi">Build</span><span class="pl-c1"><span class="pl-k">.</span>VERSION<span class="pl-k">.</span>SDK_INT</span> <span class="pl-k">&gt;=</span> <span class="pl-smi">Build</span><span class="pl-c1"><span class="pl-k">.</span>VERSION_CODES</span><span class="pl-k">.</span><span class="pl-smi">M</span>) {<span class="pl-c"><span class="pl-c">//</span>如果 API level 是大于等于 23(Android 6.0) 时</span>
-      <span class="pl-c"><span class="pl-c">//</span>判断是否具有权限</span>
-      <span class="pl-k">if</span> (<span class="pl-smi">ContextCompat</span><span class="pl-k">.</span>checkSelfPermission(<span class="pl-c1">this</span>,
-              <span class="pl-smi">Manifest</span><span class="pl-k">.</span><span class="pl-smi">permission<span class="pl-k">.</span>ACCESS_COARSE_LOCATION</span>) <span class="pl-k">!=</span> <span class="pl-smi">PackageManager</span><span class="pl-c1"><span class="pl-k">.</span>PERMISSION_GRANTED</span>) {
-          <span class="pl-c"><span class="pl-c">//</span>判断是否需要向用户解释为什么需要申请该权限</span>
-          <span class="pl-k">if</span> (<span class="pl-smi">ActivityCompat</span><span class="pl-k">.</span>shouldShowRequestPermissionRationale(<span class="pl-c1">this</span>,
-                  <span class="pl-smi">Manifest</span><span class="pl-k">.</span><span class="pl-smi">permission<span class="pl-k">.</span>ACCESS_COARSE_LOCATION</span>)) {
-              <span class="pl-smi">Toast</span><span class="pl-k">.</span>makeText(<span class="pl-c1">this</span>, <span class="pl-s"><span class="pl-pds">&quot;</span>自Android 6.0开始需要打开位置权限才可以搜索到Ble设备<span class="pl-pds">&quot;</span></span>, <span class="pl-smi">Toast</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_SHORT</span>)<span class="pl-k">.</span>show();
-          }
-          <span class="pl-c"><span class="pl-c">//</span>请求权限</span>
-          <span class="pl-smi">ActivityCompat</span><span class="pl-k">.</span>requestPermissions(<span class="pl-c1">this</span>,
-                  <span class="pl-k">new</span> <span class="pl-smi">String</span>[]{<span class="pl-smi">Manifest</span><span class="pl-k">.</span><span class="pl-smi">permission<span class="pl-k">.</span>ACCESS_COARSE_LOCATION</span>},
-                  <span class="pl-c1">REQUEST_CODE_ACCESS_COARSE_LOCATION</span>);
-      }
-  }</pre>
-    </div> </li> 
-  </ul> </li> 
+ <li> <p>只需要在扫描 BLE 设备之前动态向用户申请位置权限</p> <p>我的代码：</p> </li> 
 </ul> 
+<div class="highlight highlight-source-java">
+ <pre>      <span class="pl-k">if</span> (<span class="pl-smi">Build</span><span class="pl-c1"><span class="pl-k">.</span>VERSION<span class="pl-k">.</span>SDK_INT</span> <span class="pl-k">&gt;=</span> <span class="pl-smi">Build</span><span class="pl-c1"><span class="pl-k">.</span>VERSION_CODES</span><span class="pl-k">.</span><span class="pl-smi">M</span>) {<span class="pl-c"><span class="pl-c">//</span>如果 API level 是大于等于 23(Android 6.0) 时</span>
+            <span class="pl-c"><span class="pl-c">//</span>判断是否具有权限</span>
+            <span class="pl-k">if</span> (<span class="pl-smi">ContextCompat</span><span class="pl-k">.</span>checkSelfPermission(<span class="pl-c1">this</span>,
+                    <span class="pl-smi">Manifest</span><span class="pl-k">.</span><span class="pl-smi">permission<span class="pl-k">.</span>ACCESS_COARSE_LOCATION</span>) <span class="pl-k">!=</span> <span class="pl-smi">PackageManager</span><span class="pl-c1"><span class="pl-k">.</span>PERMISSION_GRANTED</span>) {
+                <span class="pl-c"><span class="pl-c">//</span>判断是否需要向用户解释为什么需要申请该权限</span>
+                <span class="pl-k">if</span> (<span class="pl-smi">ActivityCompat</span><span class="pl-k">.</span>shouldShowRequestPermissionRationale(<span class="pl-c1">this</span>,
+                        <span class="pl-smi">Manifest</span><span class="pl-k">.</span><span class="pl-smi">permission<span class="pl-k">.</span>ACCESS_COARSE_LOCATION</span>)) {
+                    <span class="pl-smi">Toast</span><span class="pl-k">.</span>makeText(<span class="pl-c1">this</span>, <span class="pl-s"><span class="pl-pds">&quot;</span>自Android 6.0开始需要打开位置权限才可以搜索到Ble设备<span class="pl-pds">&quot;</span></span>, <span class="pl-smi">Toast</span><span class="pl-c1"><span class="pl-k">.</span>LENGTH_SHORT</span>)<span class="pl-k">.</span>show();
+                }
+                <span class="pl-c"><span class="pl-c">//</span>请求权限</span>
+                <span class="pl-smi">ActivityCompat</span><span class="pl-k">.</span>requestPermissions(<span class="pl-c1">this</span>,
+                        <span class="pl-k">new</span> <span class="pl-smi">String</span>[]{<span class="pl-smi">Manifest</span><span class="pl-k">.</span><span class="pl-smi">permission<span class="pl-k">.</span>ACCESS_COARSE_LOCATION</span>},
+                        <span class="pl-c1">REQUEST_CODE_ACCESS_COARSE_LOCATION</span>);
+            }
+        }</pre>
+</div> 
 <h2> <a id="结果" class="anchor" href="#%E7%BB%93%E6%9E%9C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>结果</h2> 
-<p>完美解决。</p>
+<p>问题解决。</p>
 </body>
 </html>
