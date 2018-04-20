@@ -1,5 +1,5 @@
 ---
-title: 描述 View 的绘制原理.md
+title: 描述 View 的绘制原 理
 comments: true
 date: 2018-04-20 15:37:42
 tags: View
