@@ -1,6 +1,13 @@
+---
+title: MAC OS 卸载 JDK
+comments: true
+date: 2018-05-16 22:27:58
+tags: Uninstall JDK
+permalink: uninstall-jdk-for-mac
+categories: Java
+---
+
 # MAC OS 如何卸载 JDK
-
-
 
 1. 单击位于停靠栏中的 Finder 图标
 2. 单击实用程序文件夹
