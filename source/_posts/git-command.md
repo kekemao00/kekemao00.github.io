@@ -18,7 +18,7 @@ categories: Git
  
  git log --oneline
  ```
- 
+
  ```
  $ echo 'Hello voidint' >> README.md
  $ git add .
@@ -51,7 +51,20 @@ $ git reflog
 git rm --cached (-r 文件夹) files-path   
 ```
 
+## 撤销工作区单个文件的更改
+
+  ```bash
+  git checkout -- fileName
+  ```
+
+  OR 撤销所有更改
+
+  ```bash
+  git checkout -- .
+  ```
+
 ## 仓库操作
+
 - 移除远程仓库
 	
 	```
@@ -111,7 +124,7 @@ Git 鼓励大量使用分支：
 ## git tag
 
 __含附注的标签:__ 
- 
+
 创建一个含附注类型的标签非常简单，用 -a （译注：取 annotated 的首字母）指定标签名字即可：  
 
 ``` bash
@@ -125,24 +138,24 @@ v1.4
 
 ##  其他
 
-- 内建的图形化 git：
+- 内建的图形化 git：  
 
 	```
 	gitk
-	```  
+	```
 
-- 彩色的 git 输出：
+- 彩色的 git 输出：  
 
 	```
 	git config color.ui true
 	```
   
-- 显示历史记录时，只显示一行注释信息：
+- 显示历史记录时，只显示一行注释信息：  
 
 	```
 	git config format.pretty oneline
 	```
-- 交互地添加文件至缓存区：
+- 交互地添加文件至缓存区：  
 
 	```
 	git add -i
@@ -150,11 +163,10 @@ v1.4
 
 
 
-
 ---
 
 [改变最后的提交]:https://www.atlassian.com/git/tutorials/rewriting-history
-[更改旧的或多个提交]:[改变最后的提交]
+[更改旧的或多个提交]:改变最后的提交
 [清除历史提交记录中的敏感信息]:http://debugtalk.com/post/clean-sensitive-data-from-git-history-commits/
 [git 使用简易指南]:http://www.bootcss.com/p/git-guide/
 
