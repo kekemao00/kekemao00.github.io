@@ -11,7 +11,7 @@ categories: Git
 *[git 使用简易指南]*  
  实用且用过的命令,记录下来
 ## 修改提交记录  
- ```
+ ```bash
  git commit --amend --no-edit
  
  git commit --amend -m "fix"
@@ -19,17 +19,16 @@ categories: Git
  git log --oneline
  ```
 
- ```
+ ```bash
  $ echo 'Hello voidint' >> README.md
  $ git add .
  $ git commit --amend --no-edit
  $ git log --oneline
- eb6c8cb Add README.md // hash值发生了变化
  ```
-
+ eb6c8cb Add README.md // hash值发生了变化
 
 ## 日志 
-```	
+```	bash
 $ git log
 $ git lg   
 $ #
@@ -37,7 +36,7 @@ $ git reflog
 ```
 
 ## pull
-```
+```bash
 1. stash changes()    /revert
 2. pull
 4. unstash changes (Pop stash)  /合并
@@ -47,11 +46,11 @@ $ git reflog
 ```
 ---
 ## 移除文件
-```
+```bash
 git rm --cached (-r 文件夹) files-path   
 ```
 
-## 撤销工作区单个文件的更改
+## 撤销工作区文件的更改
 
   ```bash
   git checkout -- fileName
@@ -63,11 +62,19 @@ git rm --cached (-r 文件夹) files-path
   git checkout -- .
   ```
 
+## 撤销暂存区文件的修改
+
+```bash
+git reset HEAD file
+```
+
+
+
 ## 仓库操作
 
 - 移除远程仓库
 	
-	```
+	```bash
 	git remote rm origin  
 	```
 
@@ -99,13 +106,11 @@ Git 鼓励大量使用分支：
 	git reset --hard origin/master
 	```
 
-- __`git add`后的撤销操作:__ `git reset HEAD XXX/XXX/XXX.java`
+## 重写历史提交记录
 
-### 重写历史提交记录
+- __显示 HEAD 更改时间的列表__ `git reflog`  
 
-- __显示HEAD更改时间的列表__ `git reflog`  
-
-    *git reflog 可以查看所有分支的所有操作记录（包括（包括commit和reset的操作），包括已经被删除的commit记录，git log则不能察看已经删除了的commit记录，而且跟进结果可以回退道某一个修改, 红色加粗的即是被删除了的*
+    *git reflog 可以查看所有分支的所有操作记录（包括（包括 commit 和 reset 的操作），包括已经被删除的 commit 记录，git log 则不能察看已经删除了的 commit 记录，而且跟进结果可以回退道某一个修改, 红色加粗的即是被删除了的*
 - __[改变最后的提交]__ `git commit --amend` 或 `git commit --amend -m "fix bug #42"`
 
 - __[清除历史提交记录中的敏感信息]__ `git filter-branch`
@@ -116,7 +121,7 @@ Git 鼓励大量使用分支：
 
 ## Stash 
 
-- `git stash`
+- `git stash` ,储存
 - `git stash pop`
 - `git stash list`
 
@@ -140,24 +145,24 @@ v1.4
 
 - 内建的图形化 git：  
 
-	```
+	```bash
 	gitk
 	```
 
 - 彩色的 git 输出：  
 
-	```
+	```bash
 	git config color.ui true
 	```
   
 - 显示历史记录时，只显示一行注释信息：  
 
-	```
+	```bash
 	git config format.pretty oneline
 	```
 - 交互地添加文件至缓存区：  
 
-	```
+	```bash
 	git add -i
 	```
 
