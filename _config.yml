@@ -17,6 +17,7 @@ root: /
 permalink: :year/:month:day/:title.html
 #permalink: :title.html
 permalink_defaults:
+encoding: UTF-8
 
 # Directory
 source_dir: source
