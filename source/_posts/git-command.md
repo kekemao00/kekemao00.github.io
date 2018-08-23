@@ -165,8 +165,12 @@ v1.4
 	```bash
 	git add -i
 	```
+	
+- 单个文件到指定版本
 
-
+    ```bash
+    git checkout <HEAD> <file> 
+    ```
 
 ---
 

@@ -28,6 +28,7 @@ categories: Git
 - `git branch -D branchName` // 删除分支
 - `git reset –hard HEAD` // 丢弃工作区和暂存区的所有更改
 - `git checkout – fileName` // 丢弃工作区的文件更改
+- `git checkout <HEAD> <file>` 单个文件到指定版本
 - `git stash` // 将当前分支的内容暂存起来，等价 git stash push
 - `git stash list` // 列出当前分支缓存的内容
 - `git stash pop` // 拿出当前分支缓存的内容
