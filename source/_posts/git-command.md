@@ -36,6 +36,12 @@ $ git reflog
 ```
 
 ## pull
+
+```bash
+git pull <remote> <remoteBranch>:<localBranch>
+```
+_Android Studio 提交文件时推荐的用法：_
+
 ```bash
 1. stash changes()    /revert
 2. pull
