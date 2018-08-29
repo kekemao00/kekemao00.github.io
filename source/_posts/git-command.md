@@ -72,11 +72,48 @@ git reset HEAD file
 
 ## 仓库操作
 
+- 查看当前远程仓库
+
+  ```bash
+  git remote -v 
+  ```
+
+- 查看远程仓库详细信息
+
+  ```bash
+  git remote show [remote-name] 
+  ```
+
+- 要添加一个新的远程仓库，可以指定一个简单的名字，以便将来引用，运行 
+
+  ````bash
+  git remote add [shortname] [url]
+  ````
+
 - 移除远程仓库
-	
-	```bash
-	git remote rm origin  
-	```
+
+  ```bash
+  git remote rm origin  
+  ```
+
+- 从远程仓库抓取数据
+
+  ```bash
+  git fetch [remote-name]
+  ```
+
+- 推送数据到远程仓库
+
+  ```bash
+  git push origin master
+  ```
+
+- 远程仓库的删除和重命名
+
+  ```bash
+  git remote rename <oldName> <newName>
+  git remote rm 
+  ```
 
 ## 分支操作
 
