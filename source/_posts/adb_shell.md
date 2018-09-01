@@ -1,4 +1,13 @@
-#  adb input
+---
+title:  adb shell
+comments: true
+date: 2018-09-01 16:01:46
+tags: adb
+permalink: adb-shell
+categories: Shell
+---
+
+#  adb shell
 
 - 向文本框输入字符
 
