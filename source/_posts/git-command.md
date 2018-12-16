@@ -153,7 +153,7 @@ Git 鼓励大量使用分支：
 
 - __显示 HEAD 更改时间的列表__ `git reflog`  
 
-    *git reflog 可以查看所有分支的所有操作记录（包括（包括 commit 和 reset 的操作），包括已经被删除的 commit 记录，git log 则不能察看已经删除了的 commit 记录，而且跟进结果可以回退道某一个修改, 红色加粗的即是被删除了的*
+    *git reflog 可以查看所有分支的所有操作记录（包括（包括 commit 和 reset 的操作），包括已经被删除的 commit 记录，git log 则不能查看已经删除了的 commit 记录，而且跟进结果可以回退到某一个修改, 红色加粗的即是被删除了的*
 - __[改变最后的提交]__ `git commit --amend` 或 `git commit --amend -m "fix bug #42"`
 
 - __[清除历史提交记录中的敏感信息]__ `git filter-branch`
