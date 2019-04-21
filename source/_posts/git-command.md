@@ -135,9 +135,11 @@ Git 鼓励大量使用分支：
 
 - __创建+切换分支：__`git checkout -b <name>`
 
-- __重命名分支:__ `git branch -m oldName newName`
+- __重命名分支：__ `git branch -m oldName newName`
 
 - __合并某分支到当前分支：__`git merge <name>`
+
+- __合并当前分支到某分支：__`git rebase <name>`
 
 - __删除分支：__`git branch -d <name>`
 
