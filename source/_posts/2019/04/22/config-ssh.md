@@ -1,9 +1,11 @@
+---
 title: 使用 ssh 与远程仓库
 comments: true
 date: 2019-04-22 00:49:33
 tags: ssh
 permalink: git-ssh-config
 categories: 安全
+---
 
 # SSH 概念
 
@@ -12,10 +14,13 @@ categories: 安全
 SSH (Secure Shell) 是目前较可靠，专为远程登录会话和其他网络服务提供安全性的协议。
 
 ## Git 仓库克隆方式：https 和 ssh
+
 - https 拿到 URL 即可随便 clone ，但是 push 需要验证用户名和密码
 - ssh  clone 之前必须配置 ssh 的 Key，但是在之后的 push，fetch 可以不验证用户名和密码的。
 	 _你必须是该项目的拥有者 ，否则你是为 remote 添加公钥的。如果你想要每次都输入账号密码才能进行 fetch 和 push 也可以另外进行设置。_
+
 ## 如何配置 ssh 的 key
+
 - 检查本地是否存在 id_rsa 和 id_rsa.pub 文件：若存在，则不需要重新生成 Key.
 ```bash
 $ cd ~/.ssh/
