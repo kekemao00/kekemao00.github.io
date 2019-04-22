@@ -25,5 +25,6 @@ $ sudo rm -fr ~/Library/Application\ Support/Java
 参: [使用终端卸载 Oracle Java]
 
 
+<!--more-->
 
 [使用终端卸载 Oracle Java]:https://www.java.com/zh_CN/download/help/mac_uninstall_java.xml

@@ -16,6 +16,8 @@ View 的绘制流程主要分为三步：
 2. onLayout：
 	确定视图的位置，从顶层父View到子View递归调用layout()方法，父View将上一步measure()方法得到的子View的布局大小和布局参数，将子View放在合适的位置上。
 
+<!--more-->
+
 3. onDraw：
 	绘制最终的视图，首先ViewRoot创建一个Canvas对象，然后调用onDraw()方法进行绘制。onDraw()方法的绘制流程为：
 	① 绘制视图背景;

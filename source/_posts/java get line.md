@@ -2,11 +2,11 @@ title: Java 获取当前行
 date: 2018-1-20 05:06:33  
 comments: true  
 permalink: java-line  
-categories: 
+categories:
  - Java  
-tags: 
+tags:
  - Java  
- 
+
 ---
 # java 获取当前行
 
@@ -28,3 +28,5 @@ tags:
         return "--- File: " + ste.getFileName() + ",  Class: " + ste.getClassName() + ",  Method: " + ste.getMethodName() + "(),  Line: " + ste.getLineNumber();
     }
 ```
+
+<!--more-->

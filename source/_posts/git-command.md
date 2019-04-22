@@ -7,15 +7,15 @@ permalink: git-command
 categories: Git
 ---
 
-# Git 
+# Git
 *[git 使用简易指南]*  
  实用且用过的命令,记录下来
 ## 修改提交记录  
  ```bash
  git commit --amend --no-edit
- 
+
  git commit --amend -m "fix"
- 
+
  git log --oneline
  ```
 
@@ -25,9 +25,9 @@ categories: Git
  $ git commit --amend --no-edit
  $ git log --oneline
  ```
- eb6c8cb Add README.md // hash值发生了变化
+ <!--more-->
 
-## 日志 
+## 日志
 ```	bash
 $ git log
 $ git lg   
@@ -81,16 +81,16 @@ git reset HEAD file
 - 查看当前远程仓库
 
   ```bash
-  git remote -v 
+  git remote -v
   ```
 
 - 查看远程仓库详细信息
 
   ```bash
-  git remote show [remote-name] 
+  git remote show [remote-name]
   ```
 
-- 要添加一个新的远程仓库，可以指定一个简单的名字，以便将来引用，运行 
+- 要添加一个新的远程仓库，可以指定一个简单的名字，以便将来引用，运行
 
   ````bash
   git remote add [shortname] [url]
@@ -118,7 +118,7 @@ git reset HEAD file
 
   ```bash
   git remote rename <oldName> <newName>
-  git remote rm 
+  git remote rm
   ```
 
 ## 分支操作
@@ -145,7 +145,7 @@ Git 鼓励大量使用分支：
 
 - __删除远程分支( v1.7.0 之后)：__`$ git push origin --delete <branchName>`
 - __服务器上获取最新的版本并将你本地主分支指向到它:__
-	
+
 	``` bash
 	git fetch origin  
 	git reset --hard origin/master
@@ -164,7 +164,7 @@ Git 鼓励大量使用分支：
 
 
 
-## Stash 
+## Stash
 
 - `git stash` ,储存
 - `git stash pop`
@@ -173,7 +173,7 @@ Git 鼓励大量使用分支：
 
 ## git tag
 
-__含附注的标签:__ 
+__含附注的标签:__
 
 创建一个含附注类型的标签非常简单，用 -a （译注：取 annotated 的首字母）指定标签名字即可：  
 
@@ -199,7 +199,7 @@ v1.4
 	```bash
 	git config color.ui true
 	```
-  
+
 - 显示历史记录时，只显示一行注释信息：  
 
 	```bash
@@ -210,11 +210,11 @@ v1.4
 	```bash
 	git add -i
 	```
-	
+
 - 单个文件到指定版本
 
     ```bash
-    git checkout <HEAD> <file> 
+    git checkout <HEAD> <file>
     ```
 
 ---
@@ -223,4 +223,3 @@ v1.4
 [更改旧的或多个提交]:改变最后的提交
 [清除历史提交记录中的敏感信息]:http://debugtalk.com/post/clean-sensitive-data-from-git-history-commits/
 [git 使用简易指南]:http://www.bootcss.com/p/git-guide/
-

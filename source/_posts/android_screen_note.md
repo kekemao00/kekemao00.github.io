@@ -19,6 +19,6 @@ getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
 ```java
 getWindow.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
 ```
+<!--more-->
 
 *可放在 BaseActivity 的 onCreate()  中*
-

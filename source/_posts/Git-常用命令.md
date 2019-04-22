@@ -4,7 +4,7 @@ comments: true
 date: 2018-01-23 23:43:40  
 tags:  Git  
 permalink: git-command  
-categories: Git 
+categories: Git
 
 ---
 
@@ -15,6 +15,8 @@ categories: Git
 ## 常规命令
 - `git clone https://github.com/` // 将远程库下载到本地
 - `git init` // 初始化一个 Git 仓库
+<!--more-->
+
 - `git add .` // 将工作区内容添加到暂存区（使用 -A 也可以）
 - `git status` // 查看状态
 - `git commit -m ‘comment’` // 将暂存区的内容提交到版本库

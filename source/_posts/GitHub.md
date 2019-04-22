@@ -2,11 +2,11 @@ title: GitHub's Links
 date: 2018-1-20 05:06:33  
 comments: true  
 permalink: github-links  
-categories: 
+categories:
  - GitHub  
-tags: 
+tags:
  - GitHub  
- 
+
 ---
 
 ## GitHub   
@@ -18,7 +18,9 @@ tags:
 - [GitHub 年度报告]  
 
    去年 GitHub 网站内容综合报告
- 
- 
+
+<!--more-->
+
+
 [GitHub 热门项目]:https://github.com/trending
-[GitHub 年度报告]:https://octoverse.github.com 
+[GitHub 年度报告]:https://octoverse.github.com

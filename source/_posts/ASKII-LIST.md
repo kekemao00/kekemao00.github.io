@@ -13,6 +13,7 @@ permalink: askii-table
 <div class="clear"></div>
 <div class="postBody">
 <div id="cnblogs_post_body">
+<!--more-->
 
 <span style="font-size: 15px;">ASCII码表</span>
 <table style="width: 600px;" border="1" cellspacing="0" cellpadding="0">
@@ -27,6 +28,7 @@ permalink: askii-table
 <td valign="top"><span style="font-size: 15px;">ASCII值</span></td>
 <td valign="top"><span style="font-size: 15px;">控制字符</span></td>
 </tr>
+
 <tr align="middle">
 <td valign="top"><span style="font-size: 15px;">0</span></td>
 <td valign="top"><span style="font-size: 15px;">NUT</span></td>

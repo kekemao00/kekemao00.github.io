@@ -2,10 +2,10 @@ title: Hiding the Navigation Bar
 date: 2018-1-20 05:06:33  
 comments: true  
 permalink: hiding-navigationBar  
-categories: 
+categories:
  - Android  
  - UI  
-tags: 
+tags:
  - Navigation Bar  
 
 ---
@@ -29,8 +29,6 @@ private void hideSystemNavigationBar() {
     }
 ```
 
+<!--more-->
 
 [Hiding the Navigation Bar]:https://developer.android.com/training/system-ui/navigation.html#behind
-
-
-

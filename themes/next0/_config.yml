@@ -45,7 +45,7 @@ rss:
 footer:
   # Specify the date when the site was setup.
   # If not defined, current year will be used.
-  #since: 2015
+  since: 2015
 
   # Icon between year and copyright info.
   icon: user
@@ -129,9 +129,9 @@ scheme: Muse
 social:
   GitHub: https://github.com/kekemao00 || github
   E-Mail: mailto:kekemao00@gmail.com || envelope
-  Google: https://plus.google.com/104279607426298043544 || google
-  Twitter: https://twitter.com/mk38953223 || twitter
-  FB Page: https://www.facebook.com/kekemao00 || facebook
+  #Google: https://plus.google.com/104279607426298043544 || google
+  #Twitter: https://twitter.com/mk38953223 || twitter
+  #FB Page: https://www.facebook.com/kekemao00 || facebook
   #VK Group: https://vk.com/yourname || vk
   StackOverflow: https://stackoverflow.com/users/8118332/maoke || stack-overflow
   YouTube: https://www.youtube.com/channel/UCfKoXDPUoQAT425keyRszRQ || youtube
@@ -148,8 +148,8 @@ links_icon: link
 links_title: Links
 links_layout: block
 #links_layout: inline
-#links:
-  #Title: http://example.com/
+links:
+  kekemao00: https://kekemao.top/
 
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.gif
@@ -182,8 +182,8 @@ sidebar:
   #  - always  expand for all pages automatically
   #  - hide    expand only when click on the sidebar toggle icon.
   #  - remove  Totally remove sidebar including sidebar toggle.
-  display: post
-  #display: always
+  #display: post
+  display: always
   #display: hide
   #display: remove
 
@@ -191,10 +191,10 @@ sidebar:
   offset: 12
 
   # Back to top in sidebar (only for Pisces | Gemini).
-  b2t: false
+  b2t: true
 
   # Scroll percent label in b2t button.
-  scrollpercent:    
+  scrollpercent:  Trebuchet
 
   # Enable sidebar on narrow view (only for Muse | Mist).
   onmobile: false
@@ -277,7 +277,7 @@ custom_logo:
 # Available value:
 #    normal | night | night eighties | night blue | night bright
 # https://github.com/chriskempson/tomorrow-theme
-highlight_theme: night eighties
+highlight_theme: night eighties 
 
 
 # ---------------------------------------------------------------
@@ -698,7 +698,7 @@ pace_theme: pace-theme-minimal
 canvas_nest: false
 
 # three_waves
-three_waves: false
+three_waves: true
 
 # canvas_lines
 canvas_lines: false
@@ -805,7 +805,8 @@ vendors:
   
   # 评论
   disqus_shortname: kekemao00
-  
+  # 动画
+  use_motion: true
   
   
 # Assets

@@ -3,18 +3,18 @@ title: Git 移除仓库文件
 date: 2018-01-22 02:18:57  
 comments: true  
 permalink: git-rm  
-categories: 
+categories:
  - Git  
-tags: 
+tags:
  - Git  
  - .gitignore  
- 
+
 ---
 
 # 场景
 
 ## 问题
-   
+
   .idea 目录加入 .gitignore 无效  
 
 ## 原因
@@ -26,6 +26,8 @@ tags:
 ``` bash
 git rm -r --cached .idea
 ```
+<!--more-->
+
 ---
 
 # Git 清除缓存用法：  

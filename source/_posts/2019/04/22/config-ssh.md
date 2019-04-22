@@ -7,9 +7,7 @@ permalink: git-ssh-config
 categories: 安全
 ---
 
-# SSH 概念
-
-## SSH 是什么
+## SSH 概念
 
 SSH (Secure Shell) 是目前较可靠，专为远程登录会话和其他网络服务提供安全性的协议。
 
@@ -18,6 +16,8 @@ SSH (Secure Shell) 是目前较可靠，专为远程登录会话和其他网络�
 - https 拿到 URL 即可随便 clone ，但是 push 需要验证用户名和密码
 - ssh  clone 之前必须配置 ssh 的 Key，但是在之后的 push，fetch 可以不验证用户名和密码的。
 	 _你必须是该项目的拥有者 ，否则你是为 remote 添加公钥的。如果你想要每次都输入账号密码才能进行 fetch 和 push 也可以另外进行设置。_
+
+<!--more-->
 
 ## 如何配置 ssh 的 key
 
