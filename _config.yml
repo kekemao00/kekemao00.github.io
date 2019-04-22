@@ -3,28 +3,27 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: MaoKe's Blog
-subtitle: 独角博客
-description: 好的代码本身就是最好的说明文档
-author: Mao Ke
-language: zh-Hans
-timezone:
+title: MaoKe's Blog # 网站标题
+subtitle: 独角博客 # 网站副标题
+description: 好的代码本身就是最好的说明文档 # 网站描述
+author: Mao Ke # 您的名字
+language: zh-Hans # 网站使用的语言
+timezone: # 网站时区
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
 url: http://kekemao00.github.io
 root: /
-permalink: :year/:month:day/:title.html
-#permalink: :title.html
+permalink: :year/:month:day/:title.html # 文章的永久链接格式
 permalink_defaults:
 encoding: UTF-8
 
 # Directory
-source_dir: source
-public_dir: public
-tag_dir: tags
-archive_dir: archives
-category_dir: categories
+source_dir: source # 资源文件夹，这个文件夹用来存放内容
+public_dir: public # 公共文件夹，这个文件夹用于存放生成的站点文件
+tag_dir: tags # 标签文件夹
+archive_dir: archives # 归档文件夹
+category_dir: categories # 分类文件夹
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
@@ -32,6 +31,7 @@ skip_render:
 # Writing
 new_post_name: :year/:month/:day/:title.md # File name of new posts
 default_layout: post
+auto_spacing: true # 在中英文之间加入空格
 titlecase: false # Transform title into titlecase
 external_link: true # Open external links in new tab
 filename_case: 0
@@ -42,7 +42,7 @@ future: true
 highlight:
   enable: true
   line_number: true
-  auto_detect: false
+  auto_detect: true
   tab_replace:
   
 # Home page setting
