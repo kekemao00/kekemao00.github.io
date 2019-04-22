@@ -49,7 +49,33 @@ $ ssh-add -K [path/to/your/ssh-key]
 ```
 首先得了解一件事：ssh-add 这个命令不是用来永久性的记住你所使用的私钥的。实际上，它的作用只是把你指定的私钥添加到 ssh-agent 所管理的一个 session 当中。而 ssh-agent 是一个用于存储私钥的临时性的 session 服务，也就是说当你重启之后，ssh-agent 服务也就重置了，session 会话也就失效了。
 
-既然 ssh-agent 是个临时的，那么对于 Mac 来说，哪里可以永久存储的，显然就是 Keychain 了，在执行 ssh-add -K privateKey 后可以打开偏好设置中的 Keychain来观察一下前后的变化，是不是多出了 SSH 的条目，
+既然 ssh-agent 是个临时的，那么对于 Mac 来说，哪里可以永久存储的，显然就是 Keychain 了，在执行 ssh-add -K privateKey 后可以打开偏好设置中的 Keychain来观察一下前后的变化，是不是多出了 SSH 的条目.
 
+- 编辑 ssh 的配置文件(ssh 的配置文件 config 有两个，一个用户的一个系统的。这里是用户配置。)
 
+```bash
+$ vim ~/.ssh/config
+```
+config 的配置格式如下：
 
+``` bash
+Host github # 别名 可以随便取
+    HostName github.com # remote 主机 ip
+    User kekemao00 # UserName
+    IdentityFile ~/.ssh/id_rsa_note.github # 认证文件
+    Port 22 # 端口(默认 22)
+Host gitee # 不同项目配置不同的 Key
+    HostName gitee.com
+    User kekemao
+    IdentityFile ~/.ssh/id_rsa_note.github
+    Port 22
+```
+- 登录验证
+
+```bash
+ssh -T git@github
+```
+
+> Hi kekemao00! You've successfully authenticated, but GitHub does not provide shell access.
+
+如上显示，则大功告成！
