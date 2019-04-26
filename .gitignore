@@ -8,3 +8,6 @@ public/
 *.html
 source/_posts/*.html
 source/_posts/*.md.html
+/.deploy_git
+/_config.yml
+/.idea/workspace.xml

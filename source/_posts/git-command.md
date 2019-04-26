@@ -10,6 +10,7 @@ categories: Git
 # Git
 *[git 使用简易指南]*  
  实用且用过的命令,记录下来
+
 ## 修改提交记录  
  ```bash
  git commit --amend --no-edit
@@ -21,9 +22,14 @@ categories: Git
 
  ```bash
  $ echo 'Hello voidint' >> README.md
- $ git add .
- $ git commit --amend --no-edit
- $ git log --oneline
+ $ git add . # 将所有改动的文件提交至缓存区
+ $ git commit --amend --no-edit # 重写提交信息
+ $ git log --oneline # 一行显示
+ $ git log -2  # 查看最近2次的提交日志
+ $ git git log -p   # 查看历史纪录以来哪几行被修改
+ 
+ $ git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"  # 牛逼的 lg 别名
+
  ```
  <!--more-->
 
