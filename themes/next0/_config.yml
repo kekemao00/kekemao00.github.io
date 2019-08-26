@@ -45,7 +45,7 @@ rss:
 footer:
   # Specify the date when the site was setup.
   # If not defined, current year will be used.
-  since: 2015
+  since: 2018
 
   # Icon between year and copyright info.
   icon: user
@@ -133,7 +133,7 @@ social:
   #Twitter: https://twitter.com/mk38953223 || twitter
   #FB Page: https://www.facebook.com/kekemao00 || facebook
   #VK Group: https://vk.com/yourname || vk
-  StackOverflow: https://stackoverflow.com/users/8118332/maoke || stack-overflow
+  #StackOverflow: https://stackoverflow.com/users/8118332/maoke || stack-overflow
   YouTube: https://www.youtube.com/channel/UCfKoXDPUoQAT425keyRszRQ || youtube
   #Instagram: https://instagram.com/yourname || instagram
   #Skype: skype:yourname?call|chat || skype
@@ -698,7 +698,7 @@ pace_theme: pace-theme-minimal
 canvas_nest: false
 
 # three_waves
-three_waves: true
+three_waves: false
 
 # canvas_lines
 canvas_lines: false
@@ -806,9 +806,11 @@ vendors:
   # 评论
   disqus_shortname: kekemao00
   # 动画
-  use_motion: true
-  
-  
+  use_motion: false
+ 
+  # mouse click effect: fireworks | explosion | love | text (鼠标点击特效)
+  cursor_effect: fireworks
+
 # Assets
 css: css
 js: js
