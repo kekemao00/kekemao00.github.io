@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://kekemao00.github.io/"/>
-  <updated>2019-06-23T08:53:13.917Z</updated>
+  <updated>2019-08-31T02:00:56.059Z</updated>
   <id>http://kekemao00.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>docker</title>
+    <link href="http://kekemao00.github.io/2019/0830/docker.html"/>
+    <id>http://kekemao00.github.io/2019/0830/docker.html</id>
+    <published>2019-08-30T09:23:08.000Z</published>
+    <updated>2019-08-31T02:00:56.059Z</updated>
+    
+    <content type="html"><![CDATA[<p>docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例</p><a id="more"></a><h1 id="Docker-笔记-ubuntu"><a href="#Docker-笔记-ubuntu" class="headerlink" title="Docker 笔记(ubuntu)"></a>Docker 笔记(ubuntu)</h1><h2 id="volume-卷-持久化"><a href="#volume-卷-持久化" class="headerlink" title="volume 卷(持久化)"></a>volume 卷(持久化)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker volume ls</span><br><span class="line">docker volume create volume_name</span><br><span class="line">docker volume rm volume_name</span><br></pre></td></tr></table></figure><h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查找镜像</span></span><br><span class="line">docker search mysql</span><br><span class="line"><span class="comment"># 拉取官方镜像到本地</span></span><br><span class="line">docker pull mysql</span><br><span class="line">```  </span><br><span class="line"><span class="comment">## mysql 例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 运行 mysql 容器,映射到物理机 3306 端口</span></span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">docker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql</span><br></pre></td></tr></table></figure><p>常用参数: </p><ul><li><p><code>--rm</code> 说明容器用完就销毁,即停止后就删除了,就没了</p></li><li><p><code>-d</code> 容器在后台运行</p></li><li><p><code>-e</code> 给新创建的数据库设置 root 用户的密码</p></li><li><p><code>--name</code> 将容器命名为 <strong>mysql_3306</strong> ,建议命名后面根端口号</p></li><li><p><code>-v</code> 把容器的 <code>/var/lib/mysql</code> 映射到创建的数据卷上</p></li><li><p><code>-p</code> 前面宿主端口,后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口</p></li></ul><h3 id="操作容器"><a href="#操作容器" class="headerlink" title="操作容器"></a>操作容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker ps </span><br><span class="line">docker stop &lt;id 或 name&gt;</span><br><span class="line">docker stop &lt;id 或 name&gt;</span><br><span class="line">docker rm &lt;容器名称&gt;</span><br></pre></td></tr></table></figure><h3 id="进入-mysql-3306-容器"><a href="#进入-mysql-3306-容器" class="headerlink" title="进入 mysql_3306 容器"></a>进入 mysql_3306 容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mysql_3306 bash</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="docker" scheme="http://kekemao00.github.io/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="http://kekemao00.github.io/tags/docker/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
@@ -33,38 +55,6 @@
     
     </summary>
     
-    
-  </entry>
-  
-  <entry>
-    <title>windows tools</title>
-    <link href="http://kekemao00.github.io/2019/0524/windows-tools.html"/>
-    <id>http://kekemao00.github.io/2019/0524/windows-tools.html</id>
-    <published>2019-05-24T04:03:33.000Z</published>
-    <updated>2019-06-23T08:53:13.917Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li>everything</li><li>cmder</li><li>gvim</li><li>Wallpaper Engine</li><li>Windows PowerShell</li><li>git</li><li>Github Desktop</li></ul><p>���ã�</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;everything&lt;/li&gt;
-&lt;li&gt;cmder&lt;/li&gt;
-&lt;li&gt;gvim&lt;/li&gt;
-&lt;li&gt;Wallpaper Engine&lt;/li&gt;
-&lt;li&gt;Windows PowerShell&lt;/li&gt;
-&lt;li&gt;git&lt;/li&gt;
-&lt;li&gt;Github Desktop&lt;
-      
-    
-    </summary>
-    
-      <category term="����" scheme="http://kekemao00.github.io/categories/%EF%BF%BD%EF%BF%BD%EF%BF%BD%EF%BF%BD/"/>
-    
-    
-      <category term="tools" scheme="http://kekemao00.github.io/tags/tools/"/>
     
   </entry>
   
@@ -392,6 +382,63 @@
   </entry>
   
   <entry>
+    <title>BLE 始终扫描不到蓝牙</title>
+    <link href="http://kekemao00.github.io/2018/0120/ble-android6.html"/>
+    <id>http://kekemao00.github.io/2018/0120/ble-android6.html</id>
+    <published>2018-01-19T21:06:33.000Z</published>
+    <updated>2019-06-23T08:53:13.917Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="BLE-始终扫描不到蓝牙"><a href="#BLE-始终扫描不到蓝牙" class="headerlink" title="BLE 始终扫描不到蓝牙"></a>BLE 始终扫描不到蓝牙</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>  <em>基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。</em></p><h2 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h2><p>  码好代码，运行，发现蓝牙始终徘徊在</p><blockquote><p>扫描 &gt; 扫描结束 (timeout)</p></blockquote><p>  各种查阅资料后，找到根本原因：</p>  <a id="more"></a><p>  android 6.0之后要用蓝牙还需要添加一个模糊定位的权限  </p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.permission.ACCESS_COARSE_LOCATION</span><br></pre></td></tr></table></figure><ul><li><p>Google 官方文档这样描述</p><blockquote><p><strong>Access to Hardware Identifier</strong></p></blockquote><blockquote><p>To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The <a href="https://developer.android.com/reference/android/net/wifi/WifiInfo.html#getMacAddress()" target="_blank" rel="noopener">WifiInfo.getMacAddress()</a> and the <a href="https://developer.android.com/reference/android/bluetooth/BluetoothAdapter.html#getAddress()" target="_blank" rel="noopener">BluetoothAdapter.getAddress()</a> methods now return a constant value of <em>02:00:00:00:00:00</em></p></blockquote><blockquote><p>To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_FINE_LOCATION" target="_blank" rel="noopener">ACCESS_FINE_LOCATION</a> or <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_COARSE_LOCATION" target="_blank" rel="noopener">ACCESS_COARSE_LOCATION</a> permissions:</p></blockquote><blockquote><ul><li><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.html#getScanResults()" target="_blank" rel="noopener">WifiManager.getScanResults()</a></li></ul></blockquote><blockquote><ul><li><a href="https://developer.android.com/reference/android/bluetooth/BluetoothDevice.html#ACTION_FOUND" target="_blank" rel="noopener">BluetoothDevice.ACTION_FOUND</a></li></ul></blockquote><blockquote><ul><li><a href="https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback)" target="_blank" rel="noopener">BluetoothLeScanner.startScan()</a></li></ul></blockquote><blockquote><blockquote><p><strong>Note:</strong> When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address.</p></blockquote></blockquote></li></ul><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul><li><p>只需要在扫描 BLE 设备之前动态向用户申请位置权限</p><p>我的代码：</p></li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;<span class="comment">//如果 API level 是大于等于 23(Android 6.0) 时</span></span><br><span class="line">      <span class="comment">//判断是否具有权限</span></span><br><span class="line">      <span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>,</span><br><span class="line">              Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">          <span class="comment">//判断是否需要向用户解释为什么需要申请该权限</span></span><br><span class="line">          <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>,</span><br><span class="line">                  Manifest.permission.ACCESS_COARSE_LOCATION)) &#123;</span><br><span class="line">              Toast.makeText(<span class="keyword">this</span>, <span class="string">"自Android 6.0开始需要打开位置权限才可以搜索到Ble设备"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="comment">//请求权限</span></span><br><span class="line">          ActivityCompat.requestPermissions(<span class="keyword">this</span>,</span><br><span class="line">                  <span class="keyword">new</span> String[]&#123;Manifest.permission.ACCESS_COARSE_LOCATION&#125;,</span><br><span class="line">                  REQUEST_CODE_ACCESS_COARSE_LOCATION);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure><h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>问题解决。</p><!--以下是本文用到的超链接-->]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;BLE-始终扫描不到蓝牙&quot;&gt;&lt;a href=&quot;#BLE-始终扫描不到蓝牙&quot; class=&quot;headerlink&quot; title=&quot;BLE 始终扫描不到蓝牙&quot;&gt;&lt;/a&gt;BLE 始终扫描不到蓝牙&lt;/h1&gt;&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;  &lt;em&gt;基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。&lt;/em&gt;&lt;/p&gt;
+&lt;h2 id=&quot;遇到问题&quot;&gt;&lt;a href=&quot;#遇到问题&quot; class=&quot;headerlink&quot; title=&quot;遇到问题&quot;&gt;&lt;/a&gt;遇到问题&lt;/h2&gt;&lt;p&gt;  码好代码，运行，发现蓝牙始终徘徊在&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;扫描 &amp;gt; 扫描结束 (timeout)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;  各种查阅资料后，找到根本原因：&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://kekemao00.github.io/categories/Android/"/>
+    
+      <category term="BLE" scheme="http://kekemao00.github.io/categories/Android/BLE/"/>
+    
+    
+      <category term="BLE" scheme="http://kekemao00.github.io/tags/BLE/"/>
+    
+      <category term="Android" scheme="http://kekemao00.github.io/tags/Android/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hiding the Navigation Bar</title>
+    <link href="http://kekemao00.github.io/2018/0120/hiding-navigationBar.html"/>
+    <id>http://kekemao00.github.io/2018/0120/hiding-navigationBar.html</id>
+    <published>2018-01-19T21:06:33.000Z</published>
+    <updated>2019-06-23T08:53:13.917Z</updated>
+    
+    <content type="html"><![CDATA[<p>去除虚拟导航</p><p>developer.android.com: <a href="https://developer.android.com/training/system-ui/navigation.html#behind" target="_blank" rel="noopener">Hiding the Navigation Bar</a></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideSystemNavigationBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt; <span class="number">11</span> &amp;&amp; Build.VERSION.SDK_INT &lt; <span class="number">19</span>) &#123;</span><br><span class="line">            View view = <span class="keyword">this</span>.getWindow().getDecorView();</span><br><span class="line">            view.setSystemUiVisibility(View.GONE);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">19</span>) &#123;</span><br><span class="line">            View decorView = getWindow().getDecorView();</span><br><span class="line">            <span class="keyword">int</span> uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br><span class="line">                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;</span><br><span class="line">            decorView.setSystemUiVisibility(uiOptions);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;去除虚拟导航&lt;/p&gt;
+&lt;p&gt;developer.android.com: &lt;a href=&quot;https://developer.android.com/training/system-ui/navigation.html#behind&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hiding the Navigation Bar&lt;/a&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;hideSystemNavigationBar&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt; &lt;span class=&quot;number&quot;&gt;11&lt;/span&gt; &amp;amp;&amp;amp; Build.VERSION.SDK_INT &amp;lt; &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View view = &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            view.setSystemUiVisibility(View.GONE);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt;= &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View decorView = getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            decorView.setSystemUiVisibility(uiOptions);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://kekemao00.github.io/categories/Android/"/>
+    
+      <category term="UI" scheme="http://kekemao00.github.io/categories/Android/UI/"/>
+    
+    
+      <category term="Navigation Bar" scheme="http://kekemao00.github.io/tags/Navigation-Bar/"/>
+    
+  </entry>
+  
+  <entry>
     <title>GitHub&#39;s Links</title>
     <link href="http://kekemao00.github.io/2018/0120/github-links.html"/>
     <id>http://kekemao00.github.io/2018/0120/github-links.html</id>
@@ -439,63 +486,6 @@
     
     
       <category term="Java" scheme="http://kekemao00.github.io/tags/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hiding the Navigation Bar</title>
-    <link href="http://kekemao00.github.io/2018/0120/hiding-navigationBar.html"/>
-    <id>http://kekemao00.github.io/2018/0120/hiding-navigationBar.html</id>
-    <published>2018-01-19T21:06:33.000Z</published>
-    <updated>2019-06-23T08:53:13.917Z</updated>
-    
-    <content type="html"><![CDATA[<p>去除虚拟导航</p><p>developer.android.com: <a href="https://developer.android.com/training/system-ui/navigation.html#behind" target="_blank" rel="noopener">Hiding the Navigation Bar</a></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideSystemNavigationBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt; <span class="number">11</span> &amp;&amp; Build.VERSION.SDK_INT &lt; <span class="number">19</span>) &#123;</span><br><span class="line">            View view = <span class="keyword">this</span>.getWindow().getDecorView();</span><br><span class="line">            view.setSystemUiVisibility(View.GONE);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">19</span>) &#123;</span><br><span class="line">            View decorView = getWindow().getDecorView();</span><br><span class="line">            <span class="keyword">int</span> uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br><span class="line">                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;</span><br><span class="line">            decorView.setSystemUiVisibility(uiOptions);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;去除虚拟导航&lt;/p&gt;
-&lt;p&gt;developer.android.com: &lt;a href=&quot;https://developer.android.com/training/system-ui/navigation.html#behind&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hiding the Navigation Bar&lt;/a&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;hideSystemNavigationBar&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt; &lt;span class=&quot;number&quot;&gt;11&lt;/span&gt; &amp;amp;&amp;amp; Build.VERSION.SDK_INT &amp;lt; &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View view = &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            view.setSystemUiVisibility(View.GONE);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt;= &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View decorView = getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            decorView.setSystemUiVisibility(uiOptions);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://kekemao00.github.io/categories/Android/"/>
-    
-      <category term="UI" scheme="http://kekemao00.github.io/categories/Android/UI/"/>
-    
-    
-      <category term="Navigation Bar" scheme="http://kekemao00.github.io/tags/Navigation-Bar/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>BLE 始终扫描不到蓝牙</title>
-    <link href="http://kekemao00.github.io/2018/0120/ble-android6.html"/>
-    <id>http://kekemao00.github.io/2018/0120/ble-android6.html</id>
-    <published>2018-01-19T21:06:33.000Z</published>
-    <updated>2019-06-23T08:53:13.917Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="BLE-始终扫描不到蓝牙"><a href="#BLE-始终扫描不到蓝牙" class="headerlink" title="BLE 始终扫描不到蓝牙"></a>BLE 始终扫描不到蓝牙</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>  <em>基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。</em></p><h2 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h2><p>  码好代码，运行，发现蓝牙始终徘徊在</p><blockquote><p>扫描 &gt; 扫描结束 (timeout)</p></blockquote><p>  各种查阅资料后，找到根本原因：</p>  <a id="more"></a><p>  android 6.0之后要用蓝牙还需要添加一个模糊定位的权限  </p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.permission.ACCESS_COARSE_LOCATION</span><br></pre></td></tr></table></figure><ul><li><p>Google 官方文档这样描述</p><blockquote><p><strong>Access to Hardware Identifier</strong></p></blockquote><blockquote><p>To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The <a href="https://developer.android.com/reference/android/net/wifi/WifiInfo.html#getMacAddress()" target="_blank" rel="noopener">WifiInfo.getMacAddress()</a> and the <a href="https://developer.android.com/reference/android/bluetooth/BluetoothAdapter.html#getAddress()" target="_blank" rel="noopener">BluetoothAdapter.getAddress()</a> methods now return a constant value of <em>02:00:00:00:00:00</em></p></blockquote><blockquote><p>To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_FINE_LOCATION" target="_blank" rel="noopener">ACCESS_FINE_LOCATION</a> or <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_COARSE_LOCATION" target="_blank" rel="noopener">ACCESS_COARSE_LOCATION</a> permissions:</p></blockquote><blockquote><ul><li><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.html#getScanResults()" target="_blank" rel="noopener">WifiManager.getScanResults()</a></li></ul></blockquote><blockquote><ul><li><a href="https://developer.android.com/reference/android/bluetooth/BluetoothDevice.html#ACTION_FOUND" target="_blank" rel="noopener">BluetoothDevice.ACTION_FOUND</a></li></ul></blockquote><blockquote><ul><li><a href="https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback)" target="_blank" rel="noopener">BluetoothLeScanner.startScan()</a></li></ul></blockquote><blockquote><blockquote><p><strong>Note:</strong> When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address.</p></blockquote></blockquote></li></ul><h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul><li><p>只需要在扫描 BLE 设备之前动态向用户申请位置权限</p><p>我的代码：</p></li></ul><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;<span class="comment">//如果 API level 是大于等于 23(Android 6.0) 时</span></span><br><span class="line">      <span class="comment">//判断是否具有权限</span></span><br><span class="line">      <span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>,</span><br><span class="line">              Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">          <span class="comment">//判断是否需要向用户解释为什么需要申请该权限</span></span><br><span class="line">          <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>,</span><br><span class="line">                  Manifest.permission.ACCESS_COARSE_LOCATION)) &#123;</span><br><span class="line">              Toast.makeText(<span class="keyword">this</span>, <span class="string">"自Android 6.0开始需要打开位置权限才可以搜索到Ble设备"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="comment">//请求权限</span></span><br><span class="line">          ActivityCompat.requestPermissions(<span class="keyword">this</span>,</span><br><span class="line">                  <span class="keyword">new</span> String[]&#123;Manifest.permission.ACCESS_COARSE_LOCATION&#125;,</span><br><span class="line">                  REQUEST_CODE_ACCESS_COARSE_LOCATION);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure><h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>问题解决。</p><!--以下是本文用到的超链接-->]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;BLE-始终扫描不到蓝牙&quot;&gt;&lt;a href=&quot;#BLE-始终扫描不到蓝牙&quot; class=&quot;headerlink&quot; title=&quot;BLE 始终扫描不到蓝牙&quot;&gt;&lt;/a&gt;BLE 始终扫描不到蓝牙&lt;/h1&gt;&lt;h2 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h2&gt;&lt;p&gt;  &lt;em&gt;基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。&lt;/em&gt;&lt;/p&gt;
-&lt;h2 id=&quot;遇到问题&quot;&gt;&lt;a href=&quot;#遇到问题&quot; class=&quot;headerlink&quot; title=&quot;遇到问题&quot;&gt;&lt;/a&gt;遇到问题&lt;/h2&gt;&lt;p&gt;  码好代码，运行，发现蓝牙始终徘徊在&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;扫描 &amp;gt; 扫描结束 (timeout)&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;  各种查阅资料后，找到根本原因：&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://kekemao00.github.io/categories/Android/"/>
-    
-      <category term="BLE" scheme="http://kekemao00.github.io/categories/Android/BLE/"/>
-    
-    
-      <category term="BLE" scheme="http://kekemao00.github.io/tags/BLE/"/>
-    
-      <category term="Android" scheme="http://kekemao00.github.io/tags/Android/"/>
     
   </entry>
   
