@@ -805,6 +805,30 @@ show_date_time();
 
 
 
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    /*
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item=>{
+      return GUEST.indexOf(item)>-1;
+    });
+    */
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: true,
+        appId: 'LTH0ylU1dpzdyXSNtfftVbbl-MdYXbMMI',
+        appKey: '8M1O1nn75RPr97jsCmyQ3lMu',
+        placeholder: '来都来了，不说点什么嘛~🤒',
+        avatar:'mm',
+      //  guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
 
 
 
