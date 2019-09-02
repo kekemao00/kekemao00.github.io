@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>MaoKe&#39;s Blog</title>
+  <title>独角博客</title>
   
-  <subtitle>独角博客</subtitle>
+  <subtitle>MaoKe&#39;s Blog</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://kekemao00.github.io/"/>
@@ -10,7 +10,7 @@
   <id>http://kekemao00.github.io/</id>
   
   <author>
-    <name>Mao Ke</name>
+    <name>Gavin Mao</name>
     
   </author>
   
