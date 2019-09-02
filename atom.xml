@@ -382,6 +382,32 @@
   </entry>
   
   <entry>
+    <title>Hiding the Navigation Bar</title>
+    <link href="http://kekemao00.github.io/2018/0120/hiding-navigationBar.html"/>
+    <id>http://kekemao00.github.io/2018/0120/hiding-navigationBar.html</id>
+    <published>2018-01-19T21:06:33.000Z</published>
+    <updated>2019-06-23T08:53:13.917Z</updated>
+    
+    <content type="html"><![CDATA[<p>去除虚拟导航</p><p>developer.android.com: <a href="https://developer.android.com/training/system-ui/navigation.html#behind" target="_blank" rel="noopener">Hiding the Navigation Bar</a></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideSystemNavigationBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt; <span class="number">11</span> &amp;&amp; Build.VERSION.SDK_INT &lt; <span class="number">19</span>) &#123;</span><br><span class="line">            View view = <span class="keyword">this</span>.getWindow().getDecorView();</span><br><span class="line">            view.setSystemUiVisibility(View.GONE);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">19</span>) &#123;</span><br><span class="line">            View decorView = getWindow().getDecorView();</span><br><span class="line">            <span class="keyword">int</span> uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br><span class="line">                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;</span><br><span class="line">            decorView.setSystemUiVisibility(uiOptions);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;去除虚拟导航&lt;/p&gt;
+&lt;p&gt;developer.android.com: &lt;a href=&quot;https://developer.android.com/training/system-ui/navigation.html#behind&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hiding the Navigation Bar&lt;/a&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;hideSystemNavigationBar&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt; &lt;span class=&quot;number&quot;&gt;11&lt;/span&gt; &amp;amp;&amp;amp; Build.VERSION.SDK_INT &amp;lt; &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View view = &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            view.setSystemUiVisibility(View.GONE);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt;= &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View decorView = getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            decorView.setSystemUiVisibility(uiOptions);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://kekemao00.github.io/categories/Android/"/>
+    
+      <category term="UI" scheme="http://kekemao00.github.io/categories/Android/UI/"/>
+    
+    
+      <category term="Navigation Bar" scheme="http://kekemao00.github.io/tags/Navigation-Bar/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Java 获取当前行</title>
     <link href="http://kekemao00.github.io/2018/0120/java-line.html"/>
     <id>http://kekemao00.github.io/2018/0120/java-line.html</id>
@@ -460,32 +486,6 @@
       <category term="BLE" scheme="http://kekemao00.github.io/tags/BLE/"/>
     
       <category term="Android" scheme="http://kekemao00.github.io/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hiding the Navigation Bar</title>
-    <link href="http://kekemao00.github.io/2018/0120/hiding-navigationBar.html"/>
-    <id>http://kekemao00.github.io/2018/0120/hiding-navigationBar.html</id>
-    <published>2018-01-19T21:06:33.000Z</published>
-    <updated>2019-06-23T08:53:13.917Z</updated>
-    
-    <content type="html"><![CDATA[<p>去除虚拟导航</p><p>developer.android.com: <a href="https://developer.android.com/training/system-ui/navigation.html#behind" target="_blank" rel="noopener">Hiding the Navigation Bar</a></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideSystemNavigationBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt; <span class="number">11</span> &amp;&amp; Build.VERSION.SDK_INT &lt; <span class="number">19</span>) &#123;</span><br><span class="line">            View view = <span class="keyword">this</span>.getWindow().getDecorView();</span><br><span class="line">            view.setSystemUiVisibility(View.GONE);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">19</span>) &#123;</span><br><span class="line">            View decorView = getWindow().getDecorView();</span><br><span class="line">            <span class="keyword">int</span> uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br><span class="line">                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;</span><br><span class="line">            decorView.setSystemUiVisibility(uiOptions);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;去除虚拟导航&lt;/p&gt;
-&lt;p&gt;developer.android.com: &lt;a href=&quot;https://developer.android.com/training/system-ui/navigation.html#behind&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hiding the Navigation Bar&lt;/a&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;hideSystemNavigationBar&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt; &lt;span class=&quot;number&quot;&gt;11&lt;/span&gt; &amp;amp;&amp;amp; Build.VERSION.SDK_INT &amp;lt; &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View view = &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            view.setSystemUiVisibility(View.GONE);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt;= &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View decorView = getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            decorView.setSystemUiVisibility(uiOptions);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://kekemao00.github.io/categories/Android/"/>
-    
-      <category term="UI" scheme="http://kekemao00.github.io/categories/Android/UI/"/>
-    
-    
-      <category term="Navigation Bar" scheme="http://kekemao00.github.io/tags/Navigation-Bar/"/>
     
   </entry>
   
