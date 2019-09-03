@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://kekemao00.github.io/"/>
-  <updated>2019-09-03T07:07:57.279Z</updated>
+  <updated>2019-09-03T07:10:05.006Z</updated>
   <id>http://kekemao00.github.io/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="http://kekemao00.github.io/2019/0830/docker.html"/>
     <id>http://kekemao00.github.io/2019/0830/docker.html</id>
     <published>2019-08-30T09:23:08.000Z</published>
-    <updated>2019-09-03T07:07:57.279Z</updated>
+    <updated>2019-09-03T07:10:05.006Z</updated>
     
-    <content type="html"><![CDATA[<p>docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例</p><a id="more"></a><h1 id="Docker-笔记-ubuntu"><a href="#Docker-笔记-ubuntu" class="headerlink" title="Docker 笔记 (ubuntu)"></a>Docker 笔记 (ubuntu)</h1><h2 id="volume-卷-持久化"><a href="#volume-卷-持久化" class="headerlink" title="volume 卷 (持久化)"></a>volume 卷 (持久化)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker volume ls</span><br><span class="line">docker volume create volume_name</span><br><span class="line">docker volume rm volume_name</span><br></pre></td></tr></table></figure><h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查找镜像</span></span><br><span class="line">docker search mysql</span><br><span class="line"><span class="comment"># 拉取官方镜像到本地</span></span><br><span class="line">docker pull mysql</span><br><span class="line">```  </span><br><span class="line"><span class="comment">## mysql 例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 运行 mysql 容器,映射到物理机 3306 端口</span></span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">docker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql</span><br></pre></td></tr></table></figure><p>常用参数: </p><ul><li><p><code>--rm</code> 说明容器用完就销毁,即停止后就删除了,就没了</p></li><li><p><code>-d</code> 容器在后台运行</p></li><li><p><code>-e</code> 给新创建的数据库设置 root 用户的密码</p></li><li><p><code>--name</code> 将容器命名为 <strong>mysql_3306</strong> ,建议命名后面根端口号</p></li><li><p><code>-v</code> 把容器的 <code>/var/lib/mysql</code> 映射到创建的数据卷上</p></li><li><p><code>-p</code> 前面宿主端口,后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口</p></li></ul><h3 id="操作容器"><a href="#操作容器" class="headerlink" title="操作容器"></a>操作容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker ps </span><br><span class="line">docker stop &lt;id 或 name&gt;</span><br><span class="line">docker stop &lt;id 或 name&gt;</span><br><span class="line">docker rm &lt;容器名称&gt;</span><br></pre></td></tr></table></figure><h3 id="进入-mysql-3306-容器"><a href="#进入-mysql-3306-容器" class="headerlink" title="进入 mysql_3306 容器"></a>进入 mysql_3306 容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mysql_3306 bash</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<p>docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例</p><a id="more"></a><h1 id="Docker-笔记-ubuntu"><a href="#Docker-笔记-ubuntu" class="headerlink" title="Docker 笔记 (ubuntu)"></a>Docker 笔记 (ubuntu)</h1><h2 id="volume-卷-持久化"><a href="#volume-卷-持久化" class="headerlink" title="volume 卷 (持久化)"></a>volume 卷 (持久化)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker volume ls</span><br><span class="line">docker volume create volume_name</span><br><span class="line">docker volume rm volume_name</span><br></pre></td></tr></table></figure><h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查找镜像</span></span><br><span class="line">docker search mysql</span><br><span class="line"><span class="comment"># 拉取官方镜像到本地</span></span><br><span class="line">docker pull mysql</span><br><span class="line">```  </span><br><span class="line"><span class="comment">## mysql 例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 运行 mysql 容器,映射到物理机 3306 端口</span></span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">docker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql</span><br></pre></td></tr></table></figure><p>常用参数: </p><ul><li><p><code>--rm</code> 说明容器用完就销毁, 即停止后就删除了, 就没了</p></li><li><p><code>-d</code> 容器在后台运行</p></li><li><p><code>-e</code> 给新创建的数据库设置 root 用户的密码</p></li><li><p><code>--name</code> 将容器命名为 <strong>mysql_3306</strong> , 建议命名后面根端口号</p></li><li><p><code>-v</code> 把容器的 <code>/var/lib/mysql</code> 映射到创建的数据卷上</p></li><li><p><code>-p</code> 前面宿主端口, 后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口</p></li></ul><h3 id="操作容器"><a href="#操作容器" class="headerlink" title="操作容器"></a>操作容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker ps </span><br><span class="line">docker stop &lt;id 或 name&gt;</span><br><span class="line">docker stop &lt;id 或 name&gt;</span><br><span class="line">docker rm &lt;容器名称&gt;</span><br></pre></td></tr></table></figure><h3 id="进入-mysql-3306-容器"><a href="#进入-mysql-3306-容器" class="headerlink" title="进入 mysql_3306 容器"></a>进入 mysql_3306 容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mysql_3306 bash</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
@@ -379,6 +379,35 @@
   </entry>
   
   <entry>
+    <title>GitHub&#39;s Links</title>
+    <link href="http://kekemao00.github.io/2018/0120/github-links.html"/>
+    <id>http://kekemao00.github.io/2018/0120/github-links.html</id>
+    <published>2018-01-19T21:06:33.000Z</published>
+    <updated>2019-06-23T08:53:13.917Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><ul><li><p><a href="https://github.com/trending" target="_blank" rel="noopener">GitHub 热门项目</a>  </p><p> GitHub 网站上最热门的项目（可按月，周，天查看）  </p></li><li><p><a href="https://octoverse.github.com" target="_blank" rel="noopener">GitHub 年度报告</a>  </p><p> 去年 GitHub 网站内容综合报告</p></li></ul><a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;GitHub&quot;&gt;&lt;a href=&quot;#GitHub&quot; class=&quot;headerlink&quot; title=&quot;GitHub&quot;&gt;&lt;/a&gt;GitHub&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/trending&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 热门项目&lt;/a&gt;  &lt;/p&gt;
+&lt;p&gt; GitHub 网站上最热门的项目（可按月，周，天查看）  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://octoverse.github.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 年度报告&lt;/a&gt;  &lt;/p&gt;
+&lt;p&gt; 去年 GitHub 网站内容综合报告&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="GitHub" scheme="http://kekemao00.github.io/categories/GitHub/"/>
+    
+    
+      <category term="GitHub" scheme="http://kekemao00.github.io/tags/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Hiding the Navigation Bar</title>
     <link href="http://kekemao00.github.io/2018/0120/hiding-navigationBar.html"/>
     <id>http://kekemao00.github.io/2018/0120/hiding-navigationBar.html</id>
@@ -454,35 +483,6 @@
       <category term="BLE" scheme="http://kekemao00.github.io/tags/BLE/"/>
     
       <category term="Android" scheme="http://kekemao00.github.io/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GitHub&#39;s Links</title>
-    <link href="http://kekemao00.github.io/2018/0120/github-links.html"/>
-    <id>http://kekemao00.github.io/2018/0120/github-links.html</id>
-    <published>2018-01-19T21:06:33.000Z</published>
-    <updated>2019-06-23T08:53:13.917Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><ul><li><p><a href="https://github.com/trending" target="_blank" rel="noopener">GitHub 热门项目</a>  </p><p> GitHub 网站上最热门的项目（可按月，周，天查看）  </p></li><li><p><a href="https://octoverse.github.com" target="_blank" rel="noopener">GitHub 年度报告</a>  </p><p> 去年 GitHub 网站内容综合报告</p></li></ul><a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;GitHub&quot;&gt;&lt;a href=&quot;#GitHub&quot; class=&quot;headerlink&quot; title=&quot;GitHub&quot;&gt;&lt;/a&gt;GitHub&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/trending&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 热门项目&lt;/a&gt;  &lt;/p&gt;
-&lt;p&gt; GitHub 网站上最热门的项目（可按月，周，天查看）  &lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://octoverse.github.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 年度报告&lt;/a&gt;  &lt;/p&gt;
-&lt;p&gt; 去年 GitHub 网站内容综合报告&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="GitHub" scheme="http://kekemao00.github.io/categories/GitHub/"/>
-    
-    
-      <category term="GitHub" scheme="http://kekemao00.github.io/tags/GitHub/"/>
     
   </entry>
   

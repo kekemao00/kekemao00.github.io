@@ -110,7 +110,7 @@
 <meta property="og:site_name" content="独角博客">
 <meta property="og:description" content="docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-03T07:07:57.279Z">
+<meta property="og:updated_time" content="2019-09-03T07:10:05.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker">
 <meta name="twitter:description" content="docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例">
@@ -498,17 +498,17 @@
 <h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查找镜像</span></span><br><span class="line">docker search mysql</span><br><span class="line"><span class="comment"># 拉取官方镜像到本地</span></span><br><span class="line">docker pull mysql</span><br><span class="line">```  </span><br><span class="line"><span class="comment">## mysql 例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 运行 mysql 容器,映射到物理机 3306 端口</span></span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">docker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql</span><br></pre></td></tr></table></figure>
 <p>常用参数: </p>
 <ul>
-<li><p><code>--rm</code> 说明容器用完就销毁,即停止后就删除了,就没了</p>
+<li><p><code>--rm</code> 说明容器用完就销毁, 即停止后就删除了, 就没了</p>
 </li>
 <li><p><code>-d</code> 容器在后台运行</p>
 </li>
 <li><p><code>-e</code> 给新创建的数据库设置 root 用户的密码</p>
 </li>
-<li><p><code>--name</code> 将容器命名为 <strong>mysql_3306</strong> ,建议命名后面根端口号</p>
+<li><p><code>--name</code> 将容器命名为 <strong>mysql_3306</strong> , 建议命名后面根端口号</p>
 </li>
 <li><p><code>-v</code> 把容器的 <code>/var/lib/mysql</code> 映射到创建的数据卷上</p>
 </li>
-<li><p><code>-p</code> 前面宿主端口,后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口</p>
+<li><p><code>-p</code> 前面宿主端口, 后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口</p>
 </li>
 </ul>
 <h3 id="操作容器"><a href="#操作容器" class="headerlink" title="操作容器"></a>操作容器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker ps </span><br><span class="line">docker stop &lt;id 或 name&gt;</span><br><span class="line">docker stop &lt;id 或 name&gt;</span><br><span class="line">docker rm &lt;容器名称&gt;</span><br></pre></td></tr></table></figure>

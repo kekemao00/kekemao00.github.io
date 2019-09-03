@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[docker]]></title>
     <url>%2F2019%2F0830%2Fdocker.html</url>
-    <content type="text"><![CDATA[docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例 Docker 笔记 (ubuntu)volume 卷 (持久化)123docker volume lsdocker volume create volume_namedocker volume rm volume_name 下载镜像1234567891011# 查找镜像docker search mysql# 拉取官方镜像到本地docker pull mysql``` ## mysql 例### 运行 mysql 容器,映射到物理机 3306 端口``` bashdocker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql 常用参数: --rm 说明容器用完就销毁,即停止后就删除了,就没了 -d 容器在后台运行 -e 给新创建的数据库设置 root 用户的密码 --name 将容器命名为 mysql_3306 ,建议命名后面根端口号 -v 把容器的 /var/lib/mysql 映射到创建的数据卷上 -p 前面宿主端口,后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口 操作容器1234docker ps docker stop &lt;id 或 name&gt;docker stop &lt;id 或 name&gt;docker rm &lt;容器名称&gt; 进入 mysql_3306 容器1docker exec -it mysql_3306 bash]]></content>
+    <content type="text"><![CDATA[docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例 Docker 笔记 (ubuntu)volume 卷 (持久化)123docker volume lsdocker volume create volume_namedocker volume rm volume_name 下载镜像1234567891011# 查找镜像docker search mysql# 拉取官方镜像到本地docker pull mysql``` ## mysql 例### 运行 mysql 容器,映射到物理机 3306 端口``` bashdocker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql 常用参数: --rm 说明容器用完就销毁, 即停止后就删除了, 就没了 -d 容器在后台运行 -e 给新创建的数据库设置 root 用户的密码 --name 将容器命名为 mysql_3306 , 建议命名后面根端口号 -v 把容器的 /var/lib/mysql 映射到创建的数据卷上 -p 前面宿主端口, 后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口 操作容器1234docker ps docker stop &lt;id 或 name&gt;docker stop &lt;id 或 name&gt;docker rm &lt;容器名称&gt; 进入 mysql_3306 容器1docker exec -it mysql_3306 bash]]></content>
       <categories>
         <category>docker</category>
       </categories>
@@ -142,6 +142,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[GitHub's Links]]></title>
+    <url>%2F2018%2F0120%2Fgithub-links.html</url>
+    <content type="text"><![CDATA[GitHub GitHub 热门项目 GitHub 网站上最热门的项目（可按月，周，天查看） GitHub 年度报告 去年 GitHub 网站内容综合报告]]></content>
+      <categories>
+        <category>GitHub</category>
+      </categories>
+      <tags>
+        <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Hiding the Navigation Bar]]></title>
     <url>%2F2018%2F0120%2Fhiding-navigationBar.html</url>
     <content type="text"><![CDATA[去除虚拟导航 developer.android.com: Hiding the Navigation Bar 1234567891011private void hideSystemNavigationBar() &#123; if (Build.VERSION.SDK_INT &gt; 11 &amp;&amp; Build.VERSION.SDK_INT &lt; 19) &#123; View view = this.getWindow().getDecorView(); view.setSystemUiVisibility(View.GONE); &#125; else if (Build.VERSION.SDK_INT &gt;= 19) &#123; View decorView = getWindow().getDecorView(); int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN; decorView.setSystemUiVisibility(uiOptions); &#125; &#125;]]></content>
@@ -175,17 +186,6 @@
       <tags>
         <tag>BLE</tag>
         <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[GitHub's Links]]></title>
-    <url>%2F2018%2F0120%2Fgithub-links.html</url>
-    <content type="text"><![CDATA[GitHub GitHub 热门项目 GitHub 网站上最热门的项目（可按月，周，天查看） GitHub 年度报告 去年 GitHub 网站内容综合报告]]></content>
-      <categories>
-        <category>GitHub</category>
-      </categories>
-      <tags>
-        <tag>GitHub</tag>
       </tags>
   </entry>
 </search>
