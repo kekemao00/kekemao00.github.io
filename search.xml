@@ -153,6 +153,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[GitHub's Links]]></title>
+    <url>%2F2018%2F0120%2Fgithub-links.html</url>
+    <content type="text"><![CDATA[GitHub GitHub 热门项目 GitHub 网站上最热门的项目（可按月，周，天查看） GitHub 年度报告 去年 GitHub 网站内容综合报告]]></content>
+      <categories>
+        <category>GitHub</category>
+      </categories>
+      <tags>
+        <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Hiding the Navigation Bar]]></title>
     <url>%2F2018%2F0120%2Fhiding-navigationBar.html</url>
     <content type="text"><![CDATA[去除虚拟导航 developer.android.com: Hiding the Navigation Bar 1234567891011private void hideSystemNavigationBar() &#123; if (Build.VERSION.SDK_INT &gt; 11 &amp;&amp; Build.VERSION.SDK_INT &lt; 19) &#123; View view = this.getWindow().getDecorView(); view.setSystemUiVisibility(View.GONE); &#125; else if (Build.VERSION.SDK_INT &gt;= 19) &#123; View decorView = getWindow().getDecorView(); int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN; decorView.setSystemUiVisibility(uiOptions); &#125; &#125;]]></content>
@@ -162,17 +173,6 @@
       </categories>
       <tags>
         <tag>Navigation Bar</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[GitHub's Links]]></title>
-    <url>%2F2018%2F0120%2Fgithub-links.html</url>
-    <content type="text"><![CDATA[GitHub GitHub 热门项目 GitHub 网站上最热门的项目（可按月，周，天查看） GitHub 年度报告 去年 GitHub 网站内容综合报告]]></content>
-      <categories>
-        <category>GitHub</category>
-      </categories>
-      <tags>
-        <tag>GitHub</tag>
       </tags>
   </entry>
   <entry>
