@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[docker]]></title>
     <url>%2F2019%2F0830%2Fdocker.html</url>
-    <content type="text"><![CDATA[docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例 Docker 笔记 (ubuntu)volume 卷(持久化)123docker volume lsdocker volume create volume_namedocker volume rm volume_name 下载镜像1234567891011# 查找镜像docker search mysql# 拉取官方镜像到本地docker pull mysql``` ## mysql 例### 运行 mysql 容器,映射到物理机 3306 端口``` bashdocker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql 常用参数: --rm 说明容器用完就销毁,即停止后就删除了,就没了 -d 容器在后台运行 -e 给新创建的数据库设置 root 用户的密码 --name 将容器命名为 mysql_3306 ,建议命名后面根端口号 -v 把容器的 /var/lib/mysql 映射到创建的数据卷上 -p 前面宿主端口,后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口 操作容器1234docker ps docker stop &lt;id 或 name&gt;docker stop &lt;id 或 name&gt;docker rm &lt;容器名称&gt; 进入 mysql_3306 容器1docker exec -it mysql_3306 bash]]></content>
+    <content type="text"><![CDATA[docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例 Docker 笔记 (ubuntu)volume 卷 (持久化)123docker volume lsdocker volume create volume_namedocker volume rm volume_name 下载镜像1234567891011# 查找镜像docker search mysql# 拉取官方镜像到本地docker pull mysql``` ## mysql 例### 运行 mysql 容器,映射到物理机 3306 端口``` bashdocker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql 常用参数: --rm 说明容器用完就销毁,即停止后就删除了,就没了 -d 容器在后台运行 -e 给新创建的数据库设置 root 用户的密码 --name 将容器命名为 mysql_3306 ,建议命名后面根端口号 -v 把容器的 /var/lib/mysql 映射到创建的数据卷上 -p 前面宿主端口,后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口 操作容器1234docker ps docker stop &lt;id 或 name&gt;docker stop &lt;id 或 name&gt;docker rm &lt;容器名称&gt; 进入 mysql_3306 容器1docker exec -it mysql_3306 bash]]></content>
       <categories>
         <category>docker</category>
       </categories>
@@ -154,6 +154,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Java 获取当前行]]></title>
+    <url>%2F2018%2F0120%2Fjava-line.html</url>
+    <content type="text"><![CDATA[java 获取当前行123456789101112131415/** * 获取当前代码行号 * * @return FileName:LineNumber */public static String getLineInfo() &#123; StackTraceElement ste = new Throwable().getStackTrace()[1]; /** ste.isNativeMethod();//本机方法 ste.getClassName();//类名 ste.getFileName();//文件名 ste.getLineNumber();//行号 ste.getMethodName();//方法名*/ return "--- File: " + ste.getFileName() + ", Class: " + ste.getClassName() + ", Method: " + ste.getMethodName() + "(), Line: " + ste.getLineNumber();&#125;]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[BLE 始终扫描不到蓝牙]]></title>
     <url>%2F2018%2F0120%2Fble-android6.html</url>
     <content type="text"><![CDATA[BLE 始终扫描不到蓝牙背景 基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。 遇到问题 码好代码，运行，发现蓝牙始终徘徊在 扫描 &gt; 扫描结束 (timeout) 各种查阅资料后，找到根本原因： android 6.0之后要用蓝牙还需要添加一个模糊定位的权限 1android.permission.ACCESS_COARSE_LOCATION Google 官方文档这样描述 Access to Hardware Identifier To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The WifiInfo.getMacAddress() and the BluetoothAdapter.getAddress() methods now return a constant value of 02:00:00:00:00:00 To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the ACCESS_FINE_LOCATION or ACCESS_COARSE_LOCATION permissions: WifiManager.getScanResults() BluetoothDevice.ACTION_FOUND BluetoothLeScanner.startScan() Note: When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address. 解决问题 只需要在扫描 BLE 设备之前动态向用户申请位置权限 我的代码： 123456789101112131415if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;//如果 API level 是大于等于 23(Android 6.0) 时 //判断是否具有权限 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) &#123; //判断是否需要向用户解释为什么需要申请该权限 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) &#123; Toast.makeText(this, "自Android 6.0开始需要打开位置权限才可以搜索到Ble设备", Toast.LENGTH_SHORT).show(); &#125; //请求权限 ActivityCompat.requestPermissions(this, new String[]&#123;Manifest.permission.ACCESS_COARSE_LOCATION&#125;, REQUEST_CODE_ACCESS_COARSE_LOCATION); &#125; &#125; 结果问题解决。]]></content>
@@ -164,17 +175,6 @@
       <tags>
         <tag>BLE</tag>
         <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Java 获取当前行]]></title>
-    <url>%2F2018%2F0120%2Fjava-line.html</url>
-    <content type="text"><![CDATA[java 获取当前行123456789101112131415/** * 获取当前代码行号 * * @return FileName:LineNumber */public static String getLineInfo() &#123; StackTraceElement ste = new Throwable().getStackTrace()[1]; /** ste.isNativeMethod();//本机方法 ste.getClassName();//类名 ste.getFileName();//文件名 ste.getLineNumber();//行号 ste.getMethodName();//方法名*/ return "--- File: " + ste.getFileName() + ", Class: " + ste.getClassName() + ", Method: " + ste.getMethodName() + "(), Line: " + ste.getLineNumber();&#125;]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
