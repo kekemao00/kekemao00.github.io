@@ -110,7 +110,7 @@
 <meta property="og:site_name" content="独角博客">
 <meta property="og:description" content="docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-08-31T02:00:56.059Z">
+<meta property="og:updated_time" content="2019-09-03T07:04:57.530Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="docker">
 <meta name="twitter:description" content="docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例">
@@ -494,7 +494,7 @@
       
         <p>docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例</p>
 <a id="more"></a>
-<h1 id="Docker-笔记-ubuntu"><a href="#Docker-笔记-ubuntu" class="headerlink" title="Docker 笔记(ubuntu)"></a>Docker 笔记(ubuntu)</h1><h2 id="volume-卷-持久化"><a href="#volume-卷-持久化" class="headerlink" title="volume 卷(持久化)"></a>volume 卷(持久化)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker volume ls</span><br><span class="line">docker volume create volume_name</span><br><span class="line">docker volume rm volume_name</span><br></pre></td></tr></table></figure>
+<h1 id="Docker-笔记-ubuntu"><a href="#Docker-笔记-ubuntu" class="headerlink" title="Docker 笔记 (ubuntu)"></a>Docker 笔记 (ubuntu)</h1><h2 id="volume-卷-持久化"><a href="#volume-卷-持久化" class="headerlink" title="volume 卷(持久化)"></a>volume 卷(持久化)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker volume ls</span><br><span class="line">docker volume create volume_name</span><br><span class="line">docker volume rm volume_name</span><br></pre></td></tr></table></figure>
 <h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查找镜像</span></span><br><span class="line">docker search mysql</span><br><span class="line"><span class="comment"># 拉取官方镜像到本地</span></span><br><span class="line">docker pull mysql</span><br><span class="line">```  </span><br><span class="line"><span class="comment">## mysql 例</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 运行 mysql 容器,映射到物理机 3306 端口</span></span><br><span class="line"></span><br><span class="line">``` bash</span><br><span class="line">docker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql</span><br></pre></td></tr></table></figure>
 <p>常用参数: </p>
 <ul>
@@ -889,7 +889,7 @@ show_date_time();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-笔记-ubuntu"><span class="nav-number">1.</span> <span class="nav-text">Docker 笔记(ubuntu)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#volume-卷-持久化"><span class="nav-number">1.1.</span> <span class="nav-text">volume 卷(持久化)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载镜像"><span class="nav-number">1.2.</span> <span class="nav-text">下载镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作容器"><span class="nav-number">1.2.1.</span> <span class="nav-text">操作容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入-mysql-3306-容器"><span class="nav-number">1.2.2.</span> <span class="nav-text">进入 mysql_3306 容器</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-笔记-ubuntu"><span class="nav-number">1.</span> <span class="nav-text">Docker 笔记 (ubuntu)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#volume-卷-持久化"><span class="nav-number">1.1.</span> <span class="nav-text">volume 卷(持久化)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下载镜像"><span class="nav-number">1.2.</span> <span class="nav-text">下载镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#操作容器"><span class="nav-number">1.2.1.</span> <span class="nav-text">操作容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入-mysql-3306-容器"><span class="nav-number">1.2.2.</span> <span class="nav-text">进入 mysql_3306 容器</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
