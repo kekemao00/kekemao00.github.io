@@ -278,6 +278,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-link"></i> <br>
+            
+            友链
+          </a>
+        </li>
+      
 
       
         <li class="menu-item menu-item-search">
@@ -506,29 +516,16 @@
 <li><p>Google 官方文档这样描述</p>
 <blockquote>
 <p><strong>Access to Hardware Identifier</strong></p>
-</blockquote>
-<blockquote>
 <p>To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The <a href="https://developer.android.com/reference/android/net/wifi/WifiInfo.html#getMacAddress()" target="_blank" rel="noopener">WifiInfo.getMacAddress()</a> and the <a href="https://developer.android.com/reference/android/bluetooth/BluetoothAdapter.html#getAddress()" target="_blank" rel="noopener">BluetoothAdapter.getAddress()</a> methods now return a constant value of <em>02:00:00:00:00:00</em></p>
-</blockquote>
-<blockquote>
 <p>To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_FINE_LOCATION" target="_blank" rel="noopener">ACCESS_FINE_LOCATION</a> or <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_COARSE_LOCATION" target="_blank" rel="noopener">ACCESS_COARSE_LOCATION</a> permissions:</p>
-</blockquote>
-<blockquote>
 <ul>
-<li><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.html#getScanResults()" target="_blank" rel="noopener">WifiManager.getScanResults()</a></li>
+<li><p><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.html#getScanResults()" target="_blank" rel="noopener">WifiManager.getScanResults()</a></p>
+</li>
+<li><p><a href="https://developer.android.com/reference/android/bluetooth/BluetoothDevice.html#ACTION_FOUND" target="_blank" rel="noopener">BluetoothDevice.ACTION_FOUND</a></p>
+</li>
+<li><p><a href="https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback)" target="_blank" rel="noopener">BluetoothLeScanner.startScan()</a></p>
+</li>
 </ul>
-</blockquote>
-<blockquote>
-<ul>
-<li><a href="https://developer.android.com/reference/android/bluetooth/BluetoothDevice.html#ACTION_FOUND" target="_blank" rel="noopener">BluetoothDevice.ACTION_FOUND</a></li>
-</ul>
-</blockquote>
-<blockquote>
-<ul>
-<li><a href="https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback)" target="_blank" rel="noopener">BluetoothLeScanner.startScan()</a></li>
-</ul>
-</blockquote>
-<blockquote>
 <blockquote>
 <p><strong>Note:</strong> When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address.</p>
 </blockquote>
@@ -640,14 +637,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2018/0120/java-line.html" rel="next" title="Java 获取当前行">
+                <i class="fa fa-chevron-left"></i> Java 获取当前行
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/0120/hiding-navigationBar.html" rel="prev" title="Hiding the Navigation Bar">
-                Hiding the Navigation Bar <i class="fa fa-chevron-right"></i>
+              <a href="/2018/0120/github-links.html" rel="prev" title="GitHub's Links">
+                GitHub's Links <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

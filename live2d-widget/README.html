@@ -8,12 +8,12 @@
 <li><a href="https://mi.js.org/live2d-widget/demo/demo2.html">demo2.html</a> ，仿NPM的登陆界面</li>
 </ul>
 <h2 id="依赖-Dependencies"><a href="#依赖-Dependencies" class="headerlink" title="依赖 Dependencies"></a>依赖 Dependencies</h2><p>本插件需要jQuery和font-awesome支持，请确保它们已在页面中加载，例如在<code>&lt;head&gt;</code>中加入：<br>jQuery and font-awesome is required for this plugin. You can add this to <code>&lt;head&gt;</code>:</p>
-<pre><code class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+<pre><code class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
 <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"https://cdn.jsdelivr.net/npm/font-awesome/css/font-awesome.min.css"</span>&gt;</span>
 </code></pre>
 <p>否则无法正常显示。（如果你的网页已经加载了jQuery，就不要重复加载了）</p>
 <h2 id="使用-Usage"><a href="#使用-Usage" class="headerlink" title="使用 Usage"></a>使用 Usage</h2><p>你可以直接这样使用：</p>
-<pre><code class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+<pre><code class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/gh/stevenjoezhang/live2d-widget/autoload.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
 </code></pre>
 <p>将这一行代码加入<code>&lt;head&gt;</code>或<code>&lt;body&gt;</code>，即可看到效果。如果你的网站启用了PJAX，由于看板娘不必每页刷新，因此需要注意将相关脚本放到PJAX刷新区域之外。</p>
 <p>换句话说，如果你是小白，或者只需要最基础的功能，就只需要：</p>
@@ -23,7 +23,7 @@
 </ul>
 <p><strong>但是！我们强烈推荐自己进行配置，否则很多功能是不完整的，并且可能产生问题！</strong><br>如果你有兴趣自己折腾的话，请看下面的详细说明。</p>
 <h3 id="Using-CDN"><a href="#Using-CDN" class="headerlink" title="Using CDN"></a>Using CDN</h3><p>如果要自定义有关内容，可以把这个仓库Fork一份，然后进行修改。这时，使用方法对应地变为</p>
-<pre><code class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/gh/username/live2d-widget/autoload.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+<pre><code class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://cdn.jsdelivr.net/gh/username/live2d-widget/autoload.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
 </code></pre>
 <p>将<code>username</code>替换为你的GitHub用户名即可。</p>
 <h3 id="Self-host"><a href="#Self-host" class="headerlink" title="Self-host"></a>Self-host</h3><p>你也可以直接把这些文件放到服务器上，而不是通过CDN加载。</p>
@@ -41,7 +41,7 @@ git <span class="built_in">clone</span> https://github.com/stevenjoezhang/live2d
 </code></pre><p>访问到<code>live2d.min.js</code>，那么就把<code>live2d_path</code>的值修改为</p>
 <pre><code>https://www.example.com/path/to/live2d-widget/
 </code></pre><p>路径末尾的<code>/</code>一定要加上。具体可以参考<code>autoload.js</code>内的注释。<br>完成后，在你要添加看板娘的界面加入</p>
-<pre><code class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://www.example.com/path/to/live2d-widget/autoload.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
+<pre><code class="xml"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://www.example.com/path/to/live2d-widget/autoload.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span>
 </code></pre>
 <p>就可以加载了。</p>
 <p><code>waifu-tips.json</code>中包含了触发条件（<code>selector</code>，选择器）和触发时显示的文字（<code>text</code>）。源文件是对Hexo的NexT主题有效的，为了适用于你自己的网页，也需要自行修改，或增加新内容。<br><strong>警告：作者不对包括但不限于<code>waifu-tips.json</code>和<code>waifu-tips.js</code>文件中的内容负责，请自行确保它们是合适的。</strong></p>
