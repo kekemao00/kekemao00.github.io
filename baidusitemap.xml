@@ -46,21 +46,39 @@
 
     
   <url>
-    <loc>http://kekemao00.github.io/2018/0122/git-rm.html</loc>
+    <loc>http://kekemao00.github.io/2018/0516/uninstall-jdk-for-mac.html</loc>
     <lastmod>2019-06-23T08:53:13.917Z</lastmod>
     <data>
         <display>
-        <title>Git 移除仓库文件</title>
-        <pubTime>2018-01-21T18:18:57.000Z</pubTime>
+        <title>MAC OS 卸载 JDK</title>
+        <pubTime>2018-05-16T14:27:58.000Z</pubTime>
         
-        <tag>Git</tag>
-         
-        <tag>.gitignore</tag>
+        <tag>Uninstall JDK</tag>
          
          
            
              
-              <breadCrumb title="Git" url="http://kekemao00.github.io/categories/Git/"/>
+              <breadCrumb title="Java" url="http://kekemao00.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kekemao00.github.io/2018/0120/github-links.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>GitHub's Links</title>
+        <pubTime>2018-01-19T21:06:33.000Z</pubTime>
+        
+        <tag>GitHub</tag>
+         
+         
+           
+             
+              <breadCrumb title="GitHub" url="http://kekemao00.github.io/categories/GitHub/"/>
           
         </display>
     </data>
@@ -91,46 +109,6 @@
 
     
   <url>
-    <loc>http://kekemao00.github.io/2018/0120/github-links.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>GitHub's Links</title>
-        <pubTime>2018-01-19T21:06:33.000Z</pubTime>
-        
-        <tag>GitHub</tag>
-         
-         
-           
-             
-              <breadCrumb title="GitHub" url="http://kekemao00.github.io/categories/GitHub/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kekemao00.github.io/2018/0516/uninstall-jdk-for-mac.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>MAC OS 卸载 JDK</title>
-        <pubTime>2018-05-16T14:27:58.000Z</pubTime>
-        
-        <tag>Uninstall JDK</tag>
-         
-         
-           
-             
-              <breadCrumb title="Java" url="http://kekemao00.github.io/categories/Java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://kekemao00.github.io/2018/0803/note_screen.html</loc>
     <lastmod>2019-06-23T08:53:13.917Z</lastmod>
     <data>
@@ -151,6 +129,28 @@
 
     
   <url>
+    <loc>http://kekemao00.github.io/2018/0122/git-rm.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>Git 移除仓库文件</title>
+        <pubTime>2018-01-21T18:18:57.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+        <tag>.gitignore</tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://kekemao00.github.io/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://kekemao00.github.io/2018/0901/adb-shell.html</loc>
     <lastmod>2019-06-23T08:53:13.917Z</lastmod>
     <data>
@@ -164,126 +164,6 @@
            
              
               <breadCrumb title="Shell" url="http://kekemao00.github.io/categories/Shell/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kekemao00.github.io/2018/0120/ble-android6.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>BLE 始终扫描不到蓝牙</title>
-        <pubTime>2018-01-19T21:06:33.000Z</pubTime>
-        
-        <tag>BLE</tag>
-         
-        <tag>Android</tag>
-         
-         
-           
-             
-              <breadCrumb title="Android" url="http://kekemao00.github.io/categories/Android/"/>
-          
-             
-              <breadCrumb title="BLE" url="http://kekemao00.github.io/categories/Android/BLE/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kekemao00.github.io/2018/0506/git-command.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>GIt-Command</title>
-        <pubTime>2018-05-06T15:54:58.000Z</pubTime>
-        
-        <tag>Git</tag>
-         
-         
-           
-             
-              <breadCrumb title="Git" url="http://kekemao00.github.io/categories/Git/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kekemao00.github.io/2018/0420/view-customize.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>描述 View 的绘制原 理</title>
-        <pubTime>2018-04-20T07:37:42.000Z</pubTime>
-        
-        <tag>View</tag>
-         
-         
-           
-             
-              <breadCrumb title="Android" url="http://kekemao00.github.io/categories/Android/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kekemao00.github.io/2018/0120/java-line.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>Java 获取当前行</title>
-        <pubTime>2018-01-19T21:06:33.000Z</pubTime>
-        
-        <tag>Java</tag>
-         
-         
-           
-             
-              <breadCrumb title="Java" url="http://kekemao00.github.io/categories/Java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kekemao00.github.io/2019/0623/2018-hello-world.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>Hello World</title>
-        <pubTime>2019-06-23T08:53:13.917Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kekemao00.github.io/2019/0422/git-ssh-config.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>使用 ssh 与远程仓库</title>
-        <pubTime>2019-04-21T16:49:33.000Z</pubTime>
-        
-        <tag>ssh</tag>
-         
-         
-           
-             
-              <breadCrumb title="安全" url="http://kekemao00.github.io/categories/%E5%AE%89%E5%85%A8/"/>
           
         </display>
     </data>
@@ -317,12 +197,52 @@
 
     
   <url>
-    <loc>http://kekemao00.github.io/2018/0123/Git-push-remote.html</loc>
+    <loc>http://kekemao00.github.io/2018/0120/java-line.html</loc>
     <lastmod>2019-06-23T08:53:13.917Z</lastmod>
     <data>
         <display>
-        <title>Git 提交到远程的正确操作</title>
-        <pubTime>2018-01-23T14:30:37.000Z</pubTime>
+        <title>Java 获取当前行</title>
+        <pubTime>2018-01-19T21:06:33.000Z</pubTime>
+        
+        <tag>Java</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://kekemao00.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kekemao00.github.io/2018/0420/view-customize.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>描述 View 的绘制原 理</title>
+        <pubTime>2018-04-20T07:37:42.000Z</pubTime>
+        
+        <tag>View</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://kekemao00.github.io/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kekemao00.github.io/2018/0506/git-command.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>GIt-Command</title>
+        <pubTime>2018-05-06T15:54:58.000Z</pubTime>
         
         <tag>Git</tag>
          
@@ -335,7 +255,6 @@
     </data>
     </url>
 
-    
     
   <url>
     <loc>http://kekemao00.github.io/2018/0123/git-command.html</loc>
@@ -357,4 +276,85 @@
     </url>
 
     
+  <url>
+    <loc>http://kekemao00.github.io/2019/0422/git-ssh-config.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>使用 ssh 与远程仓库</title>
+        <pubTime>2019-04-21T16:49:33.000Z</pubTime>
+        
+        <tag>ssh</tag>
+         
+         
+           
+             
+              <breadCrumb title="安全" url="http://kekemao00.github.io/categories/%E5%AE%89%E5%85%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kekemao00.github.io/2018/0120/ble-android6.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>BLE 始终扫描不到蓝牙</title>
+        <pubTime>2018-01-19T21:06:33.000Z</pubTime>
+        
+        <tag>BLE</tag>
+         
+        <tag>Android</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://kekemao00.github.io/categories/Android/"/>
+          
+             
+              <breadCrumb title="BLE" url="http://kekemao00.github.io/categories/Android/BLE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://kekemao00.github.io/2018/0123/Git-push-remote.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>Git 提交到远程的正确操作</title>
+        <pubTime>2018-01-23T14:30:37.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://kekemao00.github.io/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+  <url>
+    <loc>http://kekemao00.github.io/2019/0623/2018-hello-world.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>Hello World</title>
+        <pubTime>2019-06-23T08:53:13.917Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
 </urlset>
