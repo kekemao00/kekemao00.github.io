@@ -46,57 +46,31 @@
 
     
   <url>
-    <loc>http://kekemao00.github.io/2018/0803/note_screen.html</loc>
+    <loc>http://kekemao00.github.io/2019/0623/2018-hello-world.html</loc>
     <lastmod>2019-06-23T08:53:13.917Z</lastmod>
     <data>
         <display>
-        <title>Android 屏幕相关代码笔记</title>
-        <pubTime>2018-08-03T14:27:58.000Z</pubTime>
+        <title>Hello World</title>
+        <pubTime>2019-06-23T08:53:13.917Z</pubTime>
         
-        <tag>note</tag>
-         
          
            
-             
-              <breadCrumb title="Android" url="http://kekemao00.github.io/categories/Android/"/>
-          
         </display>
     </data>
     </url>
 
     
   <url>
-    <loc>http://kekemao00.github.io/2018/0120/hiding-navigationBar.html</loc>
+    <loc>http://kekemao00.github.io/2018/0122/git-rm.html</loc>
     <lastmod>2019-06-23T08:53:13.917Z</lastmod>
     <data>
         <display>
-        <title>Hiding the Navigation Bar</title>
-        <pubTime>2018-01-19T21:06:33.000Z</pubTime>
-        
-        <tag>Navigation Bar</tag>
-         
-         
-           
-             
-              <breadCrumb title="Android" url="http://kekemao00.github.io/categories/Android/"/>
-          
-             
-              <breadCrumb title="UI" url="http://kekemao00.github.io/categories/Android/UI/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kekemao00.github.io/2018/0123/Git-push-remote.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>Git 提交到远程的正确操作</title>
-        <pubTime>2018-01-23T14:30:37.000Z</pubTime>
+        <title>Git 移除仓库文件</title>
+        <pubTime>2018-01-21T18:18:57.000Z</pubTime>
         
         <tag>Git</tag>
+         
+        <tag>.gitignore</tag>
          
          
            
@@ -129,6 +103,26 @@
 
     
   <url>
+    <loc>http://kekemao00.github.io/2018/0516/uninstall-jdk-for-mac.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>MAC OS 卸载 JDK</title>
+        <pubTime>2018-05-16T14:27:58.000Z</pubTime>
+        
+        <tag>Uninstall JDK</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://kekemao00.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://kekemao00.github.io/2018/0901/adb-shell.html</loc>
     <lastmod>2019-06-23T08:53:13.917Z</lastmod>
     <data>
@@ -149,15 +143,20 @@
 
     
   <url>
-    <loc>http://kekemao00.github.io/2019/0623/2018-hello-world.html</loc>
+    <loc>http://kekemao00.github.io/2018/0803/note_screen.html</loc>
     <lastmod>2019-06-23T08:53:13.917Z</lastmod>
     <data>
         <display>
-        <title>Hello World</title>
-        <pubTime>2019-06-23T08:53:13.917Z</pubTime>
+        <title>Android 屏幕相关代码笔记</title>
+        <pubTime>2018-08-03T14:27:58.000Z</pubTime>
         
+        <tag>note</tag>
+         
          
            
+             
+              <breadCrumb title="Android" url="http://kekemao00.github.io/categories/Android/"/>
+          
         </display>
     </data>
     </url>
@@ -209,25 +208,22 @@
 
     
   <url>
-    <loc>http://kekemao00.github.io/2018/0122/keyevent-listen.html</loc>
+    <loc>http://kekemao00.github.io/2018/0120/hiding-navigationBar.html</loc>
     <lastmod>2019-06-23T08:53:13.917Z</lastmod>
     <data>
         <display>
-        <title>Android 中 HOME, MENU, BACK 按键的监听</title>
-        <pubTime>2018-01-21T17:59:33.000Z</pubTime>
+        <title>Hiding the Navigation Bar</title>
+        <pubTime>2018-01-19T21:06:33.000Z</pubTime>
         
-        <tag>KeyEvent</tag>
-         
-        <tag>HOME</tag>
-         
-        <tag>BACK</tag>
-         
-        <tag>MENU</tag>
+        <tag>Navigation Bar</tag>
          
          
            
              
               <breadCrumb title="Android" url="http://kekemao00.github.io/categories/Android/"/>
+          
+             
+              <breadCrumb title="UI" url="http://kekemao00.github.io/categories/Android/UI/"/>
           
         </display>
     </data>
@@ -295,6 +291,54 @@
 
     
   <url>
+    <loc>http://kekemao00.github.io/2018/0123/Git-push-remote.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>Git 提交到远程的正确操作</title>
+        <pubTime>2018-01-23T14:30:37.000Z</pubTime>
+        
+        <tag>Git</tag>
+         
+         
+           
+             
+              <breadCrumb title="Git" url="http://kekemao00.github.io/categories/Git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
+    <loc>http://kekemao00.github.io/2018/0122/keyevent-listen.html</loc>
+    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
+    <data>
+        <display>
+        <title>Android 中 HOME, MENU, BACK 按键的监听</title>
+        <pubTime>2018-01-21T17:59:33.000Z</pubTime>
+        
+        <tag>KeyEvent</tag>
+         
+        <tag>HOME</tag>
+         
+        <tag>BACK</tag>
+         
+        <tag>MENU</tag>
+         
+         
+           
+             
+              <breadCrumb title="Android" url="http://kekemao00.github.io/categories/Android/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
     <loc>http://kekemao00.github.io/2018/0123/git-command.html</loc>
     <lastmod>2019-06-23T08:53:13.917Z</lastmod>
     <data>
@@ -313,48 +357,4 @@
     </data>
     </url>
 
-    
-    
-  <url>
-    <loc>http://kekemao00.github.io/2018/0516/uninstall-jdk-for-mac.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>MAC OS 卸载 JDK</title>
-        <pubTime>2018-05-16T14:27:58.000Z</pubTime>
-        
-        <tag>Uninstall JDK</tag>
-         
-         
-           
-             
-              <breadCrumb title="Java" url="http://kekemao00.github.io/categories/Java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://kekemao00.github.io/2018/0122/git-rm.html</loc>
-    <lastmod>2019-06-23T08:53:13.917Z</lastmod>
-    <data>
-        <display>
-        <title>Git 移除仓库文件</title>
-        <pubTime>2018-01-21T18:18:57.000Z</pubTime>
-        
-        <tag>Git</tag>
-         
-        <tag>.gitignore</tag>
-         
-         
-           
-             
-              <breadCrumb title="Git" url="http://kekemao00.github.io/categories/Git/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
 </urlset>
