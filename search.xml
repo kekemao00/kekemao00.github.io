@@ -142,6 +142,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Java 获取当前行]]></title>
+    <url>%2F2018%2F0120%2Fjava-line.html</url>
+    <content type="text"><![CDATA[java 获取当前行123456789101112131415/** * 获取当前代码行号 * * @return FileName:LineNumber */public static String getLineInfo() &#123; StackTraceElement ste = new Throwable().getStackTrace()[1]; /** ste.isNativeMethod();//本机方法 ste.getClassName();//类名 ste.getFileName();//文件名 ste.getLineNumber();//行号 ste.getMethodName();//方法名*/ return "--- File: " + ste.getFileName() + ", Class: " + ste.getClassName() + ", Method: " + ste.getMethodName() + "(), Line: " + ste.getLineNumber();&#125;]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Hiding the Navigation Bar]]></title>
     <url>%2F2018%2F0120%2Fhiding-navigationBar.html</url>
     <content type="text"><![CDATA[去除虚拟导航 developer.android.com: Hiding the Navigation Bar 1234567891011private void hideSystemNavigationBar() &#123; if (Build.VERSION.SDK_INT &gt; 11 &amp;&amp; Build.VERSION.SDK_INT &lt; 19) &#123; View view = this.getWindow().getDecorView(); view.setSystemUiVisibility(View.GONE); &#125; else if (Build.VERSION.SDK_INT &gt;= 19) &#123; View decorView = getWindow().getDecorView(); int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN; decorView.setSystemUiVisibility(uiOptions); &#125; &#125;]]></content>
@@ -164,17 +175,6 @@
       <tags>
         <tag>BLE</tag>
         <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Java 获取当前行]]></title>
-    <url>%2F2018%2F0120%2Fjava-line.html</url>
-    <content type="text"><![CDATA[java 获取当前行123456789101112131415/** * 获取当前代码行号 * * @return FileName:LineNumber */public static String getLineInfo() &#123; StackTraceElement ste = new Throwable().getStackTrace()[1]; /** ste.isNativeMethod();//本机方法 ste.getClassName();//类名 ste.getFileName();//文件名 ste.getLineNumber();//行号 ste.getMethodName();//方法名*/ return "--- File: " + ste.getFileName() + ", Class: " + ste.getClassName() + ", Method: " + ste.getMethodName() + "(), Line: " + ste.getLineNumber();&#125;]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
       </tags>
   </entry>
   <entry>
