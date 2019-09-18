@@ -165,6 +165,17 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Java 获取当前行]]></title>
+    <url>%2F2018%2F0120%2Fjava-line.html</url>
+    <content type="text"><![CDATA[java 获取当前行123456789101112131415/** * 获取当前代码行号 * * @return FileName:LineNumber */public static String getLineInfo() &#123; StackTraceElement ste = new Throwable().getStackTrace()[1]; /** ste.isNativeMethod();//本机方法 ste.getClassName();//类名 ste.getFileName();//文件名 ste.getLineNumber();//行号 ste.getMethodName();//方法名*/ return "--- File: " + ste.getFileName() + ", Class: " + ste.getClassName() + ", Method: " + ste.getMethodName() + "(), Line: " + ste.getLineNumber();&#125;]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[GitHub's Links]]></title>
     <url>%2F2018%2F0120%2Fgithub-links.html</url>
     <content type="text"><![CDATA[GitHub GitHub 热门项目 GitHub 网站上最热门的项目（可按月，周，天查看） GitHub 年度报告 去年 GitHub 网站内容综合报告]]></content>
@@ -186,17 +197,6 @@
       <tags>
         <tag>BLE</tag>
         <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Java 获取当前行]]></title>
-    <url>%2F2018%2F0120%2Fjava-line.html</url>
-    <content type="text"><![CDATA[java 获取当前行123456789101112131415/** * 获取当前代码行号 * * @return FileName:LineNumber */public static String getLineInfo() &#123; StackTraceElement ste = new Throwable().getStackTrace()[1]; /** ste.isNativeMethod();//本机方法 ste.getClassName();//类名 ste.getFileName();//文件名 ste.getLineNumber();//行号 ste.getMethodName();//方法名*/ return "--- File: " + ste.getFileName() + ", Class: " + ste.getClassName() + ", Method: " + ste.getMethodName() + "(), Line: " + ste.getLineNumber();&#125;]]></content>
-      <categories>
-        <category>Java</category>
-      </categories>
-      <tags>
-        <tag>Java</tag>
       </tags>
   </entry>
 </search>
