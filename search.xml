@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[JDK 版本特性]]></title>
+    <url>%2F2019%2F0917%2FJDK-version-feature.html</url>
+    <content type="text"><![CDATA[记录了 JDK5 至 JDK13 的每个版本特性 JDK 不同版本特性JDK5 新特性 foreach 迭代方式 可变参数 枚举 自动拆装箱 泛型 注解等重要特性。 JDK6 新特性 Desktop 类和 SystemTray 类， 使用 Complier API, 轻量级 HTTPServer API, 对脚步语言得支持, Common Annotations 等重要特性。 JDK7 新特性 Switch 支持字符串作为匹配条件 泛型类型自动推断 try-with-resources 资源关闭技巧 Object 工具类 ForkJoinPool 等重要类与特性。 JDK8 新特性 接口得默认方法实现与静态方法 Lambda 表达式 函数式接口 方法与构造函数引用 新的日期与时间 API 流式处理等重要特性。 JDK9 新特性 Jigsaw 模块化项目 简化进程 API 轻量级 JSON API 钱和货币 API 进程改善和锁机制优化 代码分段缓存等重要特性。 JDK10 新特性 局部变量得自动推断， 改进 GC 和内存管理 线程本地握手 备用内存设备上的堆分配等重要特性。 JDK11 新特性 删除了 Java EE 和 CORBA 模块 增加了嵌套的访问控制 支持动态类文件常量 改进 Aarch64 内联函数 提供实验性质得可扩展的的延迟垃圾收集器 ZGC 等重要特性。 JDK12 新特性 对 Switch 进行了增强，除了使用 statement 还可以使用 expression, 325：Switch Expressions(Preview) JDK13 新特性 扩展应用程序类-数据共享 JPE 350 增强 ZGC 以将未使用的堆内存返回给操作系统 JPE 351 使用易于维护和调试的更简单、更现代的实现替换 java.net.Socket 和 java.net.ServerSocket API 使用的底层实现 JPE 353 可在生产环境中使用的 switch 表达式，JDK 13 中将带来一个 beta 版本实现 JPE 354 将文本块添加到 Java 语言。JPE 355 文本块是一个多行字符串文字，它避免了对大多数转义序列的需要，以可预测的方式自动格式化字符串，并在需要时让开发人员控制格式。]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>java,JDK</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[docker]]></title>
     <url>%2F2019%2F0830%2Fdocker.html</url>
     <content type="text"><![CDATA[docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例 Docker 笔记 (ubuntu)volume 卷 (持久化)123docker volume lsdocker volume create volume_namedocker volume rm volume_name 下载镜像1234567891011# 查找镜像docker search mysql# 拉取官方镜像到本地docker pull mysql``` ## mysql 例### 运行 mysql 容器,映射到物理机 3306 端口``` bashdocker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql 常用参数: --rm 说明容器用完就销毁, 即停止后就删除了, 就没了 -d 容器在后台运行 -e 给新创建的数据库设置 root 用户的密码 --name 将容器命名为 mysql_3306 , 建议命名后面根端口号 -v 把容器的 /var/lib/mysql 映射到创建的数据卷上 -p 前面宿主端口, 后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口 操作容器1234docker ps docker stop &lt;id 或 name&gt;docker stop &lt;id 或 name&gt;docker rm &lt;容器名称&gt; 进入 mysql_3306 容器1docker exec -it mysql_3306 bash]]></content>
@@ -142,6 +153,29 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Hiding the Navigation Bar]]></title>
+    <url>%2F2018%2F0120%2Fhiding-navigationBar.html</url>
+    <content type="text"><![CDATA[去除虚拟导航 developer.android.com: Hiding the Navigation Bar 1234567891011private void hideSystemNavigationBar() &#123; if (Build.VERSION.SDK_INT &gt; 11 &amp;&amp; Build.VERSION.SDK_INT &lt; 19) &#123; View view = this.getWindow().getDecorView(); view.setSystemUiVisibility(View.GONE); &#125; else if (Build.VERSION.SDK_INT &gt;= 19) &#123; View decorView = getWindow().getDecorView(); int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN; decorView.setSystemUiVisibility(uiOptions); &#125; &#125;]]></content>
+      <categories>
+        <category>Android</category>
+        <category>UI</category>
+      </categories>
+      <tags>
+        <tag>Navigation Bar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[GitHub's Links]]></title>
+    <url>%2F2018%2F0120%2Fgithub-links.html</url>
+    <content type="text"><![CDATA[GitHub GitHub 热门项目 GitHub 网站上最热门的项目（可按月，周，天查看） GitHub 年度报告 去年 GitHub 网站内容综合报告]]></content>
+      <categories>
+        <category>GitHub</category>
+      </categories>
+      <tags>
+        <tag>GitHub</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Java 获取当前行]]></title>
     <url>%2F2018%2F0120%2Fjava-line.html</url>
     <content type="text"><![CDATA[java 获取当前行123456789101112131415/** * 获取当前代码行号 * * @return FileName:LineNumber */public static String getLineInfo() &#123; StackTraceElement ste = new Throwable().getStackTrace()[1]; /** ste.isNativeMethod();//本机方法 ste.getClassName();//类名 ste.getFileName();//文件名 ste.getLineNumber();//行号 ste.getMethodName();//方法名*/ return "--- File: " + ste.getFileName() + ", Class: " + ste.getClassName() + ", Method: " + ste.getMethodName() + "(), Line: " + ste.getLineNumber();&#125;]]></content>
@@ -163,29 +197,6 @@
       <tags>
         <tag>BLE</tag>
         <tag>Android</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[GitHub's Links]]></title>
-    <url>%2F2018%2F0120%2Fgithub-links.html</url>
-    <content type="text"><![CDATA[GitHub GitHub 热门项目 GitHub 网站上最热门的项目（可按月，周，天查看） GitHub 年度报告 去年 GitHub 网站内容综合报告]]></content>
-      <categories>
-        <category>GitHub</category>
-      </categories>
-      <tags>
-        <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Hiding the Navigation Bar]]></title>
-    <url>%2F2018%2F0120%2Fhiding-navigationBar.html</url>
-    <content type="text"><![CDATA[去除虚拟导航 developer.android.com: Hiding the Navigation Bar 1234567891011private void hideSystemNavigationBar() &#123; if (Build.VERSION.SDK_INT &gt; 11 &amp;&amp; Build.VERSION.SDK_INT &lt; 19) &#123; View view = this.getWindow().getDecorView(); view.setSystemUiVisibility(View.GONE); &#125; else if (Build.VERSION.SDK_INT &gt;= 19) &#123; View decorView = getWindow().getDecorView(); int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN; decorView.setSystemUiVisibility(uiOptions); &#125; &#125;]]></content>
-      <categories>
-        <category>Android</category>
-        <category>UI</category>
-      </categories>
-      <tags>
-        <tag>Navigation Bar</tag>
       </tags>
   </entry>
 </search>

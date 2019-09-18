@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://kekemao00.github.io/"/>
-  <updated>2019-09-03T07:10:05.006Z</updated>
+  <updated>2019-09-18T03:47:39.071Z</updated>
   <id>http://kekemao00.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JDK 版本特性</title>
+    <link href="http://kekemao00.github.io/2019/0917/JDK-version-feature.html"/>
+    <id>http://kekemao00.github.io/2019/0917/JDK-version-feature.html</id>
+    <published>2019-09-17T05:36:08.000Z</published>
+    <updated>2019-09-18T03:47:39.071Z</updated>
+    
+    <content type="html"><![CDATA[<p>记录了 <strong>JDK5</strong> 至 <strong>JDK13</strong> 的每个版本特性</p><a id="more"></a><h1 id="JDK-不同版本特性"><a href="#JDK-不同版本特性" class="headerlink" title="JDK 不同版本特性"></a>JDK 不同版本特性</h1><h2 id="JDK5-新特性"><a href="#JDK5-新特性" class="headerlink" title="JDK5 新特性"></a>JDK5 新特性</h2><ul><li><code>foreach</code> 迭代方式</li><li>可变参数</li><li>枚举</li><li>自动拆装箱</li><li>泛型</li><li>注解等重要特性。</li></ul><h2 id="JDK6-新特性"><a href="#JDK6-新特性" class="headerlink" title="JDK6 新特性"></a>JDK6 新特性</h2><ul><li><code>Desktop</code> 类和 <code>SystemTray</code> 类，</li><li>使用 <code>Complier</code> API,</li><li>轻量级 <code>HTTPServer</code> API, </li><li>对脚步语言得支持, </li><li>Common Annotations 等重要特性。</li></ul><h2 id="JDK7-新特性"><a href="#JDK7-新特性" class="headerlink" title="JDK7 新特性"></a>JDK7 新特性</h2><ul><li><code>Switch</code> 支持字符串作为匹配条件 </li><li>泛型类型自动推断</li><li><code>try-with-resources</code> 资源关闭技巧</li><li><code>Object</code> 工具类</li><li><code>ForkJoinPool</code> 等重要类与特性。</li></ul><h2 id="JDK8-新特性"><a href="#JDK8-新特性" class="headerlink" title="JDK8 新特性"></a>JDK8 新特性</h2><ul><li>接口得默认方法实现与静态方法 </li><li><em>Lambda</em> 表达式 </li><li>函数式接口 </li><li>方法与构造函数引用 </li><li>新的日期与时间 API</li><li>流式处理等重要特性。</li></ul><h2 id="JDK9-新特性"><a href="#JDK9-新特性" class="headerlink" title="JDK9 新特性"></a>JDK9 新特性</h2><ul><li>Jigsaw 模块化项目</li><li>简化进程 API</li><li>轻量级 JSON API </li><li>钱和货币 API </li><li>进程改善和锁机制优化</li><li>代码分段缓存等重要特性。</li></ul><h2 id="JDK10-新特性"><a href="#JDK10-新特性" class="headerlink" title="JDK10 新特性"></a><a href="http://openjdk.java.net/projects/jdk/10/" title="JDK10" target="_blank" rel="noopener">JDK10</a> 新特性</h2><ul><li>局部变量得自动推断，</li><li>改进 GC 和内存管理 </li><li>线程本地握手</li><li>备用内存设备上的堆分配等重要特性。</li></ul><h2 id="JDK11-新特性"><a href="#JDK11-新特性" class="headerlink" title="JDK11 新特性"></a><a href="http://openjdk.java.net/projects/jdk/11/" title="JDK11" target="_blank" rel="noopener">JDK11</a> 新特性</h2><ul><li>删除了 Java EE 和 CORBA 模块</li><li>增加了嵌套的访问控制</li><li>支持动态类文件常量</li><li>改进 Aarch64 内联函数</li><li>提供实验性质得可扩展的的延迟垃圾收集器 ZGC 等重要特性。</li></ul><h2 id="JDK12-新特性"><a href="#JDK12-新特性" class="headerlink" title="JDK12 新特性"></a><a href="http://openjdk.java.net/projects/jdk/12/" title="JDK12" target="_blank" rel="noopener">JDK12</a> 新特性</h2><ul><li>对 Switch 进行了增强，除了使用 statement 还可以使用 expression, <a href="http://openjdk.java.net/jeps/325" title="JPE 325" target="_blank" rel="noopener">325：Switch Expressions(Preview)</a></li></ul><h2 id="JDK13-新特性"><a href="#JDK13-新特性" class="headerlink" title="JDK13 新特性"></a><a href="http://openjdk.java.net/projects/jdk/13/" title="JDK13" target="_blank" rel="noopener">JDK13</a> 新特性</h2><ul><li>扩展应用程序类-数据共享 <a href="https://openjdk.java.net/jeps/350" title="JPE 350" target="_blank" rel="noopener">JPE 350</a></li><li>增强 ZGC 以将未使用的堆内存返回给操作系统 <a href="https://openjdk.java.net/jeps/351" title="JPE 351" target="_blank" rel="noopener">JPE 351</a></li><li>使用易于维护和调试的更简单、更现代的实现替换 java.net.Socket 和 java.net.ServerSocket API 使用的底层实现 <a href="https://openjdk.java.net/jeps/353" title="JPE 353" target="_blank" rel="noopener">JPE 353</a></li><li>可在生产环境中使用的 switch 表达式，JDK 13 中将带来一个 beta 版本实现 <a href="https://openjdk.java.net/jeps/354" title="JPE 354" target="_blank" rel="noopener">JPE 354</a></li><li>将文本块添加到 Java 语言。<a href="https://openjdk.java.net/jeps/355" title="JPE 355" target="_blank" rel="noopener">JPE 355</a><br>  文本块是一个多行字符串文字，它避免了对大多数转义序列的需要，以可预测的方式自动格式化字符串，并在需要时让开发人员控制格式。</li></ul><hr>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;记录了 &lt;strong&gt;JDK5&lt;/strong&gt; 至 &lt;strong&gt;JDK13&lt;/strong&gt; 的每个版本特性&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Java" scheme="http://kekemao00.github.io/categories/Java/"/>
+    
+    
+      <category term="java,JDK" scheme="http://kekemao00.github.io/tags/java-JDK/"/>
+    
+  </entry>
   
   <entry>
     <title>docker</title>
@@ -379,6 +401,61 @@
   </entry>
   
   <entry>
+    <title>Hiding the Navigation Bar</title>
+    <link href="http://kekemao00.github.io/2018/0120/hiding-navigationBar.html"/>
+    <id>http://kekemao00.github.io/2018/0120/hiding-navigationBar.html</id>
+    <published>2018-01-19T21:06:33.000Z</published>
+    <updated>2019-06-23T08:53:13.917Z</updated>
+    
+    <content type="html"><![CDATA[<p>去除虚拟导航</p><p>developer.android.com: <a href="https://developer.android.com/training/system-ui/navigation.html#behind" target="_blank" rel="noopener">Hiding the Navigation Bar</a></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideSystemNavigationBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt; <span class="number">11</span> &amp;&amp; Build.VERSION.SDK_INT &lt; <span class="number">19</span>) &#123;</span><br><span class="line">            View view = <span class="keyword">this</span>.getWindow().getDecorView();</span><br><span class="line">            view.setSystemUiVisibility(View.GONE);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">19</span>) &#123;</span><br><span class="line">            View decorView = getWindow().getDecorView();</span><br><span class="line">            <span class="keyword">int</span> uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br><span class="line">                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;</span><br><span class="line">            decorView.setSystemUiVisibility(uiOptions);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;去除虚拟导航&lt;/p&gt;
+&lt;p&gt;developer.android.com: &lt;a href=&quot;https://developer.android.com/training/system-ui/navigation.html#behind&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hiding the Navigation Bar&lt;/a&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;hideSystemNavigationBar&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt; &lt;span class=&quot;number&quot;&gt;11&lt;/span&gt; &amp;amp;&amp;amp; Build.VERSION.SDK_INT &amp;lt; &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View view = &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            view.setSystemUiVisibility(View.GONE);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt;= &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View decorView = getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            decorView.setSystemUiVisibility(uiOptions);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://kekemao00.github.io/categories/Android/"/>
+    
+      <category term="UI" scheme="http://kekemao00.github.io/categories/Android/UI/"/>
+    
+    
+      <category term="Navigation Bar" scheme="http://kekemao00.github.io/tags/Navigation-Bar/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>GitHub&#39;s Links</title>
+    <link href="http://kekemao00.github.io/2018/0120/github-links.html"/>
+    <id>http://kekemao00.github.io/2018/0120/github-links.html</id>
+    <published>2018-01-19T21:06:33.000Z</published>
+    <updated>2019-06-23T08:53:13.917Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><ul><li><p><a href="https://github.com/trending" target="_blank" rel="noopener">GitHub 热门项目</a>  </p><p> GitHub 网站上最热门的项目（可按月，周，天查看）  </p></li><li><p><a href="https://octoverse.github.com" target="_blank" rel="noopener">GitHub 年度报告</a>  </p><p> 去年 GitHub 网站内容综合报告</p></li></ul><a id="more"></a>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;GitHub&quot;&gt;&lt;a href=&quot;#GitHub&quot; class=&quot;headerlink&quot; title=&quot;GitHub&quot;&gt;&lt;/a&gt;GitHub&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/trending&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 热门项目&lt;/a&gt;  &lt;/p&gt;
+&lt;p&gt; GitHub 网站上最热门的项目（可按月，周，天查看）  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://octoverse.github.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 年度报告&lt;/a&gt;  &lt;/p&gt;
+&lt;p&gt; 去年 GitHub 网站内容综合报告&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="GitHub" scheme="http://kekemao00.github.io/categories/GitHub/"/>
+    
+    
+      <category term="GitHub" scheme="http://kekemao00.github.io/tags/GitHub/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Java 获取当前行</title>
     <link href="http://kekemao00.github.io/2018/0120/java-line.html"/>
     <id>http://kekemao00.github.io/2018/0120/java-line.html</id>
@@ -428,61 +505,6 @@
       <category term="BLE" scheme="http://kekemao00.github.io/tags/BLE/"/>
     
       <category term="Android" scheme="http://kekemao00.github.io/tags/Android/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>GitHub&#39;s Links</title>
-    <link href="http://kekemao00.github.io/2018/0120/github-links.html"/>
-    <id>http://kekemao00.github.io/2018/0120/github-links.html</id>
-    <published>2018-01-19T21:06:33.000Z</published>
-    <updated>2019-06-23T08:53:13.917Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><ul><li><p><a href="https://github.com/trending" target="_blank" rel="noopener">GitHub 热门项目</a>  </p><p> GitHub 网站上最热门的项目（可按月，周，天查看）  </p></li><li><p><a href="https://octoverse.github.com" target="_blank" rel="noopener">GitHub 年度报告</a>  </p><p> 去年 GitHub 网站内容综合报告</p></li></ul><a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;GitHub&quot;&gt;&lt;a href=&quot;#GitHub&quot; class=&quot;headerlink&quot; title=&quot;GitHub&quot;&gt;&lt;/a&gt;GitHub&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/trending&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 热门项目&lt;/a&gt;  &lt;/p&gt;
-&lt;p&gt; GitHub 网站上最热门的项目（可按月，周，天查看）  &lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://octoverse.github.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 年度报告&lt;/a&gt;  &lt;/p&gt;
-&lt;p&gt; 去年 GitHub 网站内容综合报告&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="GitHub" scheme="http://kekemao00.github.io/categories/GitHub/"/>
-    
-    
-      <category term="GitHub" scheme="http://kekemao00.github.io/tags/GitHub/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Hiding the Navigation Bar</title>
-    <link href="http://kekemao00.github.io/2018/0120/hiding-navigationBar.html"/>
-    <id>http://kekemao00.github.io/2018/0120/hiding-navigationBar.html</id>
-    <published>2018-01-19T21:06:33.000Z</published>
-    <updated>2019-06-23T08:53:13.917Z</updated>
-    
-    <content type="html"><![CDATA[<p>去除虚拟导航</p><p>developer.android.com: <a href="https://developer.android.com/training/system-ui/navigation.html#behind" target="_blank" rel="noopener">Hiding the Navigation Bar</a></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideSystemNavigationBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt; <span class="number">11</span> &amp;&amp; Build.VERSION.SDK_INT &lt; <span class="number">19</span>) &#123;</span><br><span class="line">            View view = <span class="keyword">this</span>.getWindow().getDecorView();</span><br><span class="line">            view.setSystemUiVisibility(View.GONE);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">19</span>) &#123;</span><br><span class="line">            View decorView = getWindow().getDecorView();</span><br><span class="line">            <span class="keyword">int</span> uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br><span class="line">                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;</span><br><span class="line">            decorView.setSystemUiVisibility(uiOptions);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure><a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;去除虚拟导航&lt;/p&gt;
-&lt;p&gt;developer.android.com: &lt;a href=&quot;https://developer.android.com/training/system-ui/navigation.html#behind&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Hiding the Navigation Bar&lt;/a&gt;&lt;/p&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;hideSystemNavigationBar&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt; &lt;span class=&quot;number&quot;&gt;11&lt;/span&gt; &amp;amp;&amp;amp; Build.VERSION.SDK_INT &amp;lt; &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View view = &lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;.getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            view.setSystemUiVisibility(View.GONE);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (Build.VERSION.SDK_INT &amp;gt;= &lt;span class=&quot;number&quot;&gt;19&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            View decorView = getWindow().getDecorView();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            decorView.setSystemUiVisibility(uiOptions);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-    
-    </summary>
-    
-      <category term="Android" scheme="http://kekemao00.github.io/categories/Android/"/>
-    
-      <category term="UI" scheme="http://kekemao00.github.io/categories/Android/UI/"/>
-    
-    
-      <category term="Navigation Bar" scheme="http://kekemao00.github.io/tags/Navigation-Bar/"/>
     
   </entry>
   
