@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Android 面试知识点]]></title>
+    <url>%2F2020%2F0515%2Finterview_android.html</url>
+    <content type="text"><![CDATA[Android 面试知识汇总Android 篇收集了 Android 面试相关的知识点 Android 系统架构分为四层 应用程序 (Applications) 应用程序框架 (Application Frameworks) 系统运行库与 Android 运行环境 (Libraris &amp; Android Runtime) Linux 内核 (Linux Kernel) Activity 四种启动模式 standard 标准模式，每次都新建一个 Activity 实例，即使栈中已经存在该 Activity 实例，只要不在栈顶也会重新创建。过于浪费，为了优化应该尽量考虑余下三种方式。 singleTop 如果在任务栈顶已有该 Activity 的实例则重用（会调用实例的 onNewIntent() ），否则新建并压入栈顶。 场景：新闻，阅读类 App 的内容页面。 singTask 如果在任务栈中已有该 Activity 的实例，将其上面的任务终止并移除，重用该实例（调用 Activity 的 onNewIntent() ）。否则新建实例并压入栈顶。 场景：浏览器的主页，不管从多少个应用启动浏览器，只会启动主页面一次，其余情况都会走 onNewIntent(), 并且清空主页上面的其他页面。 singleinstance 允许不同应用，进程线程等共用一个实例，无论从何应用调用该实例，都重用（onNewIntent() ）。 场景：闹铃，将闹铃提醒与闹铃设置分离。 配置方法; 12345&lt;activity android:name=".SingleTopActivity" android:label="@string/singletop" android:launchMode="singleTop" &gt;&lt;/activity&gt; Activity 生命周期1onCreate() -&gt; onStart() -&gt; onResume() -&gt; onPause() -&gt; onStop() -&gt; onDestroy() Service 生命周期 Service 得启动方式有两种（ startService() 和 bindService() ），不同的启动方式他们的生命周期是不一样的。 startService() 生命周期：1startService() -&gt; onCreate() -&gt; onStartCommand() -&gt; onDestory() startService() 启动服务时，通过 intent 传值，在 onCommand() 方法中获取值的时候，一定要判断 intent 是否为 null。startService() 启动服务后，再多次调用 ,startService() 和 onCreate() 方法也只会被调用一次。而 onStartCommand() 会被多次调用。stopService() 的时候，onDestory() 就会被调用，从而销毁服务。 bindService() 生命周期： 1bindService() -&gt; onCreate() -&gt; onBind() -&gt; onUnBind() -&gt; onDestory() 这种方式启动 Service 的好处是更方便在 Activity 中操作 Service , 比如 Service 中有几个方法：a,b, 如果要在 Activity 中调用，需要在 Activity 中获取 ServiceConnection 对象，通过 ServiceConnection 来获取 Service 中内部类的类对象，然后通过这个类对象就可以调用类中的方法，当然这个类需要继承 Binder 对象。 Broadcast 注册方式与区别 静态注册 也可以称为常驻型广播，这种广播需要在 AndroidManifest.xml 中进行注册，这种方式注册的广播，不受页面生命周期的影响，即使退出了页面，也可以接收到广播，一般用于开机启动等，由于这种事常驻行广播，所以会占用 CPU 的资源。 动态注册 动态注册实在代码中注册了，这种注册也叫非常驻型广播，收到生命周期的影响，退出页面后，就不会收到广播，我们通常运用在更新 UI 方面。这种注册方式优先级较高。最后需要解绑，否则会内存泄漏。 广播是分为有序广播和无序广播。 View 的绘制流程 自定义控件： 组合控件。这种自定义控件不需要我们手动绘制，而是使用原生控件组合成新的控件。如标题栏。 继承原有控件。这种自定义控件在原生控件提供的方法外，可以自己添加一些方法。如制作圆角，圆形图片。 完全自定义控件。这个 View 上所展示的内容全部都是我们自己绘制出来的，比如说制作水波纹进度条。 View 的绘制流程： onMeasure() -&gt; onLayout() -&gt; onDraw() onMeasure(): 测量视图大小，从顶层父 View 到子 View 递归调用 measure 方法，measure 方法又返回 onMeasure。 onLayout(): 确定 View 位置，进行页面布局。从顶层父 View 向子 View 的递归调用 view.layout() 方法的过程，即父 View 根据上一步 measure 子 View 所得到的布局大小和布局参数，将子 View 放在合适的位置上。 onDraw(): 绘制视图。ViewRoot 创建一个 Canvas 对象，然后调用 onDraw() 。 六个步骤： ① 绘制视图的背景； ② 保存画布的图层（Layer）； ③ 绘制 View 的内容； ④ 绘制 View 子视图，如果没有就不用； ⑤ 还原图层（Layer）； ⑥ 绘制滚动条。]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[记一次 hhkb 装键帽的经验]]></title>
+    <url>%2F2019%2F1010%2Fhhkb-keycap.html</url>
+    <content type="text"><![CDATA[hhkb type-s 键帽看似相同，实则每行有些差别的。安装上去不是以前的样子总觉得别扭。这里记录了 hhkb 键帽快速安装的方法。 键盘用久了，里面就会累积一些东西，灰尘，口水渍，蟑螂 … 就想着找个周末丢掉键盘，或者清理键盘. 那么清理键盘需要几步呢？(是不是想问什么？问就是经济不允许) 需要三步： 将键帽从键盘扣下来; 这一步使用拔键器会轻松许多 清洗键帽和键盘内部; 清理键帽我使用的洗衣液，泡一会儿，干干净净 清理键盘内部使用电动牙刷，换上退休的刷头，会简单很多 将晾干后的键帽重新安装到键盘上。 时间都用在这里了，60 个键帽，不同的样式（这里「样式」指每一行键帽高低的一致性，如上图：第一排看着很整齐, 则没有问题; 最后一排能明显感觉到参差不齐，则此位置键帽不对） 如何快速地安装呢？ a. 可以先装最外面一圈的，因为最外面一圈是功能键，比较特殊，无论是形状还是颜色（如上面图片那样）。 b. 剩下的按键是中间三排的，可以先找出两个基准键位 (“F”,”J”), 这一排的键帽最矮最平很好找 (11 个) c. 现在只剩两种键帽（第 2 排和第 4 排）了，这两种的样式差别还是很大的，把他们分成 2 堆，第 2 排的 12 个，第 4 排的 11 个。 好的，到现在为止所有的键帽都应该安装完成了吧！ 怎么检查每一个位置是否都正确呢？ 很简单，从你的键盘侧面看出去，如果每一行都很整齐就没问题啦！ 像这样子：]]></content>
+      <categories>
+        <category>外设</category>
+      </categories>
+      <tags>
+        <tag>keybord</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[JDK 版本特性]]></title>
     <url>%2F2019%2F0917%2FJDK-version-feature.html</url>
     <content type="text"><![CDATA[记录了 JDK5 至 JDK13 的每个版本特性 JDK 不同版本特性JDK5 新特性 foreach 迭代方式 可变参数 枚举 自动拆装箱 泛型 注解等重要特性。 JDK6 新特性 Desktop 类和 SystemTray 类， 使用 Complier API, 轻量级 HTTPServer API, 对脚步语言得支持, Common Annotations 等重要特性。 JDK7 新特性 Switch 支持字符串作为匹配条件 泛型类型自动推断 try-with-resources 资源关闭技巧 Object 工具类 ForkJoinPool 等重要类与特性。 JDK8 新特性 接口得默认方法实现与静态方法 Lambda 表达式 函数式接口 方法与构造函数引用 新的日期与时间 API 流式处理等重要特性。 JDK9 新特性 Jigsaw 模块化项目 简化进程 API 轻量级 JSON API 钱和货币 API 进程改善和锁机制优化 代码分段缓存等重要特性。 JDK10 新特性 局部变量得自动推断， 改进 GC 和内存管理 线程本地握手 备用内存设备上的堆分配等重要特性。 JDK11 新特性 删除了 Java EE 和 CORBA 模块 增加了嵌套的访问控制 支持动态类文件常量 改进 Aarch64 内联函数 提供实验性质得可扩展的的延迟垃圾收集器 ZGC 等重要特性。 JDK12 新特性 对 Switch 进行了增强，除了使用 statement 还可以使用 expression, 325：Switch Expressions(Preview) JDK13 新特性 扩展应用程序类-数据共享 JPE 350 增强 ZGC 以将未使用的堆内存返回给操作系统 JPE 351 使用易于维护和调试的更简单、更现代的实现替换 java.net.Socket 和 java.net.ServerSocket API 使用的底层实现 JPE 353 可在生产环境中使用的 switch 表达式，JDK 13 中将带来一个 beta 版本实现 JPE 354 将文本块添加到 Java 语言。JPE 355 文本块是一个多行字符串文字，它避免了对大多数转义序列的需要，以可预测的方式自动格式化字符串，并在需要时让开发人员控制格式。]]></content>
@@ -14,7 +36,7 @@
   <entry>
     <title><![CDATA[docker]]></title>
     <url>%2F2019%2F0830%2Fdocker.html</url>
-    <content type="text"><![CDATA[docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例 Docker 笔记 (ubuntu)volume 卷 (持久化)123docker volume lsdocker volume create volume_namedocker volume rm volume_name 下载镜像1234567891011# 查找镜像docker search mysql# 拉取官方镜像到本地docker pull mysql``` ## mysql 例### 运行 mysql 容器,映射到物理机 3306 端口``` bashdocker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql 常用参数: --rm 说明容器用完就销毁, 即停止后就删除了, 就没了 -d 容器在后台运行 -e 给新创建的数据库设置 root 用户的密码 --name 将容器命名为 mysql_3306 , 建议命名后面根端口号 -v 把容器的 /var/lib/mysql 映射到创建的数据卷上 -p 前面宿主端口, 后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口 操作容器1234docker ps docker stop &lt;id 或 name&gt;docker stop &lt;id 或 name&gt;docker rm &lt;容器名称&gt; 进入 mysql_3306 容器1docker exec -it mysql_3306 bash]]></content>
+    <content type="text"><![CDATA[docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例 Docker 笔记 (ubuntu)volume 卷 (持久化)1234docker volume lsdocker volume create volume_namedocker volume rm volume_name 下载镜像1234567891011121314# 查找镜像docker search mysql# 拉取官方镜像到本地docker pull mysql# mysql 例# 运行 mysql 容器,映射到物理机 3306 端口docker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql 常用参数: --rm 说明容器用完就销毁, 即停止后就删除了, 就没了 -d 容器在后台运行 -e 给新创建的数据库设置 root 用户的密码 --name 将容器命名为 mysql_3306 , 建议命名后面根端口号 -v 把容器的 /var/lib/mysql 映射到创建的数据卷上 -p 前面宿主端口, 后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口 操作容器1234docker ps docker stop &lt;id 或 name&gt;docker stop &lt;id 或 name&gt;docker rm &lt;容器名称&gt; 进入 mysql_3306 容器1docker exec -it mysql_3306 bash]]></content>
       <categories>
         <category>docker</category>
       </categories>
@@ -153,15 +175,16 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Hiding the Navigation Bar]]></title>
-    <url>%2F2018%2F0120%2Fhiding-navigationBar.html</url>
-    <content type="text"><![CDATA[去除虚拟导航 developer.android.com: Hiding the Navigation Bar 1234567891011private void hideSystemNavigationBar() &#123; if (Build.VERSION.SDK_INT &gt; 11 &amp;&amp; Build.VERSION.SDK_INT &lt; 19) &#123; View view = this.getWindow().getDecorView(); view.setSystemUiVisibility(View.GONE); &#125; else if (Build.VERSION.SDK_INT &gt;= 19) &#123; View decorView = getWindow().getDecorView(); int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN; decorView.setSystemUiVisibility(uiOptions); &#125; &#125;]]></content>
+    <title><![CDATA[BLE 始终扫描不到蓝牙]]></title>
+    <url>%2F2018%2F0120%2Fble-android6.html</url>
+    <content type="text"><![CDATA[BLE 始终扫描不到蓝牙背景 基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。 遇到问题 码好代码，运行，发现蓝牙始终徘徊在 扫描 &gt; 扫描结束 (timeout) 各种查阅资料后，找到根本原因： android 6.0之后要用蓝牙还需要添加一个模糊定位的权限 1android.permission.ACCESS_COARSE_LOCATION Google 官方文档这样描述 Access to Hardware Identifier To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The WifiInfo.getMacAddress() and the BluetoothAdapter.getAddress() methods now return a constant value of 02:00:00:00:00:00 To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the ACCESS_FINE_LOCATION or ACCESS_COARSE_LOCATION permissions: WifiManager.getScanResults() BluetoothDevice.ACTION_FOUND BluetoothLeScanner.startScan() Note: When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address. 解决问题 只需要在扫描 BLE 设备之前动态向用户申请位置权限 我的代码： 123456789101112131415if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;//如果 API level 是大于等于 23(Android 6.0) 时 //判断是否具有权限 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) &#123; //判断是否需要向用户解释为什么需要申请该权限 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) &#123; Toast.makeText(this, "自Android 6.0开始需要打开位置权限才可以搜索到Ble设备", Toast.LENGTH_SHORT).show(); &#125; //请求权限 ActivityCompat.requestPermissions(this, new String[]&#123;Manifest.permission.ACCESS_COARSE_LOCATION&#125;, REQUEST_CODE_ACCESS_COARSE_LOCATION); &#125; &#125; 结果问题解决。]]></content>
       <categories>
         <category>Android</category>
-        <category>UI</category>
+        <category>BLE</category>
       </categories>
       <tags>
-        <tag>Navigation Bar</tag>
+        <tag>BLE</tag>
+        <tag>Android</tag>
       </tags>
   </entry>
   <entry>
@@ -176,6 +199,18 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[Hiding the Navigation Bar]]></title>
+    <url>%2F2018%2F0120%2Fhiding-navigationBar.html</url>
+    <content type="text"><![CDATA[去除虚拟导航 developer.android.com: Hiding the Navigation Bar 1234567891011private void hideSystemNavigationBar() &#123; if (Build.VERSION.SDK_INT &gt; 11 &amp;&amp; Build.VERSION.SDK_INT &lt; 19) &#123; View view = this.getWindow().getDecorView(); view.setSystemUiVisibility(View.GONE); &#125; else if (Build.VERSION.SDK_INT &gt;= 19) &#123; View decorView = getWindow().getDecorView(); int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN; decorView.setSystemUiVisibility(uiOptions); &#125; &#125;]]></content>
+      <categories>
+        <category>Android</category>
+        <category>UI</category>
+      </categories>
+      <tags>
+        <tag>Navigation Bar</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Java 获取当前行]]></title>
     <url>%2F2018%2F0120%2Fjava-line.html</url>
     <content type="text"><![CDATA[java 获取当前行123456789101112131415/** * 获取当前代码行号 * * @return FileName:LineNumber */public static String getLineInfo() &#123; StackTraceElement ste = new Throwable().getStackTrace()[1]; /** ste.isNativeMethod();//本机方法 ste.getClassName();//类名 ste.getFileName();//文件名 ste.getLineNumber();//行号 ste.getMethodName();//方法名*/ return "--- File: " + ste.getFileName() + ", Class: " + ste.getClassName() + ", Method: " + ste.getMethodName() + "(), Line: " + ste.getLineNumber();&#125;]]></content>
@@ -184,19 +219,6 @@
       </categories>
       <tags>
         <tag>Java</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[BLE 始终扫描不到蓝牙]]></title>
-    <url>%2F2018%2F0120%2Fble-android6.html</url>
-    <content type="text"><![CDATA[BLE 始终扫描不到蓝牙背景 基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。 遇到问题 码好代码，运行，发现蓝牙始终徘徊在 扫描 &gt; 扫描结束 (timeout) 各种查阅资料后，找到根本原因： android 6.0之后要用蓝牙还需要添加一个模糊定位的权限 1android.permission.ACCESS_COARSE_LOCATION Google 官方文档这样描述 Access to Hardware Identifier To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The WifiInfo.getMacAddress() and the BluetoothAdapter.getAddress() methods now return a constant value of 02:00:00:00:00:00 To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the ACCESS_FINE_LOCATION or ACCESS_COARSE_LOCATION permissions: WifiManager.getScanResults() BluetoothDevice.ACTION_FOUND BluetoothLeScanner.startScan() Note: When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address. 解决问题 只需要在扫描 BLE 设备之前动态向用户申请位置权限 我的代码： 123456789101112131415if (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;//如果 API level 是大于等于 23(Android 6.0) 时 //判断是否具有权限 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) &#123; //判断是否需要向用户解释为什么需要申请该权限 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) &#123; Toast.makeText(this, "自Android 6.0开始需要打开位置权限才可以搜索到Ble设备", Toast.LENGTH_SHORT).show(); &#125; //请求权限 ActivityCompat.requestPermissions(this, new String[]&#123;Manifest.permission.ACCESS_COARSE_LOCATION&#125;, REQUEST_CODE_ACCESS_COARSE_LOCATION); &#125; &#125; 结果问题解决。]]></content>
-      <categories>
-        <category>Android</category>
-        <category>BLE</category>
-      </categories>
-      <tags>
-        <tag>BLE</tag>
-        <tag>Android</tag>
       </tags>
   </entry>
 </search>
