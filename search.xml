@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[React Native 环境搭建]]></title>
+    <url>%2F2020%2F0903%2Freact-native-environment-setup.html</url>
+    <content type="text"><![CDATA[这里主要记录了 Windows 环境下的 React Native 环境搭建，Ubuntu 环境下有包管理器搭建会相对方便。 首先搭建好 Android 的原生开发环境React-Native 的开发需要 JDK (不低于 1.8 版本), Android-Studio 接下来搭建 React-Native 的环境 安装 Chocolatey 包管理器 安装方式：在 Windows 命令提示符中直接输入： 1@powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))" &amp;&amp; SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin 如果 Chocolatey 没有安装成功 (可能是需要科学上网)，包管理器装不上关系不大，只需要手动去官方找到安装下面依赖即可。 安装 Python2 打开命令提示符窗口，使用 Chocolatey 来安装 Python 2. 注意：官方指出必须是 python2 , 不支持 python3 choco install python2 安装 node 打开命令提示符窗口，使用 Chocolatey 来安装 NodeJS. choco install nodejs.install 安装 React Native命令行工具 npm install -g react-native-cli 到这里环境就基本搭建好了。如果是 Ubuntu 的话，则使用自带的包管理工具：apt 安装。 那就赶紧试一试吧 依然是在 windows 的命令指示符中 (其实 PowerShell 更好用) 新建一个 MyProject 工程： react-native init AwesomeProject 切换到 MyProject 目录下： cd MyProject 运行 packager： react-native start 这时可以用浏览器访问 http://localhost:8081/index.android.bundle?platform=android 看看是否可以看到打包后的脚本（看到很长的 js 代码就对了）。第一次访问通常需要十几秒，并且在 packager 的命令行可以看到形如 [====] 的进度条。 运行模拟器 运行之后，保持 packager 开启，另外打开一个命令行窗口，然后在工程目录下运行： react-native run-android 首次运行需要等待一段时间，因为要从网上下载 gradle 依赖。 React Native 开发者 React Native 中文网 原文链接(掘金)]]></content>
+      <categories>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>React Native,App,Android,IOS</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[Android 面试知识点汇总]]></title>
     <url>%2F2020%2F0515%2Finterview_android.html</url>
     <content type="text"><![CDATA[Android 面试知识汇总Android 篇收集了 Android 面试相关的知识点 Android 系统架构分为四层 应用程序 (Applications) 应用程序框架 (Application Frameworks) 系统运行库与 Android 运行环境 (Libraris &amp; Android Runtime) Linux 内核 (Linux Kernel) Activity 四种启动模式 standard 标准模式，每次都新建一个 Activity 实例，即使栈中已经存在该 Activity 实例，只要不在栈顶也会重新创建。过于浪费，为了优化应该尽量考虑余下三种方式。 singleTop 如果在任务栈顶已有该 Activity 的实例则重用（会调用实例的 onNewIntent() ），否则新建并压入栈顶。 场景：新闻，阅读类 App 的内容页面。 singTask 如果在任务栈中已有该 Activity 的实例，将其上面的任务终止并移除，重用该实例（调用 Activity 的 onNewIntent() ）。否则新建实例并压入栈顶。 场景：浏览器的主页，不管从多少个应用启动浏览器，只会启动主页面一次，其余情况都会走 onNewIntent(), 并且清空主页上面的其他页面。 singleinstance 允许不同应用，进程线程等共用一个实例，无论从何应用调用该实例，都重用（onNewIntent() ）。 场景：闹铃，将闹铃提醒与闹铃设置分离。 配置方法; 12345&lt;activity android:name=".SingleTopActivity" android:label="@string/singletop" android:launchMode="singleTop" &gt;&lt;/activity&gt; Activity 生命周期1onCreate() -&gt; onStart() -&gt; onResume() -&gt; onPause() -&gt; onStop() -&gt; onDestroy() Service 生命周期 Service 得启动方式有两种（ startService() 和 bindService() ），不同的启动方式他们的生命周期是不一样的。 startService() 生命周期：1startService() -&gt; onCreate() -&gt; onStartCommand() -&gt; onDestory() startService() 启动服务时，通过 intent 传值，在 onCommand() 方法中获取值的时候，一定要判断 intent 是否为 null。startService() 启动服务后，再多次调用 ,startService() 和 onCreate() 方法也只会被调用一次。而 onStartCommand() 会被多次调用。stopService() 的时候，onDestory() 就会被调用，从而销毁服务。 bindService() 生命周期： 1bindService() -&gt; onCreate() -&gt; onBind() -&gt; onUnBind() -&gt; onDestory() 这种方式启动 Service 的好处是更方便在 Activity 中操作 Service , 比如 Service 中有几个方法：a,b, 如果要在 Activity 中调用，需要在 Activity 中获取 ServiceConnection 对象，通过 ServiceConnection 来获取 Service 中内部类的类对象，然后通过这个类对象就可以调用类中的方法，当然这个类需要继承 Binder 对象。 Broadcast 注册方式与区别 静态注册 也可以称为常驻型广播，这种广播需要在 AndroidManifest.xml 中进行注册，这种方式注册的广播，不受页面生命周期的影响，即使退出了页面，也可以接收到广播，一般用于开机启动等，由于这种事常驻行广播，所以会占用 CPU 的资源。 动态注册 动态注册实在代码中注册了，这种注册也叫非常驻型广播，收到生命周期的影响，退出页面后，就不会收到广播，我们通常运用在更新 UI 方面。这种注册方式优先级较高。最后需要解绑，否则会内存泄漏。 广播是分为有序广播和无序广播。 View 的绘制流程 自定义控件： 组合控件。这种自定义控件不需要我们手动绘制，而是使用原生控件组合成新的控件。如标题栏。 继承原有控件。这种自定义控件在原生控件提供的方法外，可以自己添加一些方法。如制作圆角，圆形图片。 完全自定义控件。这个 View 上所展示的内容全部都是我们自己绘制出来的，比如说制作水波纹进度条。 View 的绘制流程： onMeasure() -&gt; onLayout() -&gt; onDraw() onMeasure(): 测量视图大小，从顶层父 View 到子 View 递归调用 measure 方法，measure 方法又返回 onMeasure。 onLayout(): 确定 View 位置，进行页面布局。从顶层父 View 向子 View 的递归调用 view.layout() 方法的过程，即父 View 根据上一步 measure 子 View 所得到的布局大小和布局参数，将子 View 放在合适的位置上。 onDraw(): 绘制视图。ViewRoot 创建一个 Canvas 对象，然后调用 onDraw() 。 六个步骤： ① 绘制视图的背景； ② 保存画布的图层（Layer）； ③ 绘制 View 的内容； ④ 绘制 View 子视图，如果没有就不用； ⑤ 还原图层（Layer）； ⑥ 绘制滚动条。]]></content>
@@ -188,17 +199,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[GitHub's Links]]></title>
-    <url>%2F2018%2F0120%2Fgithub-links.html</url>
-    <content type="text"><![CDATA[GitHub GitHub 热门项目 GitHub 网站上最热门的项目（可按月，周，天查看） GitHub 年度报告 去年 GitHub 网站内容综合报告]]></content>
-      <categories>
-        <category>GitHub</category>
-      </categories>
-      <tags>
-        <tag>GitHub</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Hiding the Navigation Bar]]></title>
     <url>%2F2018%2F0120%2Fhiding-navigationBar.html</url>
     <content type="text"><![CDATA[去除虚拟导航 developer.android.com: Hiding the Navigation Bar 1234567891011private void hideSystemNavigationBar() &#123; if (Build.VERSION.SDK_INT &gt; 11 &amp;&amp; Build.VERSION.SDK_INT &lt; 19) &#123; View view = this.getWindow().getDecorView(); view.setSystemUiVisibility(View.GONE); &#125; else if (Build.VERSION.SDK_INT &gt;= 19) &#123; View decorView = getWindow().getDecorView(); int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN; decorView.setSystemUiVisibility(uiOptions); &#125; &#125;]]></content>
@@ -208,6 +208,17 @@
       </categories>
       <tags>
         <tag>Navigation Bar</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[GitHub's Links]]></title>
+    <url>%2F2018%2F0120%2Fgithub-links.html</url>
+    <content type="text"><![CDATA[GitHub GitHub 热门项目 GitHub 网站上最热门的项目（可按月，周，天查看） GitHub 年度报告 去年 GitHub 网站内容综合报告]]></content>
+      <categories>
+        <category>GitHub</category>
+      </categories>
+      <tags>
+        <tag>GitHub</tag>
       </tags>
   </entry>
   <entry>

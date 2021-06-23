@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://kekemao00.github.io/"/>
-  <updated>2020-08-29T14:01:52.742Z</updated>
+  <updated>2020-12-15T01:28:40.499Z</updated>
   <id>http://kekemao00.github.io/</id>
   
   <author>
@@ -17,23 +17,39 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>React Native 环境搭建</title>
+    <link href="http://kekemao00.github.io/2020/0903/react-native-environment-setup.html"/>
+    <id>http://kekemao00.github.io/2020/0903/react-native-environment-setup.html</id>
+    <published>2020-09-03T02:50:06.000Z</published>
+    <updated>2020-12-15T01:28:40.499Z</updated>
+    
+    <content type="html"><![CDATA[<p>这里主要记录了 Windows 环境下的 React Native 环境搭建，Ubuntu 环境下有包管理器搭建会相对方便。</p><a id="more"></a><h2 id="首先搭建好-Android-的原生开发环境"><a href="#首先搭建好-Android-的原生开发环境" class="headerlink" title="首先搭建好 Android 的原生开发环境"></a>首先搭建好 Android 的原生开发环境</h2><p>React-Native 的开发需要 JDK (不低于 1.8 版本), Android-Studio</p><h2 id="接下来搭建-React-Native-的环境"><a href="#接下来搭建-React-Native-的环境" class="headerlink" title="接下来搭建 React-Native 的环境"></a>接下来搭建 React-Native 的环境</h2><ul><li>安装 Chocolatey 包管理器</li></ul><p>安装方式：在 Windows 命令提示符中直接输入：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@powershell -NoProfile -ExecutionPolicy Bypass -Command <span class="string">"iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"</span> &amp;&amp; SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin</span><br></pre></td></tr></table></figure><p><strong>如果 Chocolatey 没有安装成功 (可能是需要科学上网)，包管理器装不上关系不大，只需要手动去官方找到安装下面依赖即可。</strong></p><ul><li>安装 Python2</li></ul><p>打开命令提示符窗口，使用 Chocolatey 来安装 Python 2.</p><blockquote><p>注意：官方指出必须是 python2 , 不支持 python3 </p></blockquote><p><code>choco install python2</code></p><ul><li>安装 node</li></ul><p>打开命令提示符窗口，使用 Chocolatey 来安装 NodeJS.</p><p><code>choco install nodejs.install</code></p><ul><li>安装 React Native命令行工具</li></ul><p><code>npm install -g react-native-cli</code></p><p>到这里环境就基本搭建好了。如果是 Ubuntu 的话，则使用自带的包管理工具：apt 安装。</p><p>那就赶紧试一试吧</p><p>依然是在 windows 的命令指示符中 (其实 PowerShell 更好用)</p><p>新建一个 MyProject 工程：</p><p><code>react-native init AwesomeProject</code></p><p>切换到 MyProject 目录下：</p><p><code>cd MyProject</code></p><p>运行 packager：</p><p><code>react-native start</code></p><p>这时可以用浏览器访问 <a href="http://localhost:8081/index.android.bundle?platform=android" target="_blank" rel="noopener">http://localhost:8081/index.android.bundle?platform=android</a> 看看是否可以看到打包后的脚本（看到很长的 js 代码就对了）。第一次访问通常需要十几秒，并且在 packager 的命令行可以看到形如 [====] 的进度条。</p><p>运行模拟器</p><p>运行之后，保持 packager 开启，另外打开一个命令行窗口，然后在工程目录下运行：</p><p><code>react-native run-android</code></p><p>首次运行需要等待一段时间，因为要从网上下载 gradle 依赖。</p><p><a href="https://reactnative.dev/docs/environment-setup" target="_blank" rel="noopener">React Native 开发者</a></p><p><a href="https://reactnative.cn/docs/getting-started.html" target="_blank" rel="noopener">React Native 中文网</a></p><p><a href="https://juejin.im/entry/6844903448115150855" target="_blank" rel="noopener">原文链接(掘金)</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这里主要记录了 Windows 环境下的 React Native 环境搭建，Ubuntu 环境下有包管理器搭建会相对方便。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Android" scheme="http://kekemao00.github.io/categories/Android/"/>
+    
+    
+      <category term="React Native,App,Android,IOS" scheme="http://kekemao00.github.io/tags/React-Native-App-Android-IOS/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Android 面试知识点汇总</title>
     <link href="http://kekemao00.github.io/2020/0515/interview_android.html"/>
     <id>http://kekemao00.github.io/2020/0515/interview_android.html</id>
     <published>2020-05-15T11:59:20.000Z</published>
-    <updated>2020-08-29T14:01:52.742Z</updated>
+    <updated>2020-12-15T01:28:40.498Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="Android-面试知识汇总"><a href="#Android-面试知识汇总" class="headerlink" title="Android 面试知识汇总"></a>Android 面试知识汇总</h1><h2 id="Android-篇"><a href="#Android-篇" class="headerlink" title="Android 篇"></a>Android 篇</h2><p><em>收集了 Android 面试相关的知识点</em></p><h3 id="Android-系统架构分为四层"><a href="#Android-系统架构分为四层" class="headerlink" title="Android 系统架构分为四层"></a>Android 系统架构分为四层</h3><ul><li>应用程序 (Applications)</li><li>应用程序框架 (Application Frameworks)</li><li>系统运行库与 Android 运行环境 (Libraris &amp; Android Runtime)</li><li>Linux 内核 (Linux Kernel)</li></ul><a id="more"></a><h3 id="Activity-四种启动模式"><a href="#Activity-四种启动模式" class="headerlink" title="Activity 四种启动模式"></a>Activity 四种启动模式</h3><ul><li><p>standard </p><p>标准模式，每次都新建一个 Activity 实例，即使栈中已经存在该 Activity 实例，只要不在栈顶也会重新创建。过于浪费，为了优化应该尽量考虑余下三种方式。</p></li><li><p>singleTop</p><p>如果在<strong>任务栈顶</strong>已有该 Activity 的实例则重用（会调用实例的 onNewIntent() ），否则新建并压入栈顶。</p><p>场景：新闻，阅读类 App 的内容页面。</p></li><li><p>singTask</p><p>如果在<strong>任务栈中</strong>已有该 Activity 的实例，将其上面的任务终止并移除，重用该实例（调用 Activity 的 onNewIntent() ）。否则新建实例并压入栈顶。</p><p>场景：浏览器的主页，不管从多少个应用启动浏览器，只会启动主页面一次，其余情况都会走 onNewIntent(), 并且清空主页上面的其他页面。</p></li><li><p>singleinstance</p><p>允许不同应用，进程线程等共用一个实例，无论从何应用调用该实例，都重用（onNewIntent() ）。</p><p>场景：闹铃，将闹铃提醒与闹铃设置分离。</p></li></ul><p>配置方法;</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:name</span>=<span class="string">".SingleTopActivity"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:label</span>=<span class="string">"@string/singletop"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:launchMode</span>=<span class="string">"singleTop"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure><h3 id="Activity-生命周期"><a href="#Activity-生命周期" class="headerlink" title="Activity 生命周期"></a>Activity 生命周期</h3><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onCreate<span class="function"><span class="params">()</span> -&gt;</span> onStart<span class="function"><span class="params">()</span> -&gt;</span> onResume<span class="function"><span class="params">()</span> -&gt;</span> onPause<span class="function"><span class="params">()</span> -&gt;</span> onStop<span class="function"><span class="params">()</span> -&gt;</span> onDestroy()</span><br></pre></td></tr></table></figure><ul><li>Service 生命周期</li></ul><p>Service 得启动方式有两种（ startService() 和 bindService() ），不同的启动方式他们的生命周期是不一样的。</p><ol><li>startService()  生命周期：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startService() -&gt; onCreate() -&gt; onStartCommand() -&gt; onDestory()</span><br></pre></td></tr></table></figure></li></ol><p>startService() 启动服务时，通过 intent 传值，在 onCommand() 方法中获取值的时候，一定要判断 intent 是否为 null。<br>startService() 启动服务后，再多次调用 ,startService() 和 onCreate() 方法也只会被调用一次。而 onStartCommand() 会被多次调用。stopService() 的时候，onDestory() 就会被调用，从而销毁服务。</p><ol><li>bindService() 生命周期：</li></ol><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bindService() -&gt; onCreate() -&gt; onBind() -&gt; onUnBind() -&gt; onDestory()</span><br></pre></td></tr></table></figure><p> 这种方式启动 Service 的好处是更方便在 Activity 中操作 Service , 比如 Service 中有几个方法：a,b, 如果要在 Activity 中调用，需要在 Activity 中获取 ServiceConnection 对象，通过 ServiceConnection 来获取 Service 中内部类的类对象，然后通过这个类对象就可以调用类中的方法，当然这个类需要继承 Binder 对象。</p><h3 id="Broadcast-注册方式与区别"><a href="#Broadcast-注册方式与区别" class="headerlink" title="Broadcast 注册方式与区别"></a>Broadcast 注册方式与区别</h3><ul><li>静态注册</li></ul><p>也可以称为常驻型广播，这种广播需要在 AndroidManifest.xml 中进行注册，这种方式注册的广播，不受页面生命周期的影响，即使退出了页面，也可以接收到广播，一般用于开机启动等，由于这种事常驻行广播，所以会占用 CPU 的资源。</p><ul><li>动态注册</li></ul><p>动态注册实在代码中注册了，这种注册也叫非常驻型广播，收到生命周期的影响，退出页面后，就不会收到广播，我们通常运用在更新 UI 方面。这种注册方式优先级较高。最后需要解绑，否则会内存泄漏。</p><p>广播是分为有序广播和无序广播。</p><h3 id="View-的绘制流程"><a href="#View-的绘制流程" class="headerlink" title="View 的绘制流程"></a>View 的绘制流程</h3><ul><li>自定义控件：</li></ul><ol><li>组合控件。这种自定义控件不需要我们手动绘制，而是使用原生控件组合成新的控件。如标题栏。</li><li>继承原有控件。这种自定义控件在原生控件提供的方法外，可以自己添加一些方法。如制作圆角，圆形图片。</li><li>完全自定义控件。这个 View 上所展示的内容全部都是我们自己绘制出来的，比如说制作水波纹进度条。</li></ol><ul><li><p>View 的绘制流程： onMeasure() -&gt; onLayout() -&gt; onDraw()</p><ul><li>onMeasure(): 测量视图大小，从顶层父 View 到子 View 递归调用 measure 方法，measure 方法又返回 onMeasure。</li><li>onLayout(): 确定 View 位置，进行页面布局。从顶层父 View 向子 View 的递归调用 view.layout() 方法的过程，即父 View 根据上一步 measure 子 View 所得到的布局大小和布局参数，将子 View 放在合适的位置上。</li><li>onDraw(): 绘制视图。ViewRoot 创建一个 Canvas 对象，然后调用 onDraw() 。</li></ul><p>六个步骤：</p><blockquote><p>① 绘制视图的背景；</p><p>② 保存画布的图层（Layer）； </p><p>③ 绘制 View 的内容； </p><p>④ 绘制 View 子视图，如果没有就不用； </p><p>⑤ 还原图层（Layer）；</p><p>⑥ 绘制滚动条。</p></blockquote></li></ul>]]></content>
+    <content type="html"><![CDATA[<h1 id="Android-面试知识汇总"><a href="#Android-面试知识汇总" class="headerlink" title="Android 面试知识汇总"></a>Android 面试知识汇总</h1><h2 id="Android-篇"><a href="#Android-篇" class="headerlink" title="Android 篇"></a>Android 篇</h2><p><em>收集了 Android 面试相关的知识点</em></p><a id="more"></a><h3 id="Android-系统架构分为四层"><a href="#Android-系统架构分为四层" class="headerlink" title="Android 系统架构分为四层"></a>Android 系统架构分为四层</h3><ul><li>应用程序 (Applications)</li><li>应用程序框架 (Application Frameworks)</li><li>系统运行库与 Android 运行环境 (Libraris &amp; Android Runtime)</li><li>Linux 内核 (Linux Kernel)</li></ul><h3 id="Activity-四种启动模式"><a href="#Activity-四种启动模式" class="headerlink" title="Activity 四种启动模式"></a>Activity 四种启动模式</h3><ul><li><p>standard </p><p>标准模式，每次都新建一个 Activity 实例，即使栈中已经存在该 Activity 实例，只要不在栈顶也会重新创建。过于浪费，为了优化应该尽量考虑余下三种方式。</p></li><li><p>singleTop</p><p>如果在<strong>任务栈顶</strong>已有该 Activity 的实例则重用（会调用实例的 onNewIntent() ），否则新建并压入栈顶。</p><p>场景：新闻，阅读类 App 的内容页面。</p></li><li><p>singTask</p><p>如果在<strong>任务栈中</strong>已有该 Activity 的实例，将其上面的任务终止并移除，重用该实例（调用 Activity 的 onNewIntent() ）。否则新建实例并压入栈顶。</p><p>场景：浏览器的主页，不管从多少个应用启动浏览器，只会启动主页面一次，其余情况都会走 onNewIntent(), 并且清空主页上面的其他页面。</p></li><li><p>singleinstance</p><p>允许不同应用，进程线程等共用一个实例，无论从何应用调用该实例，都重用（onNewIntent() ）。</p><p>场景：闹铃，将闹铃提醒与闹铃设置分离。</p></li></ul><p>配置方法;</p><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:name</span>=<span class="string">".SingleTopActivity"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:label</span>=<span class="string">"@string/singletop"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:launchMode</span>=<span class="string">"singleTop"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure><h3 id="Activity-生命周期"><a href="#Activity-生命周期" class="headerlink" title="Activity 生命周期"></a>Activity 生命周期</h3><figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">onCreate<span class="function"><span class="params">()</span> -&gt;</span> onStart<span class="function"><span class="params">()</span> -&gt;</span> onResume<span class="function"><span class="params">()</span> -&gt;</span> onPause<span class="function"><span class="params">()</span> -&gt;</span> onStop<span class="function"><span class="params">()</span> -&gt;</span> onDestroy()</span><br></pre></td></tr></table></figure><ul><li>Service 生命周期</li></ul><p>Service 得启动方式有两种（ startService() 和 bindService() ），不同的启动方式他们的生命周期是不一样的。</p><ol><li>startService()  生命周期：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startService() -&gt; onCreate() -&gt; onStartCommand() -&gt; onDestory()</span><br></pre></td></tr></table></figure></li></ol><p>startService() 启动服务时，通过 intent 传值，在 onCommand() 方法中获取值的时候，一定要判断 intent 是否为 null。<br>startService() 启动服务后，再多次调用 ,startService() 和 onCreate() 方法也只会被调用一次。而 onStartCommand() 会被多次调用。stopService() 的时候，onDestory() 就会被调用，从而销毁服务。</p><ol><li>bindService() 生命周期：</li></ol><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bindService() -&gt; onCreate() -&gt; onBind() -&gt; onUnBind() -&gt; onDestory()</span><br></pre></td></tr></table></figure><p> 这种方式启动 Service 的好处是更方便在 Activity 中操作 Service , 比如 Service 中有几个方法：a,b, 如果要在 Activity 中调用，需要在 Activity 中获取 ServiceConnection 对象，通过 ServiceConnection 来获取 Service 中内部类的类对象，然后通过这个类对象就可以调用类中的方法，当然这个类需要继承 Binder 对象。</p><h3 id="Broadcast-注册方式与区别"><a href="#Broadcast-注册方式与区别" class="headerlink" title="Broadcast 注册方式与区别"></a>Broadcast 注册方式与区别</h3><ul><li>静态注册</li></ul><p>也可以称为常驻型广播，这种广播需要在 AndroidManifest.xml 中进行注册，这种方式注册的广播，不受页面生命周期的影响，即使退出了页面，也可以接收到广播，一般用于开机启动等，由于这种事常驻行广播，所以会占用 CPU 的资源。</p><ul><li>动态注册</li></ul><p>动态注册实在代码中注册了，这种注册也叫非常驻型广播，收到生命周期的影响，退出页面后，就不会收到广播，我们通常运用在更新 UI 方面。这种注册方式优先级较高。最后需要解绑，否则会内存泄漏。</p><p>广播是分为有序广播和无序广播。</p><h3 id="View-的绘制流程"><a href="#View-的绘制流程" class="headerlink" title="View 的绘制流程"></a>View 的绘制流程</h3><ul><li>自定义控件：</li></ul><ol><li>组合控件。这种自定义控件不需要我们手动绘制，而是使用原生控件组合成新的控件。如标题栏。</li><li>继承原有控件。这种自定义控件在原生控件提供的方法外，可以自己添加一些方法。如制作圆角，圆形图片。</li><li>完全自定义控件。这个 View 上所展示的内容全部都是我们自己绘制出来的，比如说制作水波纹进度条。</li></ol><ul><li><p>View 的绘制流程： onMeasure() -&gt; onLayout() -&gt; onDraw()</p><ul><li>onMeasure(): 测量视图大小，从顶层父 View 到子 View 递归调用 measure 方法，measure 方法又返回 onMeasure。</li><li>onLayout(): 确定 View 位置，进行页面布局。从顶层父 View 向子 View 的递归调用 view.layout() 方法的过程，即父 View 根据上一步 measure 子 View 所得到的布局大小和布局参数，将子 View 放在合适的位置上。</li><li>onDraw(): 绘制视图。ViewRoot 创建一个 Canvas 对象，然后调用 onDraw() 。</li></ul><p>六个步骤：</p><blockquote><p>① 绘制视图的背景；</p><p>② 保存画布的图层（Layer）； </p><p>③ 绘制 View 的内容； </p><p>④ 绘制 View 子视图，如果没有就不用； </p><p>⑤ 还原图层（Layer）；</p><p>⑥ 绘制滚动条。</p></blockquote></li></ul>]]></content>
     
     <summary type="html">
     
       &lt;h1 id=&quot;Android-面试知识汇总&quot;&gt;&lt;a href=&quot;#Android-面试知识汇总&quot; class=&quot;headerlink&quot; title=&quot;Android 面试知识汇总&quot;&gt;&lt;/a&gt;Android 面试知识汇总&lt;/h1&gt;&lt;h2 id=&quot;Android-篇&quot;&gt;&lt;a href=&quot;#Android-篇&quot; class=&quot;headerlink&quot; title=&quot;Android 篇&quot;&gt;&lt;/a&gt;Android 篇&lt;/h2&gt;&lt;p&gt;&lt;em&gt;收集了 Android 面试相关的知识点&lt;/em&gt;&lt;/p&gt;
-&lt;h3 id=&quot;Android-系统架构分为四层&quot;&gt;&lt;a href=&quot;#Android-系统架构分为四层&quot; class=&quot;headerlink&quot; title=&quot;Android 系统架构分为四层&quot;&gt;&lt;/a&gt;Android 系统架构分为四层&lt;/h3&gt;&lt;ul&gt;
-&lt;li&gt;应用程序 (Applications)&lt;/li&gt;
-&lt;li&gt;应用程序框架 (Application Frameworks)&lt;/li&gt;
-&lt;li&gt;系统运行库与 Android 运行环境 (Libraris &amp;amp; Android Runtime)&lt;/li&gt;
-&lt;li&gt;Linux 内核 (Linux Kernel)&lt;/li&gt;
-&lt;/ul&gt;
     
     </summary>
     
@@ -482,35 +498,6 @@
   </entry>
   
   <entry>
-    <title>GitHub&#39;s Links</title>
-    <link href="http://kekemao00.github.io/2018/0120/github-links.html"/>
-    <id>http://kekemao00.github.io/2018/0120/github-links.html</id>
-    <published>2018-01-19T21:06:33.000Z</published>
-    <updated>2019-06-23T08:53:13.917Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><ul><li><p><a href="https://github.com/trending" target="_blank" rel="noopener">GitHub 热门项目</a>  </p><p> GitHub 网站上最热门的项目（可按月，周，天查看）  </p></li><li><p><a href="https://octoverse.github.com" target="_blank" rel="noopener">GitHub 年度报告</a>  </p><p> 去年 GitHub 网站内容综合报告</p></li></ul><a id="more"></a>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;GitHub&quot;&gt;&lt;a href=&quot;#GitHub&quot; class=&quot;headerlink&quot; title=&quot;GitHub&quot;&gt;&lt;/a&gt;GitHub&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/trending&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 热门项目&lt;/a&gt;  &lt;/p&gt;
-&lt;p&gt; GitHub 网站上最热门的项目（可按月，周，天查看）  &lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://octoverse.github.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 年度报告&lt;/a&gt;  &lt;/p&gt;
-&lt;p&gt; 去年 GitHub 网站内容综合报告&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="GitHub" scheme="http://kekemao00.github.io/categories/GitHub/"/>
-    
-    
-      <category term="GitHub" scheme="http://kekemao00.github.io/tags/GitHub/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Hiding the Navigation Bar</title>
     <link href="http://kekemao00.github.io/2018/0120/hiding-navigationBar.html"/>
     <id>http://kekemao00.github.io/2018/0120/hiding-navigationBar.html</id>
@@ -537,24 +524,31 @@
   </entry>
   
   <entry>
-    <title>Java 获取当前行</title>
-    <link href="http://kekemao00.github.io/2018/0120/java-line.html"/>
-    <id>http://kekemao00.github.io/2018/0120/java-line.html</id>
+    <title>GitHub&#39;s Links</title>
+    <link href="http://kekemao00.github.io/2018/0120/github-links.html"/>
+    <id>http://kekemao00.github.io/2018/0120/github-links.html</id>
     <published>2018-01-19T21:06:33.000Z</published>
     <updated>2019-06-23T08:53:13.917Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="java-获取当前行"><a href="#java-获取当前行" class="headerlink" title="java 获取当前行"></a>java 获取当前行</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取当前代码行号</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> FileName:LineNumber</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getLineInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    StackTraceElement ste = <span class="keyword">new</span> Throwable().getStackTrace()[<span class="number">1</span>];</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     ste.isNativeMethod();//本机方法</span></span><br><span class="line"><span class="comment">     ste.getClassName();//类名</span></span><br><span class="line"><span class="comment">     ste.getFileName();//文件名</span></span><br><span class="line"><span class="comment">     ste.getLineNumber();//行号</span></span><br><span class="line"><span class="comment">     ste.getMethodName();//方法名*/</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"--- File: "</span> + ste.getFileName() + <span class="string">",  Class: "</span> + ste.getClassName() + <span class="string">",  Method: "</span> + ste.getMethodName() + <span class="string">"(),  Line: "</span> + ste.getLineNumber();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><a id="more"></a>]]></content>
+    <content type="html"><![CDATA[<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><ul><li><p><a href="https://github.com/trending" target="_blank" rel="noopener">GitHub 热门项目</a>  </p><p> GitHub 网站上最热门的项目（可按月，周，天查看）  </p></li><li><p><a href="https://octoverse.github.com" target="_blank" rel="noopener">GitHub 年度报告</a>  </p><p> 去年 GitHub 网站内容综合报告</p></li></ul><a id="more"></a>]]></content>
     
     <summary type="html">
     
-      &lt;h1 id=&quot;java-获取当前行&quot;&gt;&lt;a href=&quot;#java-获取当前行&quot; class=&quot;headerlink&quot; title=&quot;java 获取当前行&quot;&gt;&lt;/a&gt;java 获取当前行&lt;/h1&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;/**&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt; * 获取当前代码行号&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt; *&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt; * &lt;span class=&quot;doctag&quot;&gt;@return&lt;/span&gt; FileName:LineNumber&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt; */&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; String &lt;span class=&quot;title&quot;&gt;getLineInfo&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    StackTraceElement ste = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Throwable().getStackTrace()[&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;/**&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;     ste.isNativeMethod();//本机方法&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;     ste.getClassName();//类名&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;     ste.getFileName();//文件名&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;     ste.getLineNumber();//行号&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;     ste.getMethodName();//方法名*/&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;--- File: &quot;&lt;/span&gt; + ste.getFileName() + &lt;span class=&quot;string&quot;&gt;&quot;,  Class: &quot;&lt;/span&gt; + ste.getClassName() + &lt;span class=&quot;string&quot;&gt;&quot;,  Method: &quot;&lt;/span&gt; + ste.getMethodName() + &lt;span class=&quot;string&quot;&gt;&quot;(),  Line: &quot;&lt;/span&gt; + ste.getLineNumber();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+      &lt;h2 id=&quot;GitHub&quot;&gt;&lt;a href=&quot;#GitHub&quot; class=&quot;headerlink&quot; title=&quot;GitHub&quot;&gt;&lt;/a&gt;GitHub&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/trending&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 热门项目&lt;/a&gt;  &lt;/p&gt;
+&lt;p&gt; GitHub 网站上最热门的项目（可按月，周，天查看）  &lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;a href=&quot;https://octoverse.github.com&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;GitHub 年度报告&lt;/a&gt;  &lt;/p&gt;
+&lt;p&gt; 去年 GitHub 网站内容综合报告&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
     
     </summary>
     
-      <category term="Java" scheme="http://kekemao00.github.io/categories/Java/"/>
+      <category term="GitHub" scheme="http://kekemao00.github.io/categories/GitHub/"/>
     
     
-      <category term="Java" scheme="http://kekemao00.github.io/tags/Java/"/>
+      <category term="GitHub" scheme="http://kekemao00.github.io/tags/GitHub/"/>
     
   </entry>
   
