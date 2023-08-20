@@ -1,0 +1,1406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>BLE 始终扫描不到蓝牙</title>
+    <url>/2018/0120/ble-android6.html</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>  <em>基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。</em></p>
+<h2 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h2><p>  码好代码，运行，发现蓝牙始终徘徊在</p>
+<blockquote>
+<p>扫描 &gt; 扫描结束 (timeout)</p>
+</blockquote>
+<p>  各种查阅资料后，找到根本原因：</p>
+  <a id="more"></a>
+
+<p>  android 6.0之后要用蓝牙还需要添加一个模糊定位的权限  </p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">android.permission.ACCESS_COARSE_LOCATION</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p>Google 官方文档这样描述</p>
+<blockquote>
+<p><strong>Access to Hardware Identifier</strong><br>To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The <a href="https://developer.android.com/reference/android/net/wifi/WifiInfo.html#getMacAddress()" target="_blank" rel="noopener">WifiInfo.getMacAddress()</a> and the <a href="https://developer.android.com/reference/android/bluetooth/BluetoothAdapter.html#getAddress()" target="_blank" rel="noopener">BluetoothAdapter.getAddress()</a> methods now return a constant value of <em>02:00:00:00:00:00</em><br>To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_FINE_LOCATION" target="_blank" rel="noopener">ACCESS_FINE_LOCATION</a> or <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_COARSE_LOCATION" target="_blank" rel="noopener">ACCESS_COARSE_LOCATION</a> permissions:<br><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.html#getScanResults()" target="_blank" rel="noopener">WifiManager.getScanResults()</a><br><a href="https://developer.android.com/reference/android/bluetooth/BluetoothDevice.html#ACTION_FOUND" target="_blank" rel="noopener">BluetoothDevice.ACTION_FOUND</a><br><a href="https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback)" target="_blank" rel="noopener">BluetoothLeScanner.startScan()</a><br><strong>Note:</strong> When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul>
+<li><p>只需要在扫描 BLE 设备之前动态向用户申请位置权限</p>
+<p>  我的代码：</p>
+</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;<span class="comment">//如果 API level 是大于等于 23(Android 6.0) 时</span></span><br><span class="line">      <span class="comment">//判断是否具有权限</span></span><br><span class="line">      <span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>,</span><br><span class="line">              Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">          <span class="comment">//判断是否需要向用户解释为什么需要申请该权限</span></span><br><span class="line">          <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>,</span><br><span class="line">                  Manifest.permission.ACCESS_COARSE_LOCATION)) &#123;</span><br><span class="line">              Toast.makeText(<span class="keyword">this</span>, <span class="string">"自Android 6.0开始需要打开位置权限才可以搜索到Ble设备"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="comment">//请求权限</span></span><br><span class="line">          ActivityCompat.requestPermissions(<span class="keyword">this</span>,</span><br><span class="line">                  <span class="keyword">new</span> String[]&#123;Manifest.permission.ACCESS_COARSE_LOCATION&#125;,</span><br><span class="line">                  REQUEST_CODE_ACCESS_COARSE_LOCATION);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>问题解决。</p>
+<!--以下是本文用到的超链接-->
+
+]]></content>
+      <categories>
+        <category>android</category>
+        <category>ble</category>
+      </categories>
+      <tags>
+        <tag>ble</tag>
+        <tag>android</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git 提交到远程的正确操作</title>
+    <url>/2018/0123/git-push-remote.html</url>
+    <content><![CDATA[<p>git 提交代码到远程仓库如何做</p>
+<h2 id="第一种-暂存工作区的方式-stash"><a href="#第一种-暂存工作区的方式-stash" class="headerlink" title="第一种,暂存工作区的方式 (stash)"></a>第一种,暂存工作区的方式 (stash)</h2><ol>
+<li><p>保存当前的工作进度。会分别对暂存区和工作区的状态进行保存</p>
+<blockquote>
+<p>stash changes</p>
+</blockquote>
+</li>
+<li><p>从远程仓库拉去最新 Code</p>
+<blockquote>
+<p>pull</p>
+</blockquote>
+</li>
+<li><p>恢复暂存的工作状态</p>
+<blockquote>
+<p>unstash changes (Pop stash)</p>
+</blockquote>
+</li>
+<li><p>若本地和远程仓库修改了同一行需要整理下代码(若没有,可略过)</p>
+<blockquote>
+<p>修改重复行</p>
+</blockquote>
+</li>
+<li><p>此时自己本地的是最新 Code, 跑起来检查下,没问题可以提交了</p>
+<blockquote>
+<p>commit files</p>
+</blockquote>
+</li>
+<li><p>推到远程仓库</p>
+<blockquote>
+<p>push to remote</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="第二种-合并分支的方式"><a href="#第二种-合并分支的方式" class="headerlink" title="第二种, 合并分支的方式"></a>第二种, 合并分支的方式</h2><blockquote>
+<p>commit -&gt; pull -&gt; merge -&gt; push  </p>
+</blockquote>
+<p>方式不同, 但思想都是一样的: 将远程更新的代码和自己的修改在本地合并, 然后再将手中最新 Code 推到远程仓库.</p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android 中 HOME, MENU, BACK 按键的监听</title>
+    <url>/2018/0122/keyevent-listen.html</url>
+    <content><![CDATA[<h2 id="Back-键的监听"><a href="#Back-键的监听" class="headerlink" title="Back 键的监听"></a>Back 键的监听</h2><p>对于 Back 键的监听比较容易, 可以在多个系统回调处拦截, 比如在 activity 的下列方法中都可以收到 Back 键按下的事件:  </p>
+<a id="more"></a>
+
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">&lt;span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start"&gt;&lt;/span&gt;&lt;span data-mce-type="bookmark" style="display: inline-block; width: 0px; overflow: hidden; line-height: 0;" class="mce_SELRES_start"&gt;&lt;/span&gt;]</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBackPressed</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">// super.onBackPressed();//注释掉这行,back键不退出activity</span></span><br><span class="line"></span><br><span class="line">Log.i(LOG_TAG, <span class="string">"onBackPressed"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchKeyEvent</span><span class="params">(KeyEvent event)</span> </span>&#123;</span><br><span class="line">Log.i(LOG_TAG, <span class="string">"dispatchKeyEvent: keyCode -- "</span> + event.getKeyCode());</span><br><span class="line"><span class="keyword">return</span> <span class="keyword">super</span>.dispatchKeyEvent(event);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onKeyDown</span><span class="params">(<span class="keyword">int</span> keyCode, KeyEvent event)</span> </span>&#123;</span><br><span class="line">Log.i(LOG_TAG, <span class="string">"onKeyDown: keyCode -- "</span> + keyCode);</span><br><span class="line"></span><br><span class="line"><span class="keyword">switch</span> (keyCode) &#123;</span><br><span class="line"><span class="keyword">case</span> KeyEvent.KEYCODE_BACK:</span><br><span class="line">Log.i(LOG_TAG, <span class="string">"KeyEvent.KEYCODE_BACK"</span>);</span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> KeyEvent.KEYCODE_MENU:</span><br><span class="line">Log.i(LOG_TAG, <span class="string">"KeyEvent.KEYCODE_MENU"</span>);</span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> KeyEvent.KEYCODE_HOME:</span><br><span class="line">Log.i(LOG_TAG, <span class="string">"KeyEvent.KEYCODE_HOME"</span>);</span><br><span class="line"><span class="comment">// 收不到</span></span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">case</span> KeyEvent.KEYCODE_APP_SWITCH:</span><br><span class="line">Log.i(LOG_TAG, <span class="string">"KeyEvent.KEYCODE_APP_SWITCH"</span>);</span><br><span class="line"><span class="comment">// 收不到</span></span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line"><span class="keyword">break</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">return</span> <span class="keyword">super</span>.onKeyDown(keyCode, event);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="Home-键的广播监听"><a href="#Home-键的广播监听" class="headerlink" title="Home 键的广播监听"></a>Home 键的广播监听</h2><p>对于 Home 键的监听不是那么容易, 因为 Home 键可以将程序退出放在后台, 所以这个事件是直接分发给系统, 系统接收到之后做相应处理, Home 键的事件不是直接传递到应用里面. 所以在上述监听 Back 键的代码中, 相应的回调中是收不到 Home 键的事件的.  </p>
+<p>参考文后的博客链接, 对 Home 键的监听主要通过注册广播接收器实现, 拦截让窗口关闭的系统动作, 然后根据 Intent 里面的具体参数, 分析当前到底是 Home 键, 应用切换键, 还是其他功能按键.</p>
+<ul>
+<li>接收器实现如下:</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.mengdd.hellohome;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.BroadcastReceiver;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HomeWatcherReceiver</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String LOG_TAG = <span class="string">"HomeReceiver"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SYSTEM_DIALOG_REASON_KEY = <span class="string">"reason"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SYSTEM_DIALOG_REASON_RECENT_APPS = <span class="string">"recentapps"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SYSTEM_DIALOG_REASON_HOME_KEY = <span class="string">"homekey"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SYSTEM_DIALOG_REASON_LOCK = <span class="string">"lock"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String SYSTEM_DIALOG_REASON_ASSIST = <span class="string">"assist"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onReceive</span><span class="params">(Context context, Intent intent)</span> </span>&#123;</span><br><span class="line">        String action = intent.getAction();</span><br><span class="line">        Log.i(LOG_TAG, <span class="string">"onReceive: action: "</span> + action);</span><br><span class="line">        <span class="keyword">if</span> (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) &#123;</span><br><span class="line">            <span class="comment">// android.intent.action.CLOSE_SYSTEM_DIALOGS</span></span><br><span class="line">            String reason = intent.getStringExtra(SYSTEM_DIALOG_REASON_KEY);</span><br><span class="line">            Log.i(LOG_TAG, <span class="string">"reason: "</span> + reason);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (SYSTEM_DIALOG_REASON_HOME_KEY.equals(reason)) &#123;</span><br><span class="line">                <span class="comment">// 短按Home键</span></span><br><span class="line">                Log.i(LOG_TAG, <span class="string">"homekey"</span>);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (SYSTEM_DIALOG_REASON_RECENT_APPS.equals(reason)) &#123;</span><br><span class="line">                <span class="comment">// 长按Home键 或者 activity切换键</span></span><br><span class="line">                Log.i(LOG_TAG, <span class="string">"long press home key or activity switch"</span>);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (SYSTEM_DIALOG_REASON_LOCK.equals(reason)) &#123;</span><br><span class="line">                <span class="comment">// 锁屏</span></span><br><span class="line">                Log.i(LOG_TAG, <span class="string">"lock"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (SYSTEM_DIALOG_REASON_ASSIST.equals(reason)) &#123;</span><br><span class="line">                <span class="comment">// samsung 长按Home键</span></span><br><span class="line">                Log.i(LOG_TAG, <span class="string">"assist"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p><em>注意不同手机的按键不同, 所以需要对不同理由做区分.</em></p>
+<h2 id="Home-键监听广播注册"><a href="#Home-键监听广播注册" class="headerlink" title="Home 键监听广播注册"></a>Home 键监听广播注册</h2><ul>
+<li><p>广播接收器的注册有两种方式</p>
+<ul>
+<li><p>一种是静态注册, 即写在 manifest 里面声明;  </p>
+</li>
+<li><p>另一种是动态注册, 即在 Java 代码里面注册.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>上面对 Home 键实现监听的这个 receiver, 静态注册如下:</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;receiver android:name=<span class="string">"com.mengdd.hellohome.HomeWatcherReceiver"</span> &gt;</span><br><span class="line">           &lt;intent-filter&gt;</span><br><span class="line">               &lt;action android:name=<span class="string">"android.intent.action.CLOSE_SYSTEM_DIALOGS"</span> /&gt;</span><br><span class="line">           &lt;/intent-filter&gt;</span><br><span class="line">       &lt;/receiver&gt;</span><br></pre></td></tr></table></figure>
+
+<p><span style="color: red;">但是发现静态注册不起作用, 即收不到 onReceive 回调.</span></p>
+<p><a href="http://blog.kekemao.top" target="_blank" rel="noopener">独角博客</a><font color="skyblue"> 转自：<a href="http://blog.csdn.net/cc20032706" rel="noopener" target="_blank">摄氏三十七度</a>的 <a href="http://blog.csdn.net/cc20032706/article/details/49472425" rel="noopener" target="_blank">Android Back Home 键监听_广播监听</a></font></p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>aeyEvent</tag>
+        <tag>home</tag>
+        <tag>back</tag>
+        <tag>menu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git 常用命令</title>
+    <url>/2018/0506/git-command.html</url>
+    <content><![CDATA[<h1 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h1><p>用过且常用到的 git 命令,记录下来。方便查询</p>
+<h2 id="修改提交记录"><a href="#修改提交记录" class="headerlink" title="修改提交记录"></a>修改提交记录</h2> <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 重写最后一次提交，不编辑描述信息</span></span><br><span class="line">git commit --amend --no-edit</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将新的修改 应用到最后一次的提交内容里面，编辑最后一次的提交描述为 “fix a bug.”</span></span><br><span class="line">git commit --amend -m <span class="string">"fix a bug."</span></span><br></pre></td></tr></table></figure></div>
+
+<h2 id="查看提交历史"><a href="#查看提交历史" class="headerlink" title="查看提交历史"></a>查看提交历史</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 一行显示</span></span><br><span class="line">git <span class="built_in">log</span> --oneline</span><br><span class="line"><span class="comment"># 查看最近 2 次的提交日志</span></span><br><span class="line">git <span class="built_in">log</span> -2  </span><br><span class="line"><span class="comment"># 查看历史纪录以来哪几行被修改</span></span><br><span class="line">git <span class="built_in">log</span> -p  </span><br><span class="line"></span><br><span class="line"><span class="comment"># git reflog 是用来恢复本地错误操作很重要的一个命令 （比如往前回滚了两个提交，现在想回到回滚前的节点。这时候 git log ，已经不能看到那个 hash 值了，此时用 git reflog）</span></span><br><span class="line">git reflog</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置一个 git lg 的别名更方便地查看历史（设置方法在下面）</span></span><br><span class="line">git lg</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="设置一个-lg-别名，高效查看提交历史"><a href="#设置一个-lg-别名，高效查看提交历史" class="headerlink" title="设置一个 lg 别名，高效查看提交历史"></a>设置一个 lg 别名，高效查看提交历史</h3> <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置一个 lg 的别名</span></span><br><span class="line">git config --global alias.lg <span class="string">"log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit"</span></span><br></pre></td></tr></table></figure></div>
+
+ <a id="more"></a>
+
+<h2 id="pull"><a href="#pull" class="headerlink" title="pull"></a>pull</h2><p><code>git pull</code> 其实是执行了两个操作：<code>git fetch</code> 和 <code>git merge</code>。<br><code>git pull</code> 是获取远程仓库的新内容，并合并到本地（如果远程与本地都修改了同一行，需要处理冲突）。</p>
+<p> git pull 用法：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git pull &lt;remote&gt; &lt;remoteBranch&gt;:&lt;localBranch&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p>其实在平时使用时关联了远程仓库，直接执行 <code>git pull</code> 即可。</p>
+<h2 id="移除暂存区对文件的跟踪"><a href="#移除暂存区对文件的跟踪" class="headerlink" title="移除暂存区对文件的跟踪"></a><a href="https://kekemao.me/2018/0122/git-rm.html" target="_blank" rel="noopener">移除暂存区对文件的跟踪</a></h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git rm --cached (-r 文件夹) files-path</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="撤销工作区文件的更改"><a href="#撤销工作区文件的更改" class="headerlink" title="撤销工作区文件的更改"></a>撤销工作区文件的更改</h2>  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git checkout -- fileName</span><br></pre></td></tr></table></figure></div>
+
+<p>  OR 撤销工作区的所有更改</p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git checkout .</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="撤销暂存区文件的修改"><a href="#撤销暂存区文件的修改" class="headerlink" title="撤销暂存区文件的修改"></a>撤销暂存区文件的修改</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git reset HEAD file</span><br></pre></td></tr></table></figure></div>
+
+<p>OR 撤销暂存区的所有更改</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git reset .</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="仓库操作"><a href="#仓库操作" class="headerlink" title="仓库操作"></a>仓库操作</h2><ul>
+<li><p>查看当前远程仓库</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure></div></li>
+<li><p>查看远程仓库详细信息</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git remote show [remote-name]</span><br></pre></td></tr></table></figure></div></li>
+<li><p>要添加一个新的远程仓库，可以指定一个简单的名字，以便将来引用，运行</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git remote add [shortname] [url]</span><br></pre></td></tr></table></figure></div></li>
+<li><p>移除远程仓库</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git remote rm origin</span><br></pre></td></tr></table></figure></div></li>
+<li><p>从远程仓库抓取数据</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git fetch [remote-name]</span><br></pre></td></tr></table></figure></div></li>
+<li><p>推送数据到远程仓库</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git push origin master</span><br></pre></td></tr></table></figure></div></li>
+<li><p>远程仓库的删除和重命名</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git remote rename &lt;oldName&gt; &lt;newName&gt;</span><br><span class="line">git remote rm</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="分支操作"><a href="#分支操作" class="headerlink" title="分支操作"></a>分支操作</h2><p><em>功能分支的名字，可以采用 feature- 的形式命名。</em></p>
+<p>Git 鼓励大量使用分支：</p>
+<ul>
+<li><p><strong>查看分支：</strong><code>git branch</code></p>
+</li>
+<li><p><strong>创建分支：</strong><code>git branch &lt;name&gt;</code></p>
+</li>
+<li><p><strong>切换分支：</strong><code>git checkout &lt;name&gt;</code></p>
+</li>
+<li><p><strong>创建+切换分支：</strong><code>git checkout -b &lt;name&gt;</code></p>
+</li>
+<li><p><strong>重命名分支：</strong> <code>git branch -m oldName newName</code></p>
+</li>
+<li><p><strong>合并某分支到当前分支：</strong><code>git merge &lt;name&gt;</code></p>
+</li>
+<li><p><strong>合并当前分支到某分支：</strong><code>git rebase &lt;name&gt;</code></p>
+</li>
+<li><p><strong>删除分支：</strong><code>git branch -d &lt;name&gt;</code></p>
+</li>
+<li><p><strong>删除远程分支( v1.7.0 之后)：</strong><code>$ git push origin --delete &lt;branchName&gt;</code></p>
+</li>
+<li><p><strong>服务器上获取最新的版本并将你本地主分支指向到它:</strong></p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git fetch origin  </span><br><span class="line">git reset --hard origin/master</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="重写历史提交记录"><a href="#重写历史提交记录" class="headerlink" title="重写历史提交记录"></a>重写历史提交记录</h2><ul>
+<li><p><strong>显示 HEAD 更改时间的列表</strong> <code>git reflog</code>  </p>
+<p>  <em>git reflog 可以查看所有分支的所有操作记录（包括（包括 commit 和 reset 的操作），包括已经被删除的 commit 记录，git log 则不能查看已经删除了的 commit 记录，而且跟进结果可以回退到某一个修改, 红色加粗的即是被删除了的</em></p>
+</li>
+<li><p><strong><a href="https://www.atlassian.com/git/tutorials/rewriting-history" target="_blank" rel="noopener">改变最后的提交</a></strong> <code>git commit --amend</code> 或 <code>git commit --amend -m &quot;fix bug #42&quot;</code></p>
+</li>
+<li><p><strong><a href="http://debugtalk.com/post/clean-sensitive-data-from-git-history-commits/" target="_blank" rel="noopener">清除历史提交记录中的敏感信息</a></strong> <code>git filter-branch</code></p>
+</li>
+<li><p><strong><a href="%E6%94%B9%E5%8F%98%E6%9C%80%E5%90%8E%E7%9A%84%E6%8F%90%E4%BA%A4">更改旧的或多个提交</a></strong> <code>git rebase</code></p>
+</li>
+</ul>
+<h2 id="Stash"><a href="#Stash" class="headerlink" title="Stash"></a>Stash</h2><ul>
+<li><code>git stash</code> </li>
+<li><code>git stash pop</code></li>
+<li><code>git stash list</code></li>
+</ul>
+<h2 id="git-tag"><a href="#git-tag" class="headerlink" title="git tag"></a>git tag</h2><p><strong>含附注的标签:</strong></p>
+<p>创建一个含附注类型的标签非常简单，用 -a （译注：取 annotated 的首字母）指定标签名字即可：  </p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">$ git tag -a v1.4 -m <span class="string">'my version 1.4'</span>  </span><br><span class="line">$ git tag  </span><br><span class="line">v0.1  </span><br><span class="line">v1.3  </span><br><span class="line">v1.4</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li><p>内建的图形化 git：  </p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">gitk</span><br></pre></td></tr></table></figure></div></li>
+<li><p>彩色的 git 输出：  </p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git config color.ui <span class="literal">true</span></span><br></pre></td></tr></table></figure></div></li>
+<li><p>显示历史记录时，只显示一行注释信息：  </p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git config format.pretty oneline</span><br></pre></td></tr></table></figure></div></li>
+<li><p>交互地添加文件至缓存区：  </p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git add -i</span><br></pre></td></tr></table></figure></div></li>
+<li><p>单个文件到指定版本</p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git checkout &lt;HEAD&gt; &lt;file&gt;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ul>
+<li><p><code>git clone https://github.com/</code> // 将远程库下载到本地</p>
+</li>
+<li><p><code>git init</code> // 初始化一个 Git 仓库</p>
+<!--more--></li>
+<li><p><code>git add .</code> // 将工作区内容添加到暂存区（使用 -A 也可以）</p>
+</li>
+<li><p><code>git status</code> // 查看状态</p>
+</li>
+<li><p><code>git commit -m ‘comment’</code> // 将暂存区的内容提交到版本库</p>
+</li>
+<li><p><code>git remote add origin https://github.com/</code> // 与远程库建立关联</p>
+</li>
+<li><p><code>git push origin branchName</code> // 将本地版本库内容提交到远程分支，第一次需要加 -u</p>
+</li>
+<li><p><code>git pull origin branchName</code> // 将远程分支拉到本地后通过git merge合并</p>
+</li>
+<li><p><code>git pull –rebase branchName</code> // 将远程分支拉到本地后通过git rebase合并</p>
+</li>
+<li><p><code>git log –pretty=oneline –pragh</code> // 查看日志</p>
+</li>
+<li><p><code>git checkout -b branchName</code> // 从当前版本库创建一个分支，并切换到该分支</p>
+</li>
+<li><p><code>git branch</code> // 查看所有分支</p>
+</li>
+<li><p><code>git branch -D branchName</code> // 删除分支</p>
+</li>
+<li><p><code>git reset –hard HEAD</code> // 丢弃工作区和暂存区的所有更改</p>
+</li>
+<li><p><code>git checkout – fileName</code> // 丢弃工作区的文件更改</p>
+</li>
+<li><p><code>git checkout &lt;HEAD&gt; &lt;file&gt;</code> 单个文件到指定版本</p>
+</li>
+<li><p><code>git stash</code> // 将当前分支的内容暂存起来，等价 git stash push</p>
+</li>
+<li><p><code>git stash list</code> // 列出当前分支缓存的内容</p>
+</li>
+<li><p><code>git stash pop</code> // 拿出当前分支缓存的内容</p>
+</li>
+<li><p><code>git fectch origin branchName</code> // 将远程分支拉到本地</p>
+</li>
+<li><p><code>git merger branchName</code> // 将分支合并到本地</p>
+</li>
+<li><p><code>git rebase branchName</code> // 合并分支到本地</p>
+</li>
+<li><p><code>git diff HEAD</code> // 将工作区与当前版本库对比</p>
+</li>
+</ul>
+<h2 id="不常用命令"><a href="#不常用命令" class="headerlink" title="不常用命令"></a>不常用命令</h2><ul>
+<li>`git tag ‘v1.0’ // 打标签</li>
+<li><code>git tag -d ‘v1.0’</code> // 删除标签</li>
+<li><code>git branch -a</code> // 查看所有分支（包括远程分支）</li>
+<li><code>git branch -r</code> // 只查看远程分支</li>
+<li><code>git rm fileName</code> // 从 Git 中删除文件</li>
+<li><code>git mv oldName newName</code> // 文件改名</li>
+<li><code>git commit -am “init”</code> 提交并且加注释</li>
+<li><code>git config –list</code> // 查看用户信息</li>
+<li><code>git grep ‘something’</code> // 文件内容搜索</li>
+<li><code>git reflog</code> // 分支等引用变更记录管理</li>
+<li><code>git show-branch</code> // 显示分支列表及拓扑关系</li>
+<li><code>git count-objects</code> // 显示松散对象的数量和磁盘占用</li>
+<li><code>git filter-branch</code> // 版本库重构</li>
+<li><code>git fsck</code> // 对象库完整性检查</li>
+<li><code>git blame fileName</code> // 列出文件内容，左侧是对应每行的提交纪录</li>
+<li><code>git gc</code> // 对仓库进行重新打包以节省空间（会定时运行）</li>
+<li><code>git revert</code> // 还原一个版本的修改</li>
+</ul>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><ul>
+<li><code>git pull</code> 相当于：<code>git fetch</code> + <code>git merge</code></li>
+<li><code>git mv</code> 相当于：<code>mv /git rm</code> / <code>git add</code></li>
+</ul>
+<hr>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>GitHub&#39;s Links</title>
+    <url>/2018/0120/github-links.html</url>
+    <content><![CDATA[<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><ul>
+<li><p><a href="https://github.com/trending" target="_blank" rel="noopener">GitHub 热门项目</a>  </p>
+<p> GitHub 网站上最热门的项目（可按月，周，天查看）  </p>
+</li>
+<li><p><a href="https://octoverse.github.com/" target="_blank" rel="noopener">GitHub 年度报告</a>  </p>
+<p> 去年 GitHub 网站内容综合报告</p>
+</li>
+</ul>
+<a id="more"></a>
+
+]]></content>
+      <categories>
+        <category>gitHub</category>
+      </categories>
+      <tags>
+        <tag>gitHub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hiding the Navigation Bar</title>
+    <url>/2018/0120/hiding-navigationBar.html</url>
+    <content><![CDATA[<p>去除虚拟导航</p>
+<p>developer.android.com: <a href="https://developer.android.com/training/system-ui/navigation.html#behind" target="_blank" rel="noopener">Hiding the Navigation Bar</a></p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideSystemNavigationBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt; <span class="number">11</span> &amp;&amp; Build.VERSION.SDK_INT &lt; <span class="number">19</span>) &#123;</span><br><span class="line">            View view = <span class="keyword">this</span>.getWindow().getDecorView();</span><br><span class="line">            view.setSystemUiVisibility(View.GONE);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">19</span>) &#123;</span><br><span class="line">            View decorView = getWindow().getDecorView();</span><br><span class="line">            <span class="keyword">int</span> uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br><span class="line">                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;</span><br><span class="line">            decorView.setSystemUiVisibility(uiOptions);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
+
+<a id="more"></a>
+
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>ui</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git 移除仓库文件</title>
+    <url>/2018/0122/git-rm.html</url>
+    <content><![CDATA[<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p><code>.idea/</code> 目录本地需要，但不希望被 Git 跟踪。并且 .gitignore 文件内加入 <code>.idea/</code> 无效。</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>  对应的目录或者文件在添加到 .gitignore 之前已经被 Git 跟踪。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git rm -r --cached .idea</span><br></pre></td></tr></table></figure></div>
+
+<a id="more"></a>
+
+<hr>
+<h2 id="Git-清除缓存用法"><a href="#Git-清除缓存用法" class="headerlink" title="Git 清除缓存用法"></a>Git 清除缓存用法</h2><p><em>它与 <code>git add .</code> 起得作用的相反的，运行此命令暂存区的文件删除后，下次再 <code>git add .</code> .gitignore 文件发挥作用，就不再跟踪 .idea 文件夹了，也就不会 push 到远程库。</em></p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="PLAIN"><figure class="iseeu highlight /plain"><table><tr><td class="code"><pre><span class="line">git rm --cached files-path</span><br></pre></td></tr></table></figure></div>
+
+<p> Git 移除文件夹：（ -r ）</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">git rm --cached -r files-path</span><br></pre></td></tr></table></figure></div>
+
+<p>附：Android 项目中可移除的文件及文件夹清单( <a href="https://github.com/github/gitignore" target="_blank" rel="noopener">.gitignore</a> )，<a href="https://gitignore.io/" target="_blank" rel="noopener">https://gitignore.io</a></p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">*.iml</span><br><span class="line">.gradle</span><br><span class="line">/local.properties</span><br><span class="line">/.idea/workspace.xml</span><br><span class="line">/.idea/libraries</span><br><span class="line">.DS_Store</span><br><span class="line">/build</span><br><span class="line">/captures</span><br><span class="line">.externalNativeBuild</span><br><span class="line"></span><br><span class="line"><span class="comment"># Built application files</span></span><br><span class="line">*.apk</span><br><span class="line">*.ap_</span><br><span class="line"></span><br><span class="line"><span class="comment"># Files for the ART/Dalvik VM</span></span><br><span class="line">*.dex</span><br><span class="line"></span><br><span class="line"><span class="comment"># Java class files</span></span><br><span class="line">*.class</span><br><span class="line"></span><br><span class="line"><span class="comment"># Generated files</span></span><br><span class="line">bin/</span><br><span class="line">gen/</span><br><span class="line">out/</span><br><span class="line"></span><br><span class="line"><span class="comment"># Gradle files</span></span><br><span class="line">.gradle/</span><br><span class="line">build/</span><br><span class="line"></span><br><span class="line"><span class="comment"># Local configuration file (sdk path, etc)</span></span><br><span class="line">local.properties</span><br><span class="line"></span><br><span class="line"><span class="comment"># Proguard folder generated by Eclipse</span></span><br><span class="line">proguard/</span><br><span class="line"></span><br><span class="line"><span class="comment"># Log Files</span></span><br><span class="line">*.<span class="built_in">log</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Android Studio Navigation editor temp files</span></span><br><span class="line">.navigation/</span><br><span class="line"></span><br><span class="line"><span class="comment"># Android Studio captures folder</span></span><br><span class="line">captures/</span><br><span class="line"></span><br><span class="line"><span class="comment"># Intellij</span></span><br><span class="line">*.iml</span><br><span class="line">.idea/workspace.xml</span><br><span class="line"></span><br><span class="line"><span class="comment"># Keystore files</span></span><br><span class="line">*.jks</span><br></pre></td></tr></table></figure></div>
+
+<hr>
+<p>&lt; -完- &gt;</p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+        <tag>.gitignore</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MAC OS 卸载 JDK</title>
+    <url>/2018/0516/uninstall-jdk-for-mac.html</url>
+    <content><![CDATA[<ol>
+<li>单击位于停靠栏中的 Finder 图标</li>
+<li>单击实用程序文件夹</li>
+<li>双击终端图标</li>
+<li>在“终端”窗口中，复制和粘贴命令：</li>
+</ol>
+<a id="more"></a>
+
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">sudo rm -fr /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin</span><br><span class="line">sudo rm -fr /Library/PreferencesPanes/JavaControlPanel.prefPane</span><br><span class="line">sudo rm -fr ~/Library/Application\ Support/Java</span><br></pre></td></tr></table></figure></div>
+
+<blockquote>
+<p>请勿尝试通过从 /usr/bin 删除 Java 工具来卸载 Java。此目录是系统软件的一部分，下次对操作系统执行更新时，Apple 会重置所有更改。</p>
+</blockquote>
+<hr>
+<p>参: <a href="https://www.java.com/zh_CN/download/help/mac_uninstall_java.xml" target="_blank" rel="noopener">使用终端卸载 Oracle Java</a></p>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>jdk</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>adb shell</title>
+    <url>/2018/0901/adb-shell.html</url>
+    <content><![CDATA[<ul>
+<li><p>向文本框输入字符</p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell input text string</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>向当前文本框内输入 “string” 字符，较常用</p>
+<ul>
+<li><p>点击动作 (down)</p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell input tap 20 20</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>模拟手指在 (20,20) 坐标点击动作</p>
+<a id="more"></a>
+
+<ul>
+<li><p>滑动动作 (move)</p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell input swipe 30 1 30 100</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+<p>模拟手指从 (30,1) 到 (30,100) 的滑动动作</p>
+<ul>
+<li><p>事件 log</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell getevent -c 10 //输出10条信息后退出</span><br><span class="line">adb shell getevent -l  //将<span class="built_in">type</span>、code、value以对应的常量名称显示</span><br></pre></td></tr></table></figure></div></li>
+<li><p>查看设备信息</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell devices -l</span><br></pre></td></tr></table></figure></div></li>
+<li><p>限制视频录制时间为 10s, 如果不限制,默认180s:</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell screenrecord  --time-limit 10 /sdcard/demo.mp4</span><br></pre></td></tr></table></figure></div></li>
+<li><p>指定视频分辨率大小</p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell screenrecord --size 1280*720 /sdcard/demo.mp4</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p>截屏命令：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell screencap -p /sdcard/screen.png</span><br><span class="line"></span><br><span class="line">adb pull /sdcard/screen.png</span><br><span class="line"></span><br><span class="line">adb shell rm /sdcard/screen.png</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+</li>
+<li><p>输出安装包的 apk 路径</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell pm path &lt;packages&gt;</span><br></pre></td></tr></table></figure></div></li>
+<li><p>删除与包相关的所有数据：清除数据和缓存.</p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell pm clear &lt;packageName&gt;</span><br></pre></td></tr></table></figure></div></li>
+<li><p>查看正在运行的服务</p>
+  <div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">adb shell dumpsys activity services &lt;packageName可选&gt;</span><br></pre></td></tr></table></figure></div></li>
+</ul>
+]]></content>
+      <categories>
+        <category>shell</category>
+      </categories>
+      <tags>
+        <tag>adb</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android 屏幕相关代码笔记</title>
+    <url>/2018/0803/note_screen.html</url>
+    <content><![CDATA[<p>在需要设置进制截屏的 Activity 的生命周期 onCreate() 方法中添加一行代码即可：</p>
+<ul>
+<li>禁止截屏</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>屏幕常亮  </li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">getWindow.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)</span><br></pre></td></tr></table></figure></div>
+
+<a id="more"></a>
+
+<p>可放在 BaseActivity 的 onCreate()  中</p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>note</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一句话解决硬盘打不开提示格式化</title>
+    <url>/2018/0507/chkdsk.html</url>
+    <content><![CDATA[<h2 id="需要使用的命令（若故障磁盘为-F）"><a href="#需要使用的命令（若故障磁盘为-F）" class="headerlink" title="需要使用的命令（若故障磁盘为 F）"></a>需要使用的命令（若故障磁盘为 F）</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">chkdsk F: /f</span><br></pre></td></tr></table></figure></div>
+
+<a id="more"></a>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><blockquote>
+1、单击“开始”，点击“运行”，输入cmd并回车打开命令提示符窗口；
+2、在此窗口输入以下命令：
+例如检查并修复 F 分区：
+
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">chkdsk F: /f</span><br></pre></td></tr></table></figure></div>
+
+<p>回车就会启动 chkdsk 磁盘检查工具扫描D分区了，坐等程序完成就 OK 啦 ！不必格式化几百 G 的数据。<br>检查其他分区类似。</p>
+</blockquote>
+<hr>
+
+<h2 id="详细的参数说明如下"><a href="#详细的参数说明如下" class="headerlink" title="详细的参数说明如下"></a>详细的参数说明如下</h2><blockquote>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">CHKDSK [volume[[path]filename]]] [/F] [/V] [/R] [/X] [/I] [/C] [/L[:size]]</span><br></pre></td></tr></table></figure></div>
+
+</blockquote>
+volume 指定驱动器(后面跟一个冒号)、装入点
+或卷名。
+filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
+`/F` 修复磁盘上的错误。
+`/V` 在 FAT/FAT32 上: 显示磁盘上每个文件的完整路径和名称。
+在 NTFS 上: 如果有清除消息，将其显示。
+`/R` 查找不正确的扇区并恢复可读信息(隐含 /F)。
+`/L`:size 仅用于 NTFS: 将日志文件大小改成指定的 KB 数。
+如果没有指定大小，则显示当前的大小。
+`/X` 如果必要，强制卷先卸下。
+卷的所有打开的句柄就会无效(隐含 /F)。
+`/I` 仅用于 NTFS: 对索引项进行强度较小的检查。
+`/C` 仅用于 NTFS: 跳过文件夹结构的循环检查。
+
+<p><code>/I</code> 和 /C 命令行开关跳过卷的某些检查，减少运行 Chkdsk 所需的时间。</p>
+<h2 id="报告磁盘错误"><a href="#报告磁盘错误" class="headerlink" title="报告磁盘错误"></a>报告磁盘错误</h2><p>chkdsk 命令会检查磁盘空间和文件分配表 (FAT)以及 NTFS 文件系统的使用情况。Chkdsk 在状态报告中提供特定于每个文件系统的信息。状态报告显示文件系统中找到的错误。在活动分区上运行 chkdsk 时，如果未含 /f 命令行选项，则它可能会因为无法锁定该驱动器而报告虚假信息。应该不定期使用 chkdsk 检查每个磁盘上的错误。</p>
+<h2 id="修复磁盘错误"><a href="#修复磁盘错误" class="headerlink" title="修复磁盘错误"></a>修复磁盘错误</h2><p>只有指定 /f 命令行选项，chkdsk 命令才修复磁盘错误。Chkdsk 必须可以锁定驱动器以纠正错误。由于修复通常会更改磁盘的文件分配表，有时还会丢失数据，所以 chkdsk 会首先发送如下所示的确认消息：</p>
+<blockquote>
+　　10 lost allocation units found in 3 chains.
+　　Convert lost chains to files?
+</blockquote>
+　　如果按 Y，Windows 会在根目录中将所有丢失链保存在一个名为 Filennnn.chk 的文件中。chkdsk 结束后，可以查看这些文件是否包含了所需的数据。如果按 N，Windows 会修复磁盘，但对于丢失的分配单元，它不保存其内容。
+　　如果不使用 /f 命令行选项，则在有文件需要修复时，chkdsk 会发送消息，但它不修复任何错误。
+　　如果在大磁盘（例如，70 GB）或有大量文件（数百万）的磁盘上使用 chkdsk /f，这可能要花很长时间（比如说，数天）才能完成。因为 chkdsk 直到工作完成它才会交出控制权，所以计算机在这段时间内将不可用。
+　　检查 FAT 磁盘
+　　Windows 以下列格式显示 FAT 磁盘的 chkdsk 状态报告：
+　　检查 NTFS 磁盘
+　　Windows 以下列格式显示 NTFS 磁盘的 chkdsk 状态报告：
+　　存在打开文件的情况下使用 chkdsk
+　　如果该驱动器上有打开的文件，则指定 /f 命令行选项后，chkdsk 会发送错误消息。如果未指定 /f 命令行选项并且存在打开的文件，则 chkdsk 会报告磁盘上丢失的分配单元。如果打开的文件没有记录在文件分配表时，可能会发生这种情况。如果 chkdsk 报告大量分配单元丢失，可以考虑修复该磁盘。
+　　查找物理磁盘错误
+　　使用 /r 命令行选项可查找文件系统中的物理磁盘错误。有关使用 recover 修复物理性损坏文件的信息，请参阅“”。
+　　报告磁盘坏扇区
+　　在磁盘第一次准备运行时，chkdsk 报告的坏扇区标记为损坏。它们不会造成危险。
+
+<p>参：<a href="<http://www.jb51.net/softjc/60642.html>" target="_blank">http://www.jb51.net/softjc/60642.html</a></p>
+<p><a href="http://blog.kekemao.top" target="_blank" rel="noopener">独角博客</a><i>-更新于-2017-9-20</i></p>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>修复硬盘</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java 获取当前行</title>
+    <url>/2018/0120/java-line.html</url>
+    <content><![CDATA[<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取当前代码行号</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> FileName:LineNumber</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getLineInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    StackTraceElement ste = <span class="keyword">new</span> Throwable().getStackTrace()[<span class="number">1</span>];</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     ste.isNativeMethod();//本机方法</span></span><br><span class="line"><span class="comment">     ste.getClassName();//类名</span></span><br><span class="line"><span class="comment">     ste.getFileName();//文件名</span></span><br><span class="line"><span class="comment">     ste.getLineNumber();//行号</span></span><br><span class="line"><span class="comment">     ste.getMethodName();//方法名*/</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"--- File: "</span> + ste.getFileName() + <span class="string">",  Class: "</span> + ste.getClassName() + <span class="string">",  Method: "</span> + ste.getMethodName() + <span class="string">"(),  Line: "</span> + ste.getLineNumber();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>描述 View 的绘制原 理</title>
+    <url>/2018/0420/view-customize.html</url>
+    <content><![CDATA[<p>View 的绘制流程主要分为三步：</p>
+<ol>
+<li><p>onMeasure：<br>测量视图的大小，从顶层父View到子View递归调用measure()方法，measure()调用onMeasure()方法，onMeasure()方法完成绘制工作。</p>
+</li>
+<li><p>onLayout：<br>确定视图的位置，从顶层父View到子View递归调用layout()方法，父View将上一步measure()方法得到的子View的布局大小和布局参数，将子View放在合适的位置上。</p>
+</li>
+</ol>
+<a id="more"></a>
+
+<ol>
+<li>onDraw：<br>绘制最终的视图，首先ViewRoot创建一个Canvas对象，然后调用onDraw()方法进行绘制。onDraw()方法的绘制流程为：<br>① 绘制视图背景;<br>② 绘制画布的图层;<br>③ 绘制 View 内容;<br>④ 绘制子视图，如果有的话;<br>⑤ 还原图层;<br>⑥ 绘制滚动条。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>view</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker 笔记 (ubuntu)</title>
+    <url>/2019/0830/docker.html</url>
+    <content><![CDATA[<p>docker 查找, 拉取镜像, 操作容器基本命令, mysql 事例</p>
+<a id="more"></a>
+
+<h2 id="volume-卷-持久化"><a href="#volume-卷-持久化" class="headerlink" title="volume 卷 (持久化)"></a>volume 卷 (持久化)</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">docker volume ls</span><br><span class="line">docker volume create volume_name</span><br><span class="line">docker volume rm volume_name</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="下载镜像"><a href="#下载镜像" class="headerlink" title="下载镜像"></a>下载镜像</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment"># 查找镜像</span></span><br><span class="line"></span><br><span class="line">docker search mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># 拉取官方镜像到本地</span></span><br><span class="line"></span><br><span class="line">docker pull mysql</span><br><span class="line"></span><br><span class="line"><span class="comment"># mysql 例</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 运行 mysql 容器,映射到物理机 3306 端口</span></span><br><span class="line"></span><br><span class="line">docker run -d -e MYSQL_ROOT_PASSWORD=123456 --name=mysql_3306 -v volume_name:/var/lib/mysql -p 3306:3306 mysql</span><br></pre></td></tr></table></figure></div>
+
+<p>常用参数:  </p>
+<ul>
+<li><p><code>--rm</code> 说明容器用完就销毁, 即停止后就删除了, 就没了</p>
+</li>
+<li><p><code>-d</code> 容器在后台运行</p>
+</li>
+<li><p><code>-e</code> 给新创建的数据库设置 root 用户的密码</p>
+</li>
+<li><p><code>--name</code> 将容器命名为 <strong>mysql_3306</strong> , 建议命名后面根端口号</p>
+</li>
+<li><p><code>-v</code> 把容器的 <code>/var/lib/mysql</code> 映射到创建的数据卷上</p>
+</li>
+<li><p><code>-p</code> 前面宿主端口, 后面组件端口, 把所有对宿主机 3306 端口的 tcp 报文转发到容器的 3306 端口</p>
+</li>
+</ul>
+<h3 id="操作容器"><a href="#操作容器" class="headerlink" title="操作容器"></a>操作容器</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker ps </span><br><span class="line">docker stop &lt;id 或 name&gt;</span><br><span class="line">docker stop &lt;id 或 name&gt;</span><br><span class="line">docker rm &lt;容器名称&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="进入-mysql-3306-容器"><a href="#进入-mysql-3306-容器" class="headerlink" title="进入 mysql_3306 容器"></a>进入 mysql_3306 容器</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mysql_3306 bash</span><br></pre></td></tr></table></figure></div>
+
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用 ssh 与远程仓库</title>
+    <url>/2019/0422/git-ssh-config.html</url>
+    <content><![CDATA[<h2 id="SSH-概念"><a href="#SSH-概念" class="headerlink" title="SSH 概念"></a>SSH 概念</h2><p>SSH (Secure Shell) 是目前较可靠，专为远程登录会话和其他网络服务提供安全性的协议。</p>
+<h2 id="Git-仓库克隆方式：https-和-ssh"><a href="#Git-仓库克隆方式：https-和-ssh" class="headerlink" title="Git 仓库克隆方式：https 和 ssh"></a>Git 仓库克隆方式：https 和 ssh</h2><ul>
+<li>https 拿到 URL 即可随便 clone ，但是 push 需要验证用户名和密码</li>
+<li>ssh  clone 之前必须配置 ssh 的 Key，但是在之后的 push，fetch 可以不验证用户名和密码的。<br><em>你必须是该项目的拥有者 ，否则你是为 remote 添加公钥的。如果你想要每次都输入账号密码才能进行 fetch 和 push 也可以另外进行设置。</em></li>
+</ul>
+<a id="more"></a>
+
+<h2 id="如何配置-ssh-的-key"><a href="#如何配置-ssh-的-key" class="headerlink" title="如何配置 ssh 的 key"></a>如何配置 ssh 的 key</h2><ul>
+<li>检查本地是否存在 id_rsa 和 id_rsa.pub 文件：若存在，则不需要重新生成 Key.</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/.ssh/</span><br><span class="line">ls</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>id_rsa 私钥。保存在本地，作为 remote 的认证文件</li>
+<li>id_rsa 公钥。里面的内容全部复制，配置在远程 (remote) 仓库。</li>
+<li>在本地生成一对 Key (私钥和公钥)</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">ssh-keygen</span><br></pre></td></tr></table></figure></div>
+
+<p><em>运行上面的命令以后，系统会出现一系列提示，可以一路回车。其中有一个问题是，要不要对私钥设置口令（passphrase），如果担心私钥的安全，这里可以设置一个。</em></p>
+<p>此时，在 <code>~/.ssh/</code> 目录下生成了两个文件 ：id_rsa 和 id_rsa.pub, 私钥和公钥</p>
+<ul>
+<li>输入下面的命令，将你的公钥推送到 remote 去。</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">ssh-copy-id user@host</span><br></pre></td></tr></table></figure></div>
+
+<p>或者 <code>cat ~/.ssh/id_rsa.pub</code> 将其内容手动复制到 remote<br>好了，从此在登录，就不需要输入密码了</p>
+<ul>
+<li>将私钥保存至 Mac 的钥匙串</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">ssh-add -K [path/to/your/ssh-key]</span><br></pre></td></tr></table></figure></div>
+
+<p>首先得了解一件事：ssh-add 这个命令不是用来永久性的记住你所使用的私钥的。实际上，它的作用只是把你指定的私钥添加到 ssh-agent 所管理的一个 session 当中。而 ssh-agent 是一个用于存储私钥的临时性的 session 服务，也就是说当你重启之后，ssh-agent 服务也就重置了，session 会话也就失效了。</p>
+<p>既然 ssh-agent 是个临时的，那么对于 Mac 来说，哪里可以永久存储的，显然就是 Keychain 了，在执行 ssh-add -K privateKey 后可以打开偏好设置中的 Keychain来观察一下前后的变化，是不是多出了 SSH 的条目.</p>
+<ul>
+<li>编辑 ssh 的配置文件(ssh 的配置文件 config 有两个，一个用户的一个系统的。这里是用户配置。)</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">vim ~/.ssh/config</span><br></pre></td></tr></table></figure></div>
+
+<p>config 的配置格式如下：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">Host github <span class="comment"># 别名 可以随便取</span></span><br><span class="line">    HostName github.com <span class="comment"># remote 主机 ip</span></span><br><span class="line">    User kekemao00 <span class="comment"># UserName</span></span><br><span class="line">    IdentityFile ~/.ssh/id_rsa_note.github <span class="comment"># 认证文件</span></span><br><span class="line">    Port 22 <span class="comment"># 端口(默认 22)</span></span><br><span class="line">Host gitee <span class="comment"># 不同项目配置不同的 Key</span></span><br><span class="line">    HostName gitee.com</span><br><span class="line">    User kekemao</span><br><span class="line">    IdentityFile ~/.ssh/id_rsa_note.github</span><br><span class="line">    Port 22</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>登录验证</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">ssh -T git@github</span><br></pre></td></tr></table></figure></div>
+
+<blockquote>
+<p>Hi kekemao00! You’ve successfully authenticated, but GitHub does not provide shell access.</p>
+</blockquote>
+<p>如上显示，则大功告成！</p>
+]]></content>
+      <categories>
+        <category>安全</category>
+      </categories>
+      <tags>
+        <tag>ssh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>记一次 hhkb 装键帽的经历</title>
+    <url>/2019/1010/hhkb-keycap.html</url>
+    <content><![CDATA[<p>hhkb type-s 键帽看似相同，实则每行有些差别的。安装上去不是以前的样子总觉得别扭。安装完键帽用了很长时间。</p>
+<a id="more"></a>
+
+<p><img src="https://image-kekemao.oss-cn-hongkong.aliyuncs.com/hexo-image/hhkb_takout_key.JPG" alt="hhkb type-s"></p>
+<p>键盘用久了，里面就会累积一些东西，灰尘，口水渍，蟑螂 …</p>
+<h2 id="清理键盘"><a href="#清理键盘" class="headerlink" title="清理键盘"></a>清理键盘</h2><ol>
+<li>将键帽从键盘扣下来;</li>
+</ol>
+<p>这一步使用拔键器会轻松许多</p>
+<ol>
+<li>清洗键帽和键盘内部;</li>
+</ol>
+<p>清理键帽我使用的洗衣液，泡一会儿，干干净净</p>
+<p>清理键盘内部使用电动牙刷，换上退休的刷头，会简单很多</p>
+<ol>
+<li>将晾干后的键帽重新安装到键盘上。</li>
+</ol>
+<p>时间都用在这里了，60 个键帽，不同的样式（这里「样式」指每一行键帽高低的一致性，如上图：第一排看着很整齐, 则没有问题; 最后一排能明显感觉到参差不齐，则此位置键帽不对）</p>
+<p>如何快速地安装呢？</p>
+<p>a. 可以先装最外面一圈的，因为最外面一圈是功能键，比较特殊，无论是形状还是颜色（如上面图片那样）。</p>
+<p>b. 剩下的按键是中间三排的，可以先找出两个基准键位 (“F”,”J”), 这一排的键帽最矮最平很好找 (11 个)</p>
+<p>c. 现在只剩两种键帽（第 2 排和第 4 排）了，这两种的样式差别还是很大的，把他们分成 2 堆，第 2 排的 12 个，第 4 排的 11 个。</p>
+<p>好的，到现在为止所有的键帽都应该安装完成了吧！ 怎么检查每一个位置是否都正确呢？</p>
+<p>很简单，从你的键盘侧面看出去，如果每一行都很整齐就没问题啦！</p>
+<p>像这样子：</p>
+<p><img src="https://image-kekemao.oss-cn-hongkong.aliyuncs.com/hexo-image/gaitubao_HHKB_typeC20191011.JPG" alt="hhkb type-s"></p>
+]]></content>
+      <categories>
+        <category>外设</category>
+      </categories>
+      <tags>
+        <tag>keyboard</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>JDK 版本特性</title>
+    <url>/2019/0917/jdk-version-feature.html</url>
+    <content><![CDATA[<p>记录了 <strong>JDK5</strong> 至 <strong>JDK13</strong> 的每个版本特性</p>
+<a id="more"></a>
+
+<h2 id="JDK5-新特性"><a href="#JDK5-新特性" class="headerlink" title="JDK5 新特性"></a>JDK5 新特性</h2><ul>
+<li><code>foreach</code> 迭代方式</li>
+<li>可变参数</li>
+<li>枚举</li>
+<li>自动拆装箱</li>
+<li>泛型</li>
+<li>注解等重要特性。</li>
+</ul>
+<h2 id="JDK6-新特性"><a href="#JDK6-新特性" class="headerlink" title="JDK6 新特性"></a>JDK6 新特性</h2><ul>
+<li><code>Desktop</code> 类和 <code>SystemTray</code> 类，</li>
+<li>使用 <code>Complier</code> API,</li>
+<li>轻量级 <code>HTTPServer</code> API,  </li>
+<li>对脚步语言得支持,  </li>
+<li>Common Annotations 等重要特性。</li>
+</ul>
+<h2 id="JDK7-新特性"><a href="#JDK7-新特性" class="headerlink" title="JDK7 新特性"></a>JDK7 新特性</h2><ul>
+<li><code>Switch</code> 支持字符串作为匹配条件  </li>
+<li>泛型类型自动推断</li>
+<li><code>try-with-resources</code> 资源关闭技巧</li>
+<li><code>Object</code> 工具类</li>
+<li><code>ForkJoinPool</code> 等重要类与特性。</li>
+</ul>
+<h2 id="JDK8-新特性"><a href="#JDK8-新特性" class="headerlink" title="JDK8 新特性"></a>JDK8 新特性</h2><ul>
+<li>接口得默认方法实现与静态方法  </li>
+<li><code>Lambda</code> 表达式  </li>
+<li>函数式接口  </li>
+<li>方法与构造函数引用  </li>
+<li>新的日期与时间 API</li>
+<li>流式处理等重要特性。</li>
+</ul>
+<h2 id="JDK9-新特性"><a href="#JDK9-新特性" class="headerlink" title="JDK9 新特性"></a>JDK9 新特性</h2><ul>
+<li>Jigsaw 模块化项目</li>
+<li>简化进程 API</li>
+<li>轻量级 JSON API  </li>
+<li>钱和货币 API  </li>
+<li>进程改善和锁机制优化</li>
+<li>代码分段缓存等重要特性。</li>
+</ul>
+<h2 id="JDK10-新特性"><a href="#JDK10-新特性" class="headerlink" title="JDK10 新特性"></a><a href="http://openjdk.java.net/projects/jdk/10/" title="JDK10" target="_blank" rel="noopener">JDK10</a> 新特性</h2><ul>
+<li>局部变量得自动推断，</li>
+<li>改进 GC 和内存管理  </li>
+<li>线程本地握手</li>
+<li>备用内存设备上的堆分配等重要特性。</li>
+</ul>
+<h2 id="JDK11-新特性"><a href="#JDK11-新特性" class="headerlink" title="JDK11 新特性"></a><a href="http://openjdk.java.net/projects/jdk/11/" title="JDK11" target="_blank" rel="noopener">JDK11</a> 新特性</h2><ul>
+<li>删除了 Java EE 和 CORBA 模块</li>
+<li>增加了嵌套的访问控制</li>
+<li>支持动态类文件常量</li>
+<li>改进 Aarch64 内联函数</li>
+<li>提供实验性质得可扩展的的延迟垃圾收集器 ZGC 等重要特性。</li>
+</ul>
+<h2 id="JDK12-新特性"><a href="#JDK12-新特性" class="headerlink" title="JDK12 新特性"></a><a href="http://openjdk.java.net/projects/jdk/12/" title="JDK12" target="_blank" rel="noopener">JDK12</a> 新特性</h2><ul>
+<li>对 Switch 进行了增强，除了使用 statement 还可以使用 expression, <a href="http://openjdk.java.net/jeps/325" title="JPE 325" target="_blank" rel="noopener">325：Switch Expressions(Preview)</a></li>
+</ul>
+<h2 id="JDK13-新特性"><a href="#JDK13-新特性" class="headerlink" title="JDK13 新特性"></a><a href="http://openjdk.java.net/projects/jdk/13/" title="JDK13" target="_blank" rel="noopener">JDK13</a> 新特性</h2><ul>
+<li>扩展应用程序类-数据共享 <a href="https://openjdk.java.net/jeps/350" title="JPE 350" target="_blank" rel="noopener">JPE 350</a></li>
+<li>增强 ZGC 以将未使用的堆内存返回给操作系统 <a href="https://openjdk.java.net/jeps/351" title="JPE 351" target="_blank" rel="noopener">JPE 351</a></li>
+<li>使用易于维护和调试的更简单、更现代的实现替换 java.net.Socket 和 java.net.ServerSocket API 使用的底层实现 <a href="https://openjdk.java.net/jeps/353" title="JPE 353" target="_blank" rel="noopener">JPE 353</a></li>
+<li>可在生产环境中使用的 switch 表达式，JDK 13 中将带来一个 beta 版本实现 <a href="https://openjdk.java.net/jeps/354" title="JPE 354" target="_blank" rel="noopener">JPE 354</a></li>
+<li>将文本块添加到 Java 语言。<a href="https://openjdk.java.net/jeps/355" title="JPE 355" target="_blank" rel="noopener">JPE 355</a></li>
+<li>文本块是一个多行字符串文字，它避免了对大多数转义序列的需要，以可预测的方式自动格式化字符串，并在需要时让开发人员控制格式。</li>
+</ul>
+<hr>
+]]></content>
+      <categories>
+        <category>Java</category>
+      </categories>
+      <tags>
+        <tag>jdk</tag>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android 路由有哪些</title>
+    <url>/2023/0228/android-router.html</url>
+    <content><![CDATA[<p>在 Android 中，路由通常指应用程序中不同界面之间的跳转。它是指导用户在应用程序中导航的机制，使得用户可以通过点击屏幕上的按钮、菜单、导航栏等来跳转到其他界面，以达到用户想要的操作和目标。</p>
+<a id="more"></a>
+
+<p>在 Android 中，有很多路由框架可供选择。以下是一些常见的路由框架及其优缺点：</p>
+<ol>
+<li>Android 路由框架：Android 提供的原生路由框架，可以使用 Intent 进行 Activity 之间的页面跳转。优点是简单易用，不需要引入额外的依赖库，缺点是只能用于Activity之间的跳转。</li>
+<li>ARouter：阿里巴巴出品的路由框架，支持 Activity、Service、Fragment 等组件的跳转，同时支持注解和反射两种方式实现路由。优点是功能强大，支持多种跳转方式，支持拦截器等高级特性，缺点是初始化较慢，性能略有影响。</li>
+<li>RouterX：腾讯出品的路由框架，支持 Activity、Service、Fragment 等组件的跳转，同时支持注解和反射两种方式实现路由。优点是功能强大，支持多种跳转方式，支持模块化开发，缺点是对项目结构要求较高。</li>
+<li>Conductor：Square 出品的路由框架，支持 Activity、Controller 等组件的跳转，使用简单。优点是轻量级，不需要引入额外的依赖库，同时支持多种跳转方式，缺点是不支持拦截器等高级特性。</li>
+<li>Fragmentation：类似 Conductor，支持Activity、Fragment 等组件的跳转，使用简单。优点是支持多种跳转方式，支持 Fragment 的管理，缺点是对项目结构要求较高，且不支持拦截器等高级特性。</li>
+</ol>
+<p>这些路由框架都有各自的优点和缺点，选择路由框架需要根据具体项目的需求和特点进行选择。</p>
+]]></content>
+      <categories>
+        <category>router</category>
+      </categories>
+      <tags>
+        <tag>router</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flow 的基本使用</title>
+    <url>/2023/0228/kotlin-flow.html</url>
+    <content><![CDATA[<p>Kotlin Flow 是一个基于协程的异步数据流库，它提供了一种类似于 RxJava 的响应式编程模型，但是比 RxJava 更加轻量、更加易用。Flow 可以使用类似于序列（Sequence）的方式来处理异步数据流，可以实现类似于 RxJava 中的操作符链式调用等功能，同时还支持背压（Backpressure）和取消（Cancellation）。</p>
+<a id="more"></a>
+
+<p>Flow 的主要优势包括：</p>
+<ol>
+<li>简单易用：Flow 提供了简单的 API，可以轻松地实现异步数据流的操作，而且与 Kotlin 协程紧密集成，代码编写起来更加自然。</li>
+<li>灵活性：Flow 支持多种类型的数据流，可以使用不同的数据源和操作符来实现不同的异步数据流处理需求。</li>
+<li>高效性：Flow 基于协程实现，不会像 RxJava 一样引入过多的性能开销，而且支持协程的挂起和恢复机制，可以更好地管理异步操作的资源和状态。</li>
+</ol>
+<p>使用 Flow 可以分为以下几个步骤：</p>
+<ol>
+<li>创建数据流：使用 <code>flow</code> 或者 <code>flowOf</code> 函数来创建一个数据流，可以是任何类型的数据流，比如字符串、整数、对象等等。</li>
+<li>转换操作：使用操作符（例如 <code>map</code>、<code>filter</code>、<code>flatMap</code> 等等）对数据流进行转换操作，从而生成新的数据流。</li>
+<li>终止操作：使用终止操作（例如 <code>collect</code>、<code>reduce</code>、<code>fold</code> 等等）对数据流进行最终的处理，并获取最终的结果。</li>
+</ol>
+<p>以下是一个简单的 Flow 示例代码，展示如何使用 Flow 来创建、转换和终止数据流：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="MEL"><figure class="iseeu highlight /mel"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="comment">// 创建数据流</span></span><br><span class="line">val <span class="keyword">flow</span> = <span class="keyword">flow</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10</span>) &#123;</span><br><span class="line">        <span class="keyword">emit</span>(i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转换数据流</span></span><br><span class="line">val newFlow = <span class="keyword">flow</span></span><br><span class="line">    .<span class="keyword">filter</span> &#123; it % <span class="number">2</span> == <span class="number">0</span> &#125;</span><br><span class="line">    .map &#123; it * it &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 终止数据流</span></span><br><span class="line">val result = newFlow.reduce &#123; accumulator, value -&gt;</span><br><span class="line">    accumulator + value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Log.d(TAG, <span class="string">"Result is $result"</span>) <span class="comment">// 输出：Result is 220</span></span><br></pre></td></tr></table></figure></div>
+
+<p>在这个示例中，我们首先使用 <code>flow</code> 函数来创建一个数据流，其中包含了从 1 到 10 的整数。然后我们使用 <code>filter</code> 操作符来过滤出其中的偶数，并使用 <code>map</code> 操作符来将偶数平方。最后我们使用 <code>reduce</code> 终止操作符对数据流进行累加操作，得到最终的结果 220。这个示例展示了 Flow 的基本操作，可以根据实际需求进行更加复杂的操作。</p>
+]]></content>
+      <categories>
+        <category>kotlin</category>
+      </categories>
+      <tags>
+        <tag>flow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React Native 环境搭建</title>
+    <url>/2020/0903/react-native-environment-setup.html</url>
+    <content><![CDATA[<p>这里主要记录了 Windows 环境下的 React Native 环境搭建，Ubuntu 环境下有包管理器搭建会相对方便。</p>
+<a id="more"></a>
+
+<h2 id="首先搭建好-Android-的原生开发环境"><a href="#首先搭建好-Android-的原生开发环境" class="headerlink" title="首先搭建好 Android 的原生开发环境"></a>首先搭建好 Android 的原生开发环境</h2><p>React-Native 的开发需要 JDK (不低于 1.8 版本), Android-Studio</p>
+<h2 id="接下来搭建-React-Native-的环境"><a href="#接下来搭建-React-Native-的环境" class="headerlink" title="接下来搭建 React-Native 的环境"></a>接下来搭建 React-Native 的环境</h2><ul>
+<li>安装 Chocolatey 包管理器</li>
+</ul>
+<p>安装方式：在 Windows 命令提示符中直接输入：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">@powershell -NoProfile -ExecutionPolicy Bypass -Command <span class="string">"iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"</span> &amp;&amp; SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>如果 Chocolatey 没有安装成功 (可能是需要科学上网)，包管理器装不上关系不大，只需要手动去官方找到安装下面依赖即可。</strong></p>
+<ul>
+<li>安装 Python2</li>
+</ul>
+<p>打开命令提示符窗口，使用 Chocolatey 来安装 Python 2.</p>
+<blockquote>
+<p>注意：官方指出必须是 python2 , 不支持 python3  </p>
+</blockquote>
+<p><code>choco install python2</code></p>
+<ul>
+<li>安装 node</li>
+</ul>
+<p>打开命令提示符窗口，使用 Chocolatey 来安装 NodeJS.</p>
+<p><code>choco install nodejs.install</code></p>
+<ul>
+<li>安装 React Native命令行工具</li>
+</ul>
+<p><code>npm install -g react-native-cli</code></p>
+<p>到这里环境就基本搭建好了。如果是 Ubuntu 的话，则使用自带的包管理工具：apt 安装。</p>
+<p>那就赶紧试一试吧</p>
+<p>依然是在 windows 的命令指示符中 (其实 PowerShell 更好用)</p>
+<p>新建一个 MyProject 工程：</p>
+<p><code>react-native init AwesomeProject</code></p>
+<p>切换到 MyProject 目录下：</p>
+<p><code>cd MyProject</code></p>
+<p>运行 packager：</p>
+<p><code>react-native start</code></p>
+<p>这时可以用浏览器访问 <a href="http://localhost:8081/index.android.bundle?platform=android" target="_blank" rel="noopener">http://localhost:8081/index.android.bundle?platform=android</a> 看看是否可以看到打包后的脚本（看到很长的 js 代码就对了）。第一次访问通常需要十几秒，并且在 packager 的命令行可以看到形如 [====] 的进度条。</p>
+<p>运行模拟器</p>
+<p>运行之后，保持 packager 开启，另外打开一个命令行窗口，然后在工程目录下运行：</p>
+<p><code>react-native run-android</code></p>
+<p>首次运行需要等待一段时间，因为要从网上下载 gradle 依赖。</p>
+<p><a href="https://reactnative.dev/docs/environment-setup" target="_blank" rel="noopener">React Native 开发者</a></p>
+<p><a href="https://reactnative.cn/docs/getting-started.html" target="_blank" rel="noopener">React Native 中文网</a></p>
+<p><a href="https://juejin.im/entry/6844903448115150855" target="_blank" rel="noopener">原文链接(掘金)</a></p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>react-native</tag>
+        <tag>app</tag>
+        <tag>ios</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Room 的基本使用</title>
+    <url>/2023/0228/android-room.html</url>
+    <content><![CDATA[<p>Room 是一个 Jetpack 组件，它是 Google 推出的用于本地数据库操作的 ORM 框架，可以帮助开发者更轻松地在应用程序中操作 SQLite 数据库。Room 提供了一些强大的功能，如编译时检查、类型安全、可观察的查询等，使得数据库操作更加安全、高效和方便。</p>
+<a id="more"></a>
+
+<p>使用 Room 的主要优势包括：</p>
+<ol>
+<li>编译时检查：Room 在编译时会检查 SQL 语句的语法和正确性，避免了在运行时发生 SQL 错误的问题。</li>
+<li>类型安全：Room 使用注解来定义数据库表和查询语句，可以将 SQL 查询映射到类型安全的 Kotlin 对象上，避免了手动解析和转换数据的问题。</li>
+<li>可观察的查询：Room 支持使用 LiveData 或 Flow 来观察查询结果的变化，可以自动更新 UI。</li>
+</ol>
+<p>使用 Room 可以分为以下几个步骤：</p>
+<ol>
+<li>添加 Room 依赖：在 build.gradle 文件中添加 Room 依赖。</li>
+<li>创建实体类：使用注解 <code>@Entity</code> 来定义数据库表和字段，可以使用 <code>@PrimaryKey</code> 和其他注解来定义主键和索引等。</li>
+<li>创建 DAO 接口：使用注解 <code>@Dao</code> 来定义数据库访问对象接口，使用方法注解来定义 SQL 查询语句和参数，可以使用 <code>suspend</code> 修饰符来支持协程异步调用。</li>
+<li>创建数据库：使用注解 <code>@Database</code> 来定义数据库类，指定数据库名称和版本号，定义数据库表和 DAO 接口等。</li>
+<li>使用 Room：在应用程序中使用 Room 对象来访问数据库，可以使用异步查询方法和可观察查询方法来获取数据。</li>
+</ol>
+<p>以下是一个简单的 Room 示例代码，展示如何使用 Room 来创建和操作数据库：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="KOTLIN"><figure class="iseeu highlight /kotlin"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="comment">// 定义实体类</span></span><br><span class="line"><span class="meta">@Entity(tableName = <span class="meta-string">"users"</span>)</span></span><br><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(</span><br><span class="line">    <span class="meta">@PrimaryKey</span> <span class="keyword">val</span> id: <span class="built_in">Int</span>,</span><br><span class="line">    <span class="keyword">val</span> name: String,</span><br><span class="line">    <span class="keyword">val</span> age: <span class="built_in">Int</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义 DAO 接口</span></span><br><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">UserDao</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Query(<span class="meta-string">"SELECT * FROM users"</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getAll</span><span class="params">()</span></span>: List&lt;User&gt;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Insert</span></span><br><span class="line">    <span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">insert</span><span class="params">(user: <span class="type">User</span>)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义数据库类</span></span><br><span class="line"><span class="meta">@Database(entities = [User::class], version = 1)</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AppDatabase</span> : <span class="type">RoomDatabase</span></span>() &#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">userDao</span><span class="params">()</span></span>: UserDao</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 Room</span></span><br><span class="line"><span class="keyword">val</span> db = Room.databaseBuilder(</span><br><span class="line">    applicationContext,</span><br><span class="line">    AppDatabase::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">"my-db"</span></span></span><br><span class="line">).build()</span><br><span class="line"></span><br><span class="line">GlobalScope.launch &#123;</span><br><span class="line">    <span class="comment">// 异步插入用户</span></span><br><span class="line">    db.userDao().insert(User(<span class="number">1</span>, <span class="string">"Alice"</span>, <span class="number">23</span>))</span><br><span class="line">    <span class="comment">// 异步查询用户</span></span><br><span class="line">    <span class="keyword">val</span> users = db.userDao().getAll()</span><br><span class="line">    <span class="comment">// 更新 UI</span></span><br><span class="line">    withContext(Dispatchers.Main) &#123;</span><br><span class="line">        updateUi(users)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>在这个示例中，我们定义了一个名为 <code>User</code> 的实体类，并使用注解 <code>@Entity</code> 来定义了一个名为 <code>users</code> 的数据库表。然后我们定义了一个名为 UserDao 的 DAO 接口，使用注解 @Dao 来定义，包含了一个查询所有用户的方法和一个插入用户的方法。最后我们定义了一个名为 AppDatabase 的抽象类，并使用注解 @Database 来定义了一个名为 my-db 的数据库，其中包含了一个 User 表和一个 UserDao 接口。在最后的代码中，我们使用 Room 对象来获取 AppDatabase 实例，并异步插入和查询用户数据，并使用 withContext() 函数将 UI 更新操作切换到主线程。</p>
+]]></content>
+      <categories>
+        <category>sql</category>
+      </categories>
+      <tags>
+        <tag>sql,room</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Jetpack Compose 基本使用</title>
+    <url>/2023/0228/android-jetpack-compose.html</url>
+    <content><![CDATA[<p>Jetpack Compose 是一个全新的 Android UI 工具包，它提供了一种基于 Kotlin 的声明式 UI 开发方式，可以简化 Android 应用程序的 UI 开发流程。与传统的 XML 布局相比，Jetpack Compose 采用了一种基于函数的组合方式，可以更加直观、灵活地构建 UI 界面，同时还支持实时预览和交互式设计，可以提高开发效率和用户体验。</p>
+<a id="more"></a>
+
+<p>Jetpack Compose 的主要优势包括：</p>
+<ol>
+<li>简化开发：Jetpack Compose 采用了一种声明式的方式来构建 UI，开发者可以更加直观地定义 UI 的外观和行为，而且代码量更少、更易于维护。</li>
+<li>提高效率：Jetpack Compose 提供了实时预览和交互式设计功能，可以在开发过程中即时查看 UI 效果，同时还支持热重载，可以加快开发速度。</li>
+<li>支持动态性：Jetpack Compose 支持动态组合 UI，可以根据不同的条件来动态构建不同的 UI，而且不会影响性能。</li>
+</ol>
+<p>使用 Jetpack Compose 可以分为以下几个步骤：</p>
+<ol>
+<li>定义 UI 元素：使用 Composable 函数来定义 UI 元素，每个 Composable 函数都是一个独立的 UI 组件。</li>
+<li>组合 UI 元素：使用组合函数来组合多个 UI 元素，从而构建出复杂的 UI 界面。</li>
+<li>添加交互：使用 Modifier 和事件处理函数来为 UI 元素添加交互，比如点击事件、滑动事件等等。</li>
+</ol>
+<p>以下是一个简单的 Jetpack Compose 示例代码，展示如何使用 Composable 函数和组合函数来创建 UI 界面：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="KOTLIN"><figure class="iseeu highlight /kotlin"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">Greeting</span><span class="params">(name: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    Text(text = <span class="string">"Hello, <span class="variable">$name</span>!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">MyApp</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Column &#123;</span><br><span class="line">        Greeting(name = <span class="string">"Android"</span>)</span><br><span class="line">        Greeting(name = <span class="string">"Jetpack Compose"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>在这个示例中，我们首先定义了一个 Greeting 函数，它接受一个字符串参数 name，并显示“Hello, name!”的文本。然后我们使用 Column 组合函数来将两个 Greeting 组件垂直排列，从而构建出一个包含两个文本组件的 UI 界面。可以看到，Jetpack Compose 的代码非常简单、直观，而且可以轻松实现复杂的 UI 界面。</p>
+<p>当我们需要在 Android 应用程序中构建动态、复杂、可交互的 UI 时，可以考虑使用 Jetpack Compose。特别是在需要提高开发效率、降低维护成本、提高用户体验等方面，Jetpack Compose 都具有很大的优势。</p>
+]]></content>
+      <categories>
+        <category>UI</category>
+      </categories>
+      <tags>
+        <tag>compose</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kotlin 中的共享流(Shared Flow)和广播通道(Broadcast Channel)</title>
+    <url>/2023/0820/kotlin-shard-flow-and-boardcast-channel.html</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 <code>Channel </code>作为协程间通信的原语。但是 <code>Channel</code> 有其局限性,不适合一对多或者多对多的通信场景。</p>
+<p>因此 Kotlin 后来引入了<code>BroadcastChannel</code>接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用,<code>BroadcastChannel</code>也暴露出了设计缺陷。</p>
+<p>从 Kotlin 协程 1.4 版本开始, 我们引入了一个更好的解决方案——共享流 (Shared Flow)。本文将详细介绍共享流的思想以及如何使用它。</p>
+<a id="more"></a>
+
+<h2 id="流的简单性"><a href="#流的简单性" class="headerlink" title="流的简单性"></a>流的简单性</h2><p>在库的早期版本中,我们只有<code>channels</code>,我们试图通过将 <code>channel</code>作为参数和返回值来实现各种异步序列的转换。这意味着例如 <code>filter</code>操作符会在自己的协程中运行。</p>
+<p>但是这样的性能远远不如直接使用if语句。回想一下,这并不奇怪,因为<code>channel</code>是一个同步原语。任何<code>channel</code>,即使是优化过的单生产者单消费者实现,也必须支持并发的通信协程,它们之间的数据传输需要同步,这在现代多核系统中代价昂贵。</p>
+<p>当你开始在异步数据流的基础上构建应用程序体系结构时,对转换的需求自然而然地出现了,并且<code>channel</code>的成本开始积累。</p>
+<p>Kotlin Flow 的简单设计允许高效实现转换操作符。在基本情况下,值是在同一个协程中发出、转换和收集的,不需要任何同步。</p>
+<h2 id="流是冷的"><a href="#流是冷的" class="headerlink" title="流是冷的"></a>流是冷的</h2><p>然而,流通常是冷的——通过<code>flow { ... }</code> 构建器函数创建的 <code>Flow&lt;Value&gt; </code>是一个被动实体。考虑下面的代码:</p>
+<p><img src="kotlin-flow/kt_cold_flow.png" alt="kt_cold_flow.png"></p>
+<p>流本身没有备份的任何计算,也没有任何状态,直到它开始被收集。每个收集协程都执行自己的发送代码实例。“冷流,热通道”的故事描述了Kotlin流背后的原因,并展示了其比频道更适合的用例——按需计算返回的异步值流。</p>
+<h2 id="共享流-SharedFlow"><a href="#共享流-SharedFlow" class="headerlink" title="共享流(SharedFlow)"></a>共享流(SharedFlow)</h2><p>那么,该如何处理像用户操作、外部设备事件、状态更新等内容呢?它们与是否有任何对它们感兴趣的代码无关而独立操作。它们应支持应用程序内的多个观察者。这些是所谓的热事件源。</p>
+<p>这就是共享流的概念登场的地方。共享流存在与否与其是否被收集无关。共享流的收集器称为订阅者。共享流的所有订阅者接收相同的一系列值。它有效地像一个“广播频道”,没有大部分频道开销。它使广播频道的概念过时了。</p>
+<p>本质上,共享流是一个轻量级的广播事件总线,您可以在应用程序体系结构中创建和使用它。</p>
+<p><img src="kotlin-flow/kt_shard_flow.png" alt="kt_shard_flow.png"></p>
+<p>它具有可调的参数,例如要为新订阅者保留和重播的旧事件数量以及额外的缓冲区容量,以便快速发射器和慢订阅者之间提供缓冲。</p>
+<p>共享流的所有订阅者都在自己的上下文中异步收集事件。 发射器不等待订阅者完成处理事件。 但是,当共享流缓冲区已满时,发射器将暂停,直到缓冲区中有空间。 暂停发射器来处理缓冲区溢出为收集者提供了背压,以降低发射速率。 通过<code>BufferOverlow</code>参数支持各种替代策略来处理缓冲区溢出。</p>
+<h2 id="状态流-StateFlow"><a href="#状态流-StateFlow" class="headerlink" title="状态流(StateFlow)"></a>状态流(StateFlow)</h2><p>处理缓冲区溢出的一种流行方法是放弃最老的事件,只保留最新和最新的事件。 特别是,这是为状态变量建模应用程序的绝佳方法。 这是一个非常广泛的用例,它有自己的专门的<code>StateFlow</code>类型,可用作过时的<code>ConflatedBroadcastChannel</code>的替代品。</p>
+<p><img src="kotlin-flow/kt_state_flow.png" alt="kt_state_flow.png"></p>
+<p>可以将 <code>val x:StateFlow&lt;T&gt; </code>视为 <code>var x:T</code> 的异步和可观察的对应物。 最新的值总是可用的,事实上,只有最新的值才重要,因此更新它总是可能的,无需挂起。</p>
+<p>通过状态流,复杂的频道和简单的流之间的性能差异变得非常明显。 状态流的实现具有无分配更新,这在合并广播通道中并非如此。</p>
+<h2 id="渠道的用例-Channel"><a href="#渠道的用例-Channel" class="headerlink" title="渠道的用例(Channel)"></a>渠道的用例(Channel)</h2><p>随着各种共享流替换了不同种类的广播通道,一个常见的问题是平原的常规通道会发生什么。它们存在的原因有很多。一个原因是通道是实现许多复杂流操作符的低级原语。</p>
+<p>但频道也有自己的应用情况。 频道用于处理必须精确处理一次的事件。 当此类事件通常只有一个订阅者,但间歇性地(在启动或某种重新配置期间)没有订阅者时会发生这种情况,并且需要保留发布的所有事件,直到出现订阅者。</p>
+<p><img src="kotlin-flow/kt_channel.png" alt="kt_channel.png"></p>
+<p><code>BroadcastEventBus</code> 和<code>SingleShotEventBus</code>都公开了<code>Flow&lt;Event&gt;</code>,但它们有一个重要的区别。</p>
+<p>使用共享流时,事件广播到未知数量(零或多个)的订阅者。 如果没有订阅者,则会立即删除任何已发布的事件。 这是必须立即处理或根本不处理的事件的设计模式。</p>
+<p>使用通道时,每个事件都传递给单个订阅者。 如果没有订阅者,发布事件时,一旦通道缓冲区已满,则会挂起等待订阅者出现。 已发布的事件不会被删除。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>了解区别并适当使用共享流和通道。 它们都很有用, 并且设计良好,可以很好地协同工作。 但是, 广播通道是过时, 它们将被弃用并在未来删除。</p>
+]]></content>
+      <categories>
+        <category>Kotlin</category>
+      </categories>
+      <tags>
+        <tag>kotlin,flow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>选择合适的版本控制工具</title>
+    <url>/2023/0409/git-vs-svn.html</url>
+    <content><![CDATA[<p>选择版本控制系统时，了解 Git 和 SVN 的特性及优劣势非常重要。本文将深入探讨这两个版本控制系统的特点，以及在不同场景下如何做出最佳选择。</p>
+<a id="more"></a>
+
+<h2 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h2><h3 id="SVN"><a href="#SVN" class="headerlink" title="SVN"></a>SVN</h3><p>SVN 具有更精细的访问控制，可以针对特定文件或目录设置不同的权限。这使得 SVN 在需要为不同用户或用户组分配不同权限的项目中非常有用。</p>
+<h3 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h3><p>尽管 Git 可以通过第三方工具（如 Gitolite）实现类似的访问控制功能，但相对来说，这些解决方案可能更加繁琐。此外，许多 Git 服务器（如 GitLab、GitHub 和 Bitbucket）提供基于仓库和分支的访问控制，但可能没有 SVN 那样精细。</p>
+<h2 id="文件存储"><a href="#文件存储" class="headerlink" title="文件存储"></a>文件存储</h2><h3 id="SVN-1"><a href="#SVN-1" class="headerlink" title="SVN"></a>SVN</h3><p>SVN 更适合存储和管理大型二进制文件（如图像、音频或视频文件）。在这类文件的存储和版本管理方面，SVN 相对表现更好。</p>
+<h3 id="Git-1"><a href="#Git-1" class="headerlink" title="Git"></a>Git</h3><p>Git 在处理大型二进制文件时可能导致仓库变得庞大且难以管理。然而，通过使用扩展（如 Git LFS）和额外的配置和工具，Git 也可以改善对这类文件的支持。</p>
+<h2 id="协作方式"><a href="#协作方式" class="headerlink" title="协作方式"></a>协作方式</h2><h3 id="分布式协作"><a href="#分布式协作" class="headerlink" title="分布式协作"></a>分布式协作</h3><p>Git 的分布式架构使得它在需要跨多个团队或地理位置分布的开发者进行协作的项目中具有优势。每个开发者都拥有完整的本地仓库副本，可以在离线状态下进行提交、分支和合并等操作。</p>
+<h3 id="频繁的分支和合并"><a href="#频繁的分支和合并" class="headerlink" title="频繁的分支和合并"></a>频繁的分支和合并</h3><p>Git 在分支和合并方面具有很高的性能，这使得它非常适合需要频繁创建和合并分支的项目。相比之下，SVN 的分支和合并操作可能更加繁琐和耗时。</p>
+<h3 id="开源项目和社区协作"><a href="#开源项目和社区协作" class="headerlink" title="开源项目和社区协作"></a>开源项目和社区协作</h3><p>Git 在开源社区中广泛使用，许多开源项目都托管在 GitHub、GitLab 或 Bitbucket 等平台上。如果我们的项目需要与其他开源项目或社区进行协作，使用 Git 可能会更容易获得贡献者和支持。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>根据项目的具体需求和团队协作方式，可以在 Git 和 SVN 之间做出合适的选择。总的来说，Git 提供了强大的分支管理和分布式协作功能，而 SVN 在访问控制和大型文件管理方面表现较好。在实际项目中，确保根据以下因素做出明智的决策：</p>
+<ol>
+<li><strong>访问控制</strong>：如果我们的项目需要精细的访问控制，SVN 可能是更好的选择，因为它允许我们针对特定文件或目录设置不同的权限。</li>
+<li><strong>文件存储</strong>：如果我们的项目包含大量大型二进制文件，SVN 可能更适合，因为它在存储和管理这些文件方面具有优势。虽然 Git 也可以通过扩展来改善对大型文件的支持，但这需要额外的配置和工具。</li>
+<li><strong>协作方式</strong>：<ul>
+<li>如果我们的项目需要分布式协作，频繁分支和合并，或与开源社区协作，Git 可能是更好的选择。</li>
+<li>如果我们的项目使用集中式协作方式，并且分支和合并操作相对较少，SVN 可能更适合。</li>
+</ul>
+</li>
+</ol>
+<p>最终，在选择 Git 或 SVN 时，请务必考虑我们的项目和团队的需求。Git 提供了强大的分支和合并功能、分布式架构以及广泛的社区支持。SVN 则提供了更精细的访问控制和更好的大型文件支持。了解这些因素并根据实际情况做出最佳选择，可以确保我们的项目得以高效地进行版本控制和协作。</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>git,svn</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kotlin 协程 (Coroutines) 基本使用</title>
+    <url>/2023/0228/kotlin-coroutines.html</url>
+    <content><![CDATA[<p>Kotlin Coroutines 是 Kotlin 语言中一种用于异步编程的工具。它提供了一种协作式的并发模型，可以让开发者使用类似于同步代码的方式编写异步任务，使得异步代码更加简洁、易读、易维护，并且可以提高应用程序的性能和响应性。</p>
+<a id="more"></a>
+
+<p>Kotlin Coroutines 可以让开发者使用一种称为“挂起函数”的特殊函数，这些函数可以在不阻塞线程的情况下暂停和恢复执行。这种方式比传统的异步回调和线程池模型更加灵活和高效。</p>
+<p>Kotlin Coroutines 的主要优势包括：</p>
+<ol>
+<li>简化异步编程：使用挂起函数编写异步代码，避免了传统回调模式中的回调地狱问题，并且可以使用 try-catch 和其他同步代码结构处理异步代码。</li>
+<li>提高性能：Kotlin Coroutines 可以使用更少的线程处理更多的任务，避免线程上下文切换的开销，并且可以更好地利用现代 CPU 的多核性能。</li>
+<li>提高代码可读性和可维护性：使用 Kotlin Coroutines 可以将异步代码写成顺序执行的形式，减少代码嵌套和复杂度，使得代码更加易读和易于维护。</li>
+</ol>
+<p>使用 Kotlin Coroutines 可以分为以下几个步骤：</p>
+<ol>
+<li>添加 Kotlin Coroutines 库依赖。</li>
+<li>创建一个 CoroutineScope 对象，用于管理协程的生命周期。</li>
+<li>在协程中使用挂起函数执行异步任务。</li>
+<li>可以使用协程的各种语法来处理异常、取消协程等问题。</li>
+</ol>
+<p>以下是一个简单的 Kotlin Coroutines 示例代码，展示如何使用协程来执行异步任务：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="KOTLIN"><figure class="iseeu highlight /kotlin"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="keyword">import</span> kotlinx.coroutines.*</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> scope = CoroutineScope(Dispatchers.Default)</span><br><span class="line"></span><br><span class="line">    scope.launch &#123;</span><br><span class="line">        <span class="comment">// 使用挂起函数执行异步任务</span></span><br><span class="line">        <span class="keyword">val</span> result = fetchFromNetwork()</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用协程语法处理异步结果</span></span><br><span class="line">        withContext(Dispatchers.Main) &#123;</span><br><span class="line">            updateUi(result)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 取消协程</span></span><br><span class="line">    scope.cancel()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">fetchFromNetwork</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">    <span class="comment">// 模拟网络请求</span></span><br><span class="line">    delay(<span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Data from network"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">updateUi</span><span class="params">(<span class="keyword">data</span>: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 更新 UI</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>在这个示例中，我们创建了一个 CoroutineScope 对象来管理协程的生命周期，使用 <code>launch</code> 函数启动一个新的协程，并在其中使用 <code>fetchFromNetwork</code> 函数来模拟一个异步网络请求。在请求完成后，我们使用 <code>withContext</code> 函数将结果切换回主线程，并调用 <code>updateUi</code> 函数来更新 UI。最后，我们可以使用 <code>cancel</code> 函数取消协程。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Git 客户端设置 Windows 下的字符编码</title>
+    <url>/2021/1118/git-windows-encoding.html</url>
+    <content><![CDATA[<p>Git 从 Mac 平台提交的日志，Windows 平台拉下来，使用 <code>git log</code> 查看日志时发现是乱码的， 刚开始也没有太不习惯，就使用 <a href="https://desktop.github.com/" target="_blank" rel="noopener">GitHub Desktop</a> 查看代码，感觉还行。今天将代码同步到一台新电脑上，没有装其他的图形工具，看到英文提交的日志正常，中文的则完全没法看。于是查找资料，冷静分析，将 git 在 Windows 下日志乱码的问题整理出来。</p>
+<a id="more"></a>
+
+<p>Mac 平台正常显示的的日志是这样：</p>
+<p><img src="git-windows-encoding/git_log_encod_1.png" alt="Mac 没有乱码的效果"></p>
+<p>乱码成了这样：</p>
+<p><img src="git-windows-encoding/git_log_encod_2.jpg" alt="Win 乱码的效果"></p>
+<p>因为 Mac 提交时为 <code>Unix-style</code>，如果 Windows 设置了 <code>Checkout Windows-style</code>，则会出现乱码。 需要重新安装 git，设置查看格式为<code>Checkout as-is</code></p>
+<blockquote>
+<p>建议选择第二个: <code>Checkout as-is,Commit Unix=style line endings</code></p>
+</blockquote>
+<p>因为 Mac 安装 Git 时默认是以 <code>Unix-style</code> 提交与查看的。</p>
+<p><img src="git-windows-encoding/git_setting_checkout_style.png" alt="设置查看格式"></p>
+<p>正确设置后的效果：</p>
+<p><img src="git-windows-encoding/git_log_encod_3.png" alt="Win 正常的效果"></p>
+]]></content>
+      <categories>
+        <category>git</category>
+        <category>encoding</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker 简单使用</title>
+    <url>/2021/1108/docker-simple.html</url>
+    <content><![CDATA[<p>Docker 是一个开源的应用容器引擎，基于 Go 语言 并遵从 Apache2.0 协议开源。</p>
+<p>Docker 可以让开发者打包他们的应用以及依赖包到一个轻量级、可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。</p>
+<p>容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）,更重要的是容器性能开销极低。</p>
+<p>这里记录下使用 docker 常用到的命令，方便用时查询。</p>
+<a id="more"></a>
+
+<h2 id="镜像使用"><a href="#镜像使用" class="headerlink" title="镜像使用"></a>镜像使用</h2><h3 id="查看本地-Docker-镜像"><a href="#查看本地-Docker-镜像" class="headerlink" title="查看本地 Docker 镜像"></a>查看本地 Docker 镜像</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">kekemao@kekemaodeMacBook-Pro ~ % docker images</span><br><span class="line">REPOSITORY               TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">nginx                    latest    87a94228f133   3 weeks ago    133MB</span><br><span class="line">docker/getting-started   latest    083d7564d904   4 months ago   28MB</span><br></pre></td></tr></table></figure></div>
+
+<p>表格各列说明：</p>
+<ul>
+<li><p><strong>REPOSITORY:</strong> 表示镜像的仓库源</p>
+</li>
+<li><p><strong>TAG：</strong> 镜像的标签</p>
+</li>
+<li><p><strong>IMAGE ID：</strong> 镜像ID</p>
+</li>
+<li><p><strong>CREATED：</strong> 镜像创建时间</p>
+</li>
+<li><p><strong>SIZE：</strong> 镜像大小</p>
+</li>
+</ul>
+<h3 id="查找镜像"><a href="#查找镜像" class="headerlink" title="查找镜像"></a>查找镜像</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">kekemao@kekemaodeMacBook-Pro ~ % docker search nginx</span><br><span class="line"></span><br><span class="line">NAME                              DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">nginx                             Official build of Nginx.                        15763     [OK]       </span><br><span class="line">jwilder/nginx-proxy               Automated Nginx reverse proxy <span class="keyword">for</span> docker con…   2091                 [OK]</span><br><span class="line">richarvey/nginx-php-fpm           Container running Nginx + PHP-FPM capable of…   818                  [OK]</span><br><span class="line">jc21/nginx-proxy-manager          Docker container <span class="keyword">for</span> managing Nginx proxy ho…   273                  </span><br><span class="line">linuxserver/nginx                 An Nginx container, brought to you by LinuxS…   159                  </span><br><span class="line">tiangolo/nginx-rtmp               Docker image with Nginx using the nginx-rtmp…   143                  [OK]</span><br><span class="line">jlesage/nginx-proxy-manager       Docker container <span class="keyword">for</span> Nginx Proxy Manager        143                  [OK]</span><br><span class="line">alfg/nginx-rtmp                   NGINX, nginx-rtmp-module and FFmpeg from sou…   110                  [OK]</span><br><span class="line">nginxdemos/hello                  NGINX webserver that serves a simple page co…   76                   [OK]</span><br><span class="line">privatebin/nginx-fpm-alpine       PrivateBin running on an Nginx, php-fpm &amp; Al…   60                   [OK]</span><br><span class="line">nginx/nginx-ingress               NGINX and  NGINX Plus Ingress Controllers fo…   55                   </span><br><span class="line">nginxinc/nginx-unprivileged       Unprivileged NGINX Dockerfiles                  54                   </span><br><span class="line">staticfloat/nginx-certbot         Opinionated setup <span class="keyword">for</span> automatic TLS certs lo…   25                   [OK]</span><br><span class="line">nginxproxy/nginx-proxy            Automated Nginx reverse proxy <span class="keyword">for</span> docker con…   24                   </span><br><span class="line">nginx/nginx-prometheus-exporter   NGINX Prometheus Exporter <span class="keyword">for</span> NGINX and NGIN…   22                   </span><br><span class="line">schmunk42/nginx-redirect          A very simple container to redirect HTTP tra…   19                   [OK]</span><br><span class="line">centos/nginx-112-centos7          Platform <span class="keyword">for</span> running nginx 1.12 or building …   15                   </span><br><span class="line">centos/nginx-18-centos7           Platform <span class="keyword">for</span> running nginx 1.8 or building n…   13                   </span><br><span class="line">flashspys/nginx-static            Super Lightweight Nginx Image                   11                   [OK]</span><br><span class="line">mailu/nginx                       Mailu nginx frontend                            9                    [OK]</span><br><span class="line">sophos/nginx-vts-exporter         Simple server that scrapes Nginx vts stats a…   7                    [OK]</span><br><span class="line">ansibleplaybookbundle/nginx-apb   An APB to deploy NGINX                          3                    [OK]</span><br><span class="line">wodby/nginx                       Generic nginx                                   1                    [OK]</span><br><span class="line">arnau/nginx-gate                  Docker image with Nginx with Lua enabled on …   1                    [OK]</span><br><span class="line">centos/nginx-110-centos7          Platform <span class="keyword">for</span> running nginx 1.10 or building …   0                    </span><br><span class="line">kekemao@kekemaoMacBook-Pro ~ %</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p><strong>NAME:</strong> 镜像仓库源的名称</p>
+</li>
+<li><p><strong>DESCRIPTION:</strong> 镜像的描述</p>
+</li>
+<li><p><strong>OFFICIAL:</strong> 是否 docker 官方发布</p>
+</li>
+<li><p><strong>stars:</strong> 类似 Github 里面的 star，表示点赞、喜欢的意思。</p>
+</li>
+<li><p><strong>AUTOMATED:</strong> 自动构建。</p>
+</li>
+</ul>
+<h3 id="拉取一个新的镜像"><a href="#拉取一个新的镜像" class="headerlink" title="拉取一个新的镜像"></a>拉取一个新的镜像</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="删除镜像"><a href="#删除镜像" class="headerlink" title="删除镜像"></a>删除镜像</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker rmi hello-world</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="容器使用"><a href="#容器使用" class="headerlink" title="容器使用"></a>容器使用</h2><h3 id="查看-docker-所有的命令"><a href="#查看-docker-所有的命令" class="headerlink" title="查看 docker 所有的命令"></a>查看 docker 所有的命令</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker</span><br></pre></td></tr></table></figure></div>
+
+<p>使用 <code>docker pull --help</code> 可了解 pull 指令的用方法</p>
+<h3 id="如果本地没有-ubuntu-镜像，我们可以使用-docker-pull-来拉取远程的-ubuntu-镜像"><a href="#如果本地没有-ubuntu-镜像，我们可以使用-docker-pull-来拉取远程的-ubuntu-镜像" class="headerlink" title="如果本地没有 ubuntu 镜像，我们可以使用 docker pull 来拉取远程的 ubuntu 镜像"></a>如果本地没有 ubuntu 镜像，我们可以使用 <code>docker pull</code> 来拉取远程的 ubuntu 镜像</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker pull ubuntu</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="启动容器"><a href="#启动容器" class="headerlink" title="启动容器"></a>启动容器</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker run -it ubuntu  /bin/bash</span><br></pre></td></tr></table></figure></div>
+
+<p>参数说明：</p>
+<p><code>-i</code>: 交互式操作。<br><code>-t</code>: 终端。<br><code>ubuntu</code>: ubuntu 镜像。<br><code>/bin/bash</code>：放在镜像名后的是命令，这里我们希望有个交互式 Shell，因此用的是 /bin/bash。<br>要退出终端，直接输入 <code>exit</code>:</p>
+<h3 id="启动已停止运行的容器"><a href="#启动已停止运行的容器" class="headerlink" title="启动已停止运行的容器"></a>启动已停止运行的容器</h3><p>查看所有的容器命令如下：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker ps -a</span><br></pre></td></tr></table></figure></div>
+
+<p>使用 <code>docker start</code> 启动一个已停止的容器：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker start b750bbbcfd88</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="后台运行"><a href="#后台运行" class="headerlink" title="后台运行"></a>后台运行</h3><p>在大部分的场景下，我们希望 docker 的服务是在后台运行的，我们可以过 -d 指定容器的运行模式。</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker run -itd --name ubuntu-test ubuntu /bin/bash</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>注：</strong> 加了 <code>-d</code> 参数默认不会进入容器，想要进入容器需要使用指令 <code>docker exec</code> （下文有使用实例）</p>
+<h3 id="停止一个容器"><a href="#停止一个容器" class="headerlink" title="停止一个容器"></a>停止一个容器</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker stop &lt;容器 ID&gt;</span><br></pre></td></tr></table></figure></div>
+
+<p>停止的容器可以通过 docker restart 重启：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker restart &lt;容器 ID&gt;</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="进入容器"><a href="#进入容器" class="headerlink" title="进入容器"></a>进入容器</h3><p>在使用 -d 参数时，容器启动后会进入后台。此时想要进入容器，可以通过以下指令进入：</p>
+<p><code>docker attach</code>: 如果从这个容器退出，会导致容器的停止。</p>
+<p><code>docker exec</code>：推荐大家使用 docker exec 命令，因为此退出容器终端，不会导致容器的停止。</p>
+<h3 id="exec-命令"><a href="#exec-命令" class="headerlink" title="exec 命令"></a>exec 命令</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it 243c32535da7 /bin/bash</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>注意：</strong> 如果从这个容器退出，容器不会停止，这就是为什么推荐大家使用 docker exec 的原因。</p>
+<h3 id="导出和导入容器"><a href="#导出和导入容器" class="headerlink" title="导出和导入容器"></a>导出和导入容器</h3><h4 id="导出容器"><a href="#导出容器" class="headerlink" title="导出容器"></a>导出容器</h4><p>如果要导出本地某个容器，可以使用 docker export 命令。</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker <span class="built_in">export</span> 1e560fca3906 &gt; ubuntu.tar</span><br></pre></td></tr></table></figure></div>
+
+<p>导出容器 1e560fca3906 快照到本地文件 ubuntu.tar。</p>
+<h4 id="导入容器快照"><a href="#导入容器快照" class="headerlink" title="导入容器快照"></a>导入容器快照</h4><p>可以使用 docker import 从容器快照文件中再导入为镜像，以下实例将快照文件 ubuntu.tar 导入到镜像 test/ubuntu:v1:</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">cat docker/ubuntu.tar | docker import - <span class="built_in">test</span>/ubuntu:v1</span><br></pre></td></tr></table></figure></div>
+
+<p>此外，也可以通过指定 URL 或者某个目录来导入，例如：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker import http://example.com/exampleimage.tgz example/imagerepo</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="删除容器"><a href="#删除容器" class="headerlink" title="删除容器"></a>删除容器</h3><p>删除容器使用 docker rm 命令：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker rm -f 1e560fca3906</span><br></pre></td></tr></table></figure></div>
+
+<p>下面的命令可以清理掉所有处于终止状态的容器。</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">docker container prune</span><br></pre></td></tr></table></figure></div>
+
+]]></content>
+      <categories>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java 的 Android 项目中添加 Kotlin 类</title>
+    <url>/2021/1103/android-java-kotlin.html</url>
+    <content><![CDATA[<p>Kotlin 的语法很简洁，像一些实体类，单例，工具类的创建非常方便，并且和 Java 代码可以相互调用。所以在原来的项目中合理使用 Kotlin 是个不错的注意。</p>
+<a id="more"></a>
+
+<h2 id="安装-Kotlin-插件"><a href="#安装-Kotlin-插件" class="headerlink" title="安装 Kotlin 插件"></a>安装 Kotlin 插件</h2><p>使用 IntelliJ IDEA 中集成的 Kotlin 插件，可以轻松开始使用 Kotlin。 从代码高亮显示、代码补全、重构、调试与 Kotlin 的其他可用特性中获益。</p>
+<p><img src="android-java-kotlin/kotlin_plugin.jpeg" alt="Kotlin Plugin"><br>[图片来源：kekemao.me]</p>
+<h2 id="配置项目支持-Kotlin"><a href="#配置项目支持-Kotlin" class="headerlink" title="配置项目支持 Kotlin"></a>配置项目支持 Kotlin</h2><p>编写好 kotlin 类的代码，就可以从 Java 类中调用了。但是，点击编译提示找不到 Kotlin 类中的方法：</p>
+<p><img src="android-java-kotlin/kotlin_build_err.png" alt="Error of build"><br>[图片来源：kekemao.me]</p>
+<p>出现上图的情况需要在 App Model 下配置 <code>build.gradle</code> 文件，添加 <code>kotlin-android</code>.</p>
+<h2 id="app-目录下配置-build-gradle-文件"><a href="#app-目录下配置-build-gradle-文件" class="headerlink" title="app 目录下配置 build.gradle 文件"></a>app 目录下配置 <code>build.gradle</code> 文件</h2><p><img src="android-java-kotlin/kotlin_app_id.png" alt="Config app"><br>[图片来源：kekemao.me]</p>
+<h2 id="根目录下配置-build-gradle-文件"><a href="#根目录下配置-build-gradle-文件" class="headerlink" title="根目录下配置 build.gradle 文件"></a>根目录下配置 <code>build.gradle</code> 文件</h2><p><img src="android-java-kotlin/kotlin_prj.png" alt="Config Prj"><br>[图片来源：kekemao.me]</p>
+<p>添加好以上配置后，就可以在原 Java 项目中，同时使用了 Kotlin 了。</p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>java</tag>
+        <tag>kotlin</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android 基础知识点记录</title>
+    <url>/2020/0515/interview_android.html</url>
+    <content><![CDATA[<h2 id="Android-篇"><a href="#Android-篇" class="headerlink" title="Android 篇"></a>Android 篇</h2><p>收集了 Android 面试相关的知识点</p>
+<a id="more"></a>
+
+<h3 id="Android-系统架构分为四层"><a href="#Android-系统架构分为四层" class="headerlink" title="Android 系统架构分为四层"></a>Android 系统架构分为四层</h3><ul>
+<li>应用程序 (Applications)</li>
+<li>应用程序框架 (Application Frameworks)</li>
+<li>系统运行库与 Android 运行环境 (Libraris &amp; Android Runtime)</li>
+<li>Linux 内核 (Linux Kernel)</li>
+</ul>
+<h3 id="Activity-四种启动模式"><a href="#Activity-四种启动模式" class="headerlink" title="Activity 四种启动模式"></a>Activity 四种启动模式</h3><ul>
+<li><p>standard</p>
+<p>标准模式，每次都新建一个 Activity 实例，即使栈中已经存在该 Activity 实例，只要不在栈顶也会重新创建。过于浪费，为了优化应该尽量考虑余下三种方式。</p>
+</li>
+<li><p>singleTop</p>
+<p>如果在__任务栈顶__已有该 Activity 的实例则重用（会调用实例的 onNewIntent() ），否则新建并压入栈顶。</p>
+<p>场景：新闻，阅读类 App 的内容页面。</p>
+</li>
+<li><p>singTask</p>
+<p>如果在__任务栈中__已有该 Activity 的实例，将其上面的任务终止并移除，重用该实例（调用 Activity 的 onNewIntent() ）。否则新建实例并压入栈顶。</p>
+<p>场景：浏览器的主页，不管从多少个应用启动浏览器，只会启动主页面一次，其余情况都会走 onNewIntent(), 并且清空主页上面的其他页面。</p>
+</li>
+<li><p>singleinstance</p>
+<p>允许不同应用，进程线程等共用一个实例，无论从何应用调用该实例，都重用（onNewIntent() ）。</p>
+<p>场景：闹铃，将闹铃提醒与闹铃设置分离。</p>
+</li>
+</ul>
+<p>配置方法;</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="XML"><figure class="iseeu highlight /xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:name</span>=<span class="string">".SingleTopActivity"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:label</span>=<span class="string">"@string/singletop"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:launchMode</span>=<span class="string">"singleTop"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Activity-生命周期"><a href="#Activity-生命周期" class="headerlink" title="Activity 生命周期"></a>Activity 生命周期</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">onCreate() -&gt; onStart() -&gt; onResume() -&gt; onPause() -&gt; onStop() -&gt; onDestroy()</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Service-生命周期"><a href="#Service-生命周期" class="headerlink" title="Service 生命周期"></a>Service 生命周期</h3><p>Service 得启动方式有两种（ startService() 和 bindService() ），不同的启动方式他们的生命周期是不一样的。</p>
+<ul>
+<li>startService()  生命周期：</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">startService() -&gt; onCreate() -&gt; onStartCommand() -&gt; onDestory()</span><br></pre></td></tr></table></figure></div>
+
+<p>startService() 启动服务时，通过 intent 传值，在 onCommand() 方法中获取值的时候，一定要判断 intent 是否为 null。<br>startService() 启动服务后，再多次调用 ,startService() 和 onCreate() 方法也只会被调用一次。而 onStartCommand() 会被多次调用。stopService() 的时候，onDestory() 就会被调用，从而销毁服务。</p>
+<ul>
+<li>bindService() 生命周期：</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">bindService() -&gt; onCreate() -&gt; onBind() -&gt; onUnBind() -&gt; onDestory()</span><br></pre></td></tr></table></figure></div>
+
+<p> 这种方式启动 Service 的好处是更方便在 Activity 中操作 Service , 比如 Service 中有几个方法：a,b, 如果要在 Activity 中调用，需要在 Activity 中获取 ServiceConnection 对象，通过 ServiceConnection 来获取 Service 中内部类的类对象，然后通过这个类对象就可以调用类中的方法，当然这个类需要继承 Binder 对象。</p>
+<h3 id="Broadcast-注册方式与区别"><a href="#Broadcast-注册方式与区别" class="headerlink" title="Broadcast 注册方式与区别"></a>Broadcast 注册方式与区别</h3><ul>
+<li>静态注册</li>
+</ul>
+<p>也可以称为常驻型广播，这种广播需要在 AndroidManifest.xml 中进行注册，这种方式注册的广播，不受页面生命周期的影响，即使退出了页面，也可以接收到广播，一般用于开机启动等，由于这种事常驻行广播，所以会占用 CPU 的资源。</p>
+<ul>
+<li>动态注册</li>
+</ul>
+<p>动态注册实在代码中注册了，这种注册也叫非常驻型广播，收到生命周期的影响，退出页面后，就不会收到广播，我们通常运用在更新 UI 方面。这种注册方式优先级较高。最后需要解绑，否则会内存泄漏。</p>
+<p>广播是分为有序广播和无序广播。</p>
+<h3 id="View-的绘制流程"><a href="#View-的绘制流程" class="headerlink" title="View 的绘制流程"></a>View 的绘制流程</h3><ul>
+<li>自定义控件：</li>
+</ul>
+<ol>
+<li>组合控件。这种自定义控件不需要我们手动绘制，而是使用原生控件组合成新的控件。如标题栏。</li>
+<li>继承原有控件。这种自定义控件在原生控件提供的方法外，可以自己添加一些方法。如制作圆角，圆形图片。</li>
+<li>完全自定义控件。这个 View 上所展示的内容全部都是我们自己绘制出来的，比如说制作水波纹进度条。</li>
+</ol>
+<ul>
+<li><p>View 的绘制流程： onMeasure() -&gt; onLayout() -&gt; onDraw()</p>
+<ul>
+<li>onMeasure(): 测量视图大小，从顶层父 View 到子 View 递归调用 measure 方法，measure 方法又返回 onMeasure。</li>
+<li>onLayout(): 确定 View 位置，进行页面布局。从顶层父 View 向子 View 的递归调用 view.layout() 方法的过程，即父 View 根据上一步 measure 子 View 所得到的布局大小和布局参数，将子 View 放在合适的位置上。</li>
+<li>onDraw(): 绘制视图。ViewRoot 创建一个 Canvas 对象，然后调用 onDraw() 。</li>
+</ul>
+<p>六个步骤：</p>
+<blockquote>
+<p>① 绘制视图的背景；</p>
+<p>② 保存画布的图层（Layer）；</p>
+<p>③ 绘制 View 的内容；</p>
+<p>④ 绘制 View 子视图，如果没有就不用；</p>
+<p>⑤ 还原图层（Layer）；</p>
+<p>⑥ 绘制滚动条。</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>分享几个 GitHub 的彩蛋</title>
+    <url>/2021/1026/github-special-repositories.html</url>
+    <content><![CDATA[<p>GitHub 提供了一些特殊的仓库，这些仓库有着特殊的用法。</p>
+<a id="more"></a>
+
+<h2 id="首页展示的-README-MD"><a href="#首页展示的-README-MD" class="headerlink" title="首页展示的 README.MD"></a>首页展示的 README.MD</h2><p>个人主页的展示，以用户名创建的仓库是一个特殊仓库，它的 <code>README.MD</code> 内容会展示在个人主页。</p>
+<p><img src="github-special-repositories/username_rep.jpeg" alt="github_arctic"><br>[图片来自 kekemao.me]</p>
+<p><img src="github-special-repositories/github_main_page.jpg" alt="github_arctic"><br>[图片来自 kekemao.me]</p>
+<h2 id="创建-GitHub-Pages-站点"><a href="#创建-GitHub-Pages-站点" class="headerlink" title="创建 GitHub Pages 站点"></a>创建 GitHub Pages 站点</h2><p>存放的静态网页可以使用 <code>https://[You&#39;sUserName].github.io</code> 直接访问, 这个仓库搭配一些博客生成平台，作一个个人网站是非常不错的，只管写文章，不用考虑其它方面的维护。也可以自定义域名。比如我的是 <a href="https://kekemao00.github.io/">kekemao00.github.io</a>, 自定义域名是 <a href="https://kekemao.me/" target="_blank" rel="noopener">kekemao.me</a>.</p>
+<p>了解更多：<a href="https://docs.github.com/cn/pages/getting-started-with-github-pages/creating-a-github-pages-site" target="_blank" rel="noopener">GitHub Pages</a></p>
+<h2 id="github1s-com"><a href="#github1s-com" class="headerlink" title="github1s.com"></a>github1s.com</h2><p>任意仓库，使用 <code>github1s.com</code> 替换 <code>github.com</code> , 就可以在 VS Code 中浏览源代码。<br><img src="github-special-repositories/github1s.jpeg" alt="github_arctic"><br>[图片来自 kekemao.me]</p>
+<h2 id="Github-代码永久保存计划"><a href="#Github-代码永久保存计划" class="headerlink" title="Github 代码永久保存计划"></a>Github 代码永久保存计划</h2><p>2020 年 2 月 2 日，GitHub 会对每个活跃的公共存储库进行快照捕获，保存至北极世界档案馆，保存方面的技术由 SNSK 保证，至少能保存上千年。 同时 GitHub 用户会可以点亮一个图标。</p>
+<p>据说，北极世界档案馆所处的区域是世界上最安全的地方。斯瓦尔巴群岛的斯匹次卑尔根岛是经由全球 45 个国家承认的非军事区，这意味着无论世界何处发生了战争，它都能够独善其身。</p>
+<p>但是，我的 bug 还没改完呢! 😅😅</p>
+<p><img src="github-special-repositories/github_arctic.jpeg" alt="github_arctic"><br>[图片来自网络]</p>
+<p>了解更多：<a href="https://archiveprogram.github.com/" target="_blank" rel="noopener">https://archiveprogram.github.com</a></p>
+]]></content>
+      <categories>
+        <category>github</category>
+      </categories>
+      <tags>
+        <tag>github</tag>
+        <tag>彩蛋</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git：分布式版本控制系统入门与进阶</title>
+    <url>/2023/0409/git-distributed-version-control-system.html</url>
+    <content><![CDATA[<p>Git 是一个强大且灵活的分布式版本控制系统，广泛应用于软件开发和协作。本文将介绍 Git 的基本概念、常用命令、高级用法和工作流程，以帮助我们更有效地使用 Git 进行版本控制和协作。</p>
+<a id="more"></a>
+
+<h2 id="1-Git基本概念"><a href="#1-Git基本概念" class="headerlink" title="1. Git基本概念"></a>1. Git基本概念</h2><h3 id="1-1-分布式版本控制系统"><a href="#1-1-分布式版本控制系统" class="headerlink" title="1.1 分布式版本控制系统"></a>1.1 分布式版本控制系统</h3><p>与集中式版本控制系统（如 SVN）不同，Git 是分布式的。这意味着每个开发人员在本地计算机上都有一个完整的代码库副本，可以在本地执行大部分操作，而无需与远程服务器进行通信。这有助于提高性能并降低对中心服务器的依赖以减轻单点故障的风险。</p>
+<h3 id="1-2-工作区、暂存区和本地仓库"><a href="#1-2-工作区、暂存区和本地仓库" class="headerlink" title="1.2 工作区、暂存区和本地仓库"></a>1.2 工作区、暂存区和本地仓库</h3><ul>
+<li>工作区：包含项目文件的本地目录。</li>
+<li>暂存区：保存已修改但尚未提交的文件的缓存区域。</li>
+<li>本地仓库：存储项目历史记录和元数据的本地数据库。</li>
+</ul>
+<h3 id="1-3-快照（Snapshots）"><a href="#1-3-快照（Snapshots）" class="headerlink" title="1.3 快照（Snapshots）"></a>1.3 快照（Snapshots）</h3><p>Git 使用快照而非文件差异来存储项目历史。Git 跟踪项目的更改，而不是文件的更改。每次提交时，Git 都会为整个项目创建一个快照，包括文件和目录结构。这个快照包含了所有提交时存在的文件的版本。Git 使用 SHA-1 哈希值来标识每个快照，以确保数据的完整性。</p>
+<h3 id="1-4-文件状态"><a href="#1-4-文件状态" class="headerlink" title="1.4 文件状态"></a>1.4 文件状态</h3><ul>
+<li>已修改（Modified）：表示文件已经被修改但尚未暂存。</li>
+<li>已暂存（Staged）：表示文件已被修改并已标记以包含在下一次提交中。</li>
+<li>已提交（Committed）：表示文件已被安全地存储在本地数据库中。</li>
+</ul>
+<h3 id="1-5-引用：分支和标签"><a href="#1-5-引用：分支和标签" class="headerlink" title="1.5 引用：分支和标签"></a>1.5 引用：分支和标签</h3><ul>
+<li>分支（Branches）：指向某次提交的可变引用。分支可以用于并行开发和版本控制。</li>
+<li>标签（Tags）：指向某次提交的不可变引用。标签通常用于标记发布版本。</li>
+</ul>
+<h3 id="1-6-合并（Merge）"><a href="#1-6-合并（Merge）" class="headerlink" title="1.6 合并（Merge）"></a>1.6 合并（Merge）</h3><p>Git 支持轻量级的分支和合并操作，这使得开发人员可以在不同的分支上并行工作，然后将这些分支合并到主分支。分支可以用于实现功能、修复错误或进行实验，而合并操作允许将分支中的更改整合到一起。</p>
+<h3 id="1-7-远程仓库"><a href="#1-7-远程仓库" class="headerlink" title="1.7 远程仓库"></a>1.7 远程仓库</h3><p>Git 允许开发人员与远程仓库进行协作。远程仓库是存储在网络上的Git仓库，可以用于与其他开发人员共享代码和协作。通过使用远程仓库，开发人员可以轻松地将更改推送（push）到远程仓库，从远程仓库拉取（pull）更改，或者与其他开发人员协作。</p>
+<h2 id="2-常用Git命令"><a href="#2-常用Git命令" class="headerlink" title="2. 常用Git命令"></a>2. 常用Git命令</h2><h3 id="2-1-初始化仓库"><a href="#2-1-初始化仓库" class="headerlink" title="2.1 初始化仓库"></a>2.1 初始化仓库</h3><p>使用<code>git init</code>命令在当前目录下创建一个新的 Git 仓库。</p>
+<h3 id="2-2-克隆仓库"><a href="#2-2-克隆仓库" class="headerlink" title="2.2 克隆仓库"></a>2.2 克隆仓库</h3><p>使用<code>git clone &lt;repository_url&gt;</code>命令将远程仓库克隆到本地计算机。</p>
+<h3 id="2-3-添加文件到暂存区"><a href="#2-3-添加文件到暂存区" class="headerlink" title="2.3 添加文件到暂存区"></a>2.3 添加文件到暂存区</h3><p>使用<code>git add &lt;file&gt;</code>命令将指定文件添加到暂存区。使用<code>git add .</code>命令将所有修改过的文件添加到暂存区。</p>
+<h3 id="2-4-提交更改"><a href="#2-4-提交更改" class="headerlink" title="2.4 提交更改"></a>2.4 提交更改</h3><p>使用<code>git commit -m &quot;&lt;commit_message&gt;&quot;</code>命令将暂存区的更改提交到本地仓库。</p>
+<h3 id="2-5-查看状态"><a href="#2-5-查看状态" class="headerlink" title="2.5 查看状态"></a>2.5 查看状态</h3><p>使用<code>git status</code>命令查看当前仓库的状态，包括已修改、已暂存和未跟踪的文件。</p>
+<h3 id="2-6-查看历史记录"><a href="#2-6-查看历史记录" class="headerlink" title="2.6 查看历史记录"></a>2.6 查看历史记录</h3><p>使用 git log 命令查看提交历史。可选参数如 –oneline、–graph 和 –all 可用于定制输出格式。</p>
+<h3 id="2-7-创建和切换分支"><a href="#2-7-创建和切换分支" class="headerlink" title="2.7 创建和切换分支"></a>2.7 创建和切换分支</h3><p>使用 git branch <branch_name> 命令创建一个新分支。使用 git checkout <branch_name> 命令切换到指定分支。</branch_name></branch_name></p>
+<h3 id="2-8-合并分支"><a href="#2-8-合并分支" class="headerlink" title="2.8 合并分支"></a>2.8 合并分支</h3><p>使用 git merge <source_branch> 命令将指定源分支的更改合并到当前分支。</source_branch></p>
+<h3 id="2-9-拉取远程更改"><a href="#2-9-拉取远程更改" class="headerlink" title="2.9 拉取远程更改"></a>2.9 拉取远程更改</h3><p>使用 git pull <remote> <branch> 命令从远程仓库拉取指定分支的更改并将其合并到当前分支。</branch></remote></p>
+<h3 id="2-10-推送更改到远程仓库"><a href="#2-10-推送更改到远程仓库" class="headerlink" title="2.10 推送更改到远程仓库"></a>2.10 推送更改到远程仓库</h3><p>使用 git push <remote> <branch> 命令将本地分支的更改推送到远程仓库。</branch></remote></p>
+<h3 id="2-11-撤销更改"><a href="#2-11-撤销更改" class="headerlink" title="2.11 撤销更改"></a>2.11 撤销更改</h3><p>使用 git revert <commit> 命令创建一个新提交，以撤销指定提交的更改（注意：其实就是新增一条与其相反操作的提交）。使用 git reset <commit> 命令将当前分支指针重置为指定提交，并根据选项（–soft、–mixed、–hard）决定如何处理工作区和暂存区的更改。</commit></commit></p>
+<h2 id="3-Git高级用法"><a href="#3-Git高级用法" class="headerlink" title="3. Git高级用法"></a>3. Git高级用法</h2><h3 id="3-1-交互式暂存（Interactive-Staging）"><a href="#3-1-交互式暂存（Interactive-Staging）" class="headerlink" title="3.1 交互式暂存（Interactive Staging）"></a>3.1 交互式暂存（Interactive Staging）</h3><p>使用<code>git add -i</code>或<code>git add --patch</code>可以交互式地选择要暂存的更改。这在我们想将一组相关的更改分成多个提交时非常有用。</p>
+<h3 id="3-2-查找引入问题的提交（Bisect）"><a href="#3-2-查找引入问题的提交（Bisect）" class="headerlink" title="3.2 查找引入问题的提交（Bisect）"></a>3.2 查找引入问题的提交（Bisect）</h3><p>使用<code>git bisect</code>可以在提交历史中查找引入问题的提交。通过指定一个已知有问题的提交和一个已知没有问题的提交，Git 会使用二分查找法找出引入问题的提交。</p>
+<h3 id="3-3修改历史（Rewriting-History）"><a href="#3-3修改历史（Rewriting-History）" class="headerlink" title="3.3修改历史（Rewriting History）"></a>3.3修改历史（Rewriting History）</h3><p>使用<code>git rebase</code>可以修改提交历史。这允许您编辑旧的提交信息、合并多个提交、拆分提交或更改提交顺序。请注意，在修改已推送到远程仓库的历史记录之前要谨慎，因为这可能导致其他开发人员的仓库出现问题。</p>
+<h3 id="3-4-别名（Aliases）"><a href="#3-4-别名（Aliases）" class="headerlink" title="3.4 别名（Aliases）"></a>3.4 别名（Aliases）</h3><p>使用<code>git config</code>命令可以为常用的Git命令创建别名，这样您就可以用更短的命令来执行操作。例如：<code>git config --global alias.co checkout</code>，然后只需使用<code>git co</code>就可以执行<code>git checkout</code>命令。</p>
+<p>例如，我需要给查看日志设置一个为 <code>git lg</code>的别名可以这样做：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 设置一个 lg 的别名</span></span><br><span class="line">git config --global alias.lg <span class="string">"log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)&lt;%an&gt;%Creset' --abbrev-commit"</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="3-5-Cherry-pick"><a href="#3-5-Cherry-pick" class="headerlink" title="3.5 Cherry-pick"></a>3.5 Cherry-pick</h3><p>使用<code>git cherry-pick</code>可以将特定的提交从一个分支应用到另一个分支。这在将某个功能或修复从一个分支移植到另一个分支时非常有用。</p>
+<h3 id="3-6-Reflog"><a href="#3-6-Reflog" class="headerlink" title="3.6 Reflog"></a>3.6 Reflog</h3><p> 使用<code>git reflog</code>可以查看 Git 引用的历史记录。这在您意外删除分支或丢失提交时非常有用，因为您可以找到丢失的提交并恢复它们。</p>
+<h3 id="3-7-工作树（Worktrees）"><a href="#3-7-工作树（Worktrees）" class="headerlink" title="3.7 工作树（Worktrees）"></a>3.7 工作树（Worktrees）</h3><p>使用 git worktree 命令在单个仓库中创建多个工作树，这允许您在不同的分支上同时进行工作，而无需将更改暂存并切换分支。</p>
+<h2 id="4-Git工作流程"><a href="#4-Git工作流程" class="headerlink" title="4. Git工作流程"></a>4. Git工作流程</h2><p>Git 支持多种工作流程，如集中式工作流、功能分支工作流、Gitflow 工作流和分叉工作流等。这些工作流程为开发团队提供了灵活性，以便根据项目需求选择合适的协作策略。</p>
+<h3 id="4-1-集中式工作流（Centralized-Workflow）"><a href="#4-1-集中式工作流（Centralized-Workflow）" class="headerlink" title="4.1 集中式工作流（Centralized Workflow）"></a>4.1 集中式工作流（Centralized Workflow）</h3><p>这种工作流程类似于传统的集中式版本控制系统（如 SVN）。所有开发人员都使用单一的主分支（通常称为“master”或“main”），并在其中提交更改。在这种工作流程中，开发人员将更改拉取到本地仓库，进行修改，然后将修改后的代码推送回远程仓库的主分支。这种工作流程简单易懂，适合刚接触Git的团队。</p>
+<h3 id="4-2-功能分支工作流（Feature-Branch-Workflow）"><a href="#4-2-功能分支工作流（Feature-Branch-Workflow）" class="headerlink" title="4.2 功能分支工作流（Feature Branch Workflow）"></a>4.2 功能分支工作流（Feature Branch Workflow）</h3><p>在功能分支工作流中，开发人员为每个新功能或修复创建一个独立的分支。这样可以确保主分支始终保持稳定。当功能或修复完成后，分支将被合并回主分支。这种工作流程鼓励开发人员并行开发功能，并允许多个开发人员协作。</p>
+<h3 id="4-3-Gitflow工作流（Gitflow-Workflow）"><a href="#4-3-Gitflow工作流（Gitflow-Workflow）" class="headerlink" title="4.3 Gitflow工作流（Gitflow Workflow）"></a>4.3 Gitflow工作流（Gitflow Workflow）</h3><p>Gitflow 工作流是一种更严格的工作流程，旨在适应具有多个发布版本的项目。它包括两个长期分支：主分支（main）和开发分支（develop）。主分支用于存储已发布的版本，而开发分支用于存储开发中的功能。此外，还有其他三种短期分支：功能分支（feature）、发布分支（release）和修复分支（hotfix）。这种工作流程提供了一种结构化的方法来管理复杂项目的开发和发布：</p>
+<p>主分支（Master）：主分支用于存储已发布的版本</p>
+<p>开发分支（Develop）：开发分支用于存储开发中的功能</p>
+<p>功能分支（Feature）：用于开发新功能。</p>
+<p>发布分支（Release）：用于准备新的产品发布。</p>
+<p>紧急修复分支（Hotfix）：用于修复生产问题。</p>
+<h3 id="4-4-分叉工作流"><a href="#4-4-分叉工作流" class="headerlink" title="4.4 分叉工作流"></a>4.4 分叉工作流</h3><p>分叉工作流依赖于远程仓库的分叉功能，是一种适用于开源项目和大型团队的工作流程。每个开发人员创建一个远程仓库的分叉（fork），允许开发者在自己的仓库副本中进行更改，而无需对原始仓库具有直接的写访问权限。当更改完成后，开发人员创建一个拉取请求（pull request），将更改提交给原始仓库的维护者。维护者可以查看更改、提出建议并最终将更改合并到主仓库中。这种工作流程鼓励代码审查和协作，同时允许维护者保持对主仓库的控制。</p>
+<h2 id="5-与版本控制相关的内容"><a href="#5-与版本控制相关的内容" class="headerlink" title="5. 与版本控制相关的内容"></a>5. 与版本控制相关的内容</h2><h3 id="5-1-代码审查"><a href="#5-1-代码审查" class="headerlink" title="5.1 代码审查"></a>5.1 代码审查</h3><p>使用拉取请求（Pull Requests）和代码审查工具进行代码审查，以确保代码质量和遵循团队规范。</p>
+<h3 id="5-2-持续集成和持续部署（CI-CD）"><a href="#5-2-持续集成和持续部署（CI-CD）" class="headerlink" title="5.2 持续集成和持续部署（CI/CD）"></a>5.2 持续集成和持续部署（CI/CD）</h3><p>将 Git 与自动化构建和部署流程相结合，以确保代码的质量和可靠性。</p>
+<h3 id="5-3-Git服务器"><a href="#5-3-Git服务器" class="headerlink" title="5.3 Git服务器"></a>5.3 Git服务器</h3><p>GitHub、GitLab 和 Bitbucket 等 Git 服务器提供了托管 Git 仓库、协作和代码审查的平台。</p>
+<h3 id="5-4-Git客户端"><a href="#5-4-Git客户端" class="headerlink" title="5.4 Git客户端"></a>5.4 Git客户端</h3><p>命令行和图形用户界面（GUI）客户端，如 SourceTree、GitKraken 和 TortoiseGit，提供了方便的 Git 操作界面。</p>
+<h3 id="5-5-Git与其他版本控制系统的比较"><a href="#5-5-Git与其他版本控制系统的比较" class="headerlink" title="5.5 Git与其他版本控制系统的比较"></a>5.5 Git与其他版本控制系统的比较</h3><p>与其他版本控制系统（如 SVN 和 Mercurial）相比，Git 具有更高的性能、更强大的功能和更广泛的应用。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>本文介绍了 Git 的基本概念、常用命令、高级用法和工作流程。希望这些信息能帮助我们更有效地使用 Git 进行版本控制和协作。随着实践经验的积累，我们会发现 Git 是一个强大且灵活的工具，可以满足各种复杂的项目需求。</p>
+]]></content>
+      <categories>
+        <category>工具</category>
+      </categories>
+      <tags>
+        <tag>git,svn</tag>
+      </tags>
+  </entry>
+</search>
