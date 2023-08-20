@@ -1400,7 +1400,7 @@ filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
         <category>Kotlin</category>
       </categories>
       <tags>
-        <tag>kotlin,flow</tag>
+        <tag>kotlin,flow,channel,StateFlow,ShardFlow</tag>
       </tags>
   </entry>
 </search>
