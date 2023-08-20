@@ -87,7 +87,7 @@
 
 
 
-  <meta name="keywords" content="kotlin,flow,channel,StateFlow,ShardFlow,">
+  <meta name="keywords" content="flow,kotlin,channel,StateFlow,ShardFlow,">
 
 
 
@@ -100,22 +100,22 @@
 
 
 
-<meta name="description" content="引言在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 Channel 作为协程间通信的原语。但是 Channel 有其局限性,不适合一对多或者多对多的通信场景。 因此 Kotlin 后来引入了BroadcastChannel接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用,BroadcastChannel也暴露出了设计缺陷。 从">
-<meta name="keywords" content="kotlin,flow,channel,StateFlow,ShardFlow">
+<meta name="description" content="引言在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 Channel 作为协程间通信的原语。但是 Channel 有其局限性,不适合一对多或者多对多的通信场景。 因此 Kotlin 后来引入了 BroadcastChannel 接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用, BroadcastChannel 也暴露出了设计缺">
+<meta name="keywords" content="flow,kotlin,channel,StateFlow,ShardFlow">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kotlin 中的共享流(Shared Flow)和广播通道(Broadcast Channel)">
 <meta property="og:url" content="http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel.html">
 <meta property="og:site_name" content="独角博客">
-<meta property="og:description" content="引言在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 Channel 作为协程间通信的原语。但是 Channel 有其局限性,不适合一对多或者多对多的通信场景。 因此 Kotlin 后来引入了BroadcastChannel接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用,BroadcastChannel也暴露出了设计缺陷。 从">
+<meta property="og:description" content="引言在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 Channel 作为协程间通信的原语。但是 Channel 有其局限性,不适合一对多或者多对多的通信场景。 因此 Kotlin 后来引入了 BroadcastChannel 接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用, BroadcastChannel 也暴露出了设计缺">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel/kt_cold_flow.png">
 <meta property="og:image" content="http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel/kt_shard_flow.png">
 <meta property="og:image" content="http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel/kt_state_flow.png">
 <meta property="og:image" content="http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel/kt_channel.png">
-<meta property="og:updated_time" content="2023-08-20T16:37:31.837Z">
+<meta property="og:updated_time" content="2023-08-20T16:46:59.149Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kotlin 中的共享流(Shared Flow)和广播通道(Broadcast Channel)">
-<meta name="twitter:description" content="引言在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 Channel 作为协程间通信的原语。但是 Channel 有其局限性,不适合一对多或者多对多的通信场景。 因此 Kotlin 后来引入了BroadcastChannel接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用,BroadcastChannel也暴露出了设计缺陷。 从">
+<meta name="twitter:description" content="引言在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 Channel 作为协程间通信的原语。但是 Channel 有其局限性,不适合一对多或者多对多的通信场景。 因此 Kotlin 后来引入了 BroadcastChannel 接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用, BroadcastChannel 也暴露出了设计缺">
 <meta name="twitter:image" content="http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel/kt_cold_flow.png">
 
 
@@ -514,31 +514,31 @@
 
       
         <h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 <code>Channel </code>作为协程间通信的原语。但是 <code>Channel</code> 有其局限性,不适合一对多或者多对多的通信场景。</p>
-<p>因此 Kotlin 后来引入了<code>BroadcastChannel</code>接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用,<code>BroadcastChannel</code>也暴露出了设计缺陷。</p>
+<p>因此 Kotlin 后来引入了 <code>BroadcastChannel</code> 接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用, <code>BroadcastChannel</code> 也暴露出了设计缺陷。</p>
 <p>从 Kotlin 协程 1.4 版本开始, 我们引入了一个更好的解决方案——共享流 (Shared Flow)。本文将详细介绍共享流的思想以及如何使用它。</p>
 <a id="more"></a>
 
-<h2 id="流的简单性"><a href="#流的简单性" class="headerlink" title="流的简单性"></a>流的简单性</h2><p>在库的早期版本中,我们只有<code>channels</code>,我们试图通过将 <code>channel</code>作为参数和返回值来实现各种异步序列的转换。这意味着例如 <code>filter</code>操作符会在自己的协程中运行。</p>
-<p>但是这样的性能远远不如直接使用if语句。回想一下,这并不奇怪,因为<code>channel</code>是一个同步原语。任何<code>channel</code>,即使是优化过的单生产者单消费者实现,也必须支持并发的通信协程,它们之间的数据传输需要同步,这在现代多核系统中代价昂贵。</p>
-<p>当你开始在异步数据流的基础上构建应用程序体系结构时,对转换的需求自然而然地出现了,并且<code>channel</code>的成本开始积累。</p>
+<h2 id="流的简单性"><a href="#流的简单性" class="headerlink" title="流的简单性"></a>流的简单性</h2><p>在库的早期版本中,我们只有<code>channels</code>,我们试图通过将 <code>channel</code> 作为参数和返回值来实现各种异步序列的转换。这意味着例如 <code>filter</code>操作符会在自己的协程中运行。</p>
+<p>但是这样的性能远远不如直接使用if语句。回想一下,这并不奇怪,因为 <code>channel</code> 是一个同步原语。任何 <code>channel</code>, 即使是优化过的单生产者单消费者实现,也必须支持并发的通信协程,它们之间的数据传输需要同步,这在现代多核系统中代价昂贵。</p>
+<p>当你开始在异步数据流的基础上构建应用程序体系结构时,对转换的需求自然而然地出现了,并且 <code>channel</code> 的成本开始积累。</p>
 <p>Kotlin Flow 的简单设计允许高效实现转换操作符。在基本情况下,值是在同一个协程中发出、转换和收集的,不需要任何同步。</p>
-<h2 id="流是冷的"><a href="#流是冷的" class="headerlink" title="流是冷的"></a>流是冷的</h2><p>然而,流通常是冷的——通过<code>flow { ... }</code> 构建器函数创建的 <code>Flow&lt;Value&gt; </code>是一个被动实体。考虑下面的代码:</p>
+<h2 id="流是冷的"><a href="#流是冷的" class="headerlink" title="流是冷的"></a>流是冷的</h2><p>然而,流通常是冷的——通过 <code>flow { ... }</code> 构建器函数创建的 <code>Flow&lt;Value&gt; </code>是一个被动实体。考虑下面的代码:</p>
 <p><img src="kotlin-shard-flow-and-boardcast-channel/kt_cold_flow.png" alt="kt_cold_flow.png"></p>
-<p>流本身没有备份的任何计算,也没有任何状态,直到它开始被收集。每个收集协程都执行自己的发送代码实例。“冷流,热通道”的故事描述了Kotlin流背后的原因,并展示了其比频道更适合的用例——按需计算返回的异步值流。</p>
-<h2 id="共享流-SharedFlow"><a href="#共享流-SharedFlow" class="headerlink" title="共享流(SharedFlow)"></a>共享流(SharedFlow)</h2><p>那么,该如何处理像用户操作、外部设备事件、状态更新等内容呢?它们与是否有任何对它们感兴趣的代码无关而独立操作。它们应支持应用程序内的多个观察者。这些是所谓的热事件源。</p>
+<p>流本身没有备份的任何计算,也没有任何状态,直到它开始被收集。每个收集协程都执行自己的发送代码实例。“冷流,热通道”的故事描述了 Kotlin 流背后的原因,并展示了其比频道更适合的用例——按需计算返回的异步值流。</p>
+<h2 id="共享流-SharedFlow"><a href="#共享流-SharedFlow" class="headerlink" title="共享流 (SharedFlow)"></a>共享流 (SharedFlow)</h2><p>那么,该如何处理像用户操作、外部设备事件、状态更新等内容呢?它们与是否有任何对它们感兴趣的代码无关而独立操作。它们应支持应用程序内的多个观察者。这些是所谓的热事件源。</p>
 <p>这就是共享流的概念登场的地方。共享流存在与否与其是否被收集无关。共享流的收集器称为订阅者。共享流的所有订阅者接收相同的一系列值。它有效地像一个“广播频道”,没有大部分频道开销。它使广播频道的概念过时了。</p>
 <p>本质上,共享流是一个轻量级的广播事件总线,您可以在应用程序体系结构中创建和使用它。</p>
 <p><img src="kotlin-shard-flow-and-boardcast-channel/kt_shard_flow.png" alt="kt_shard_flow.png"></p>
 <p>它具有可调的参数,例如要为新订阅者保留和重播的旧事件数量以及额外的缓冲区容量,以便快速发射器和慢订阅者之间提供缓冲。</p>
-<p>共享流的所有订阅者都在自己的上下文中异步收集事件。 发射器不等待订阅者完成处理事件。 但是,当共享流缓冲区已满时,发射器将暂停,直到缓冲区中有空间。 暂停发射器来处理缓冲区溢出为收集者提供了背压,以降低发射速率。 通过<code>BufferOverlow</code>参数支持各种替代策略来处理缓冲区溢出。</p>
-<h2 id="状态流-StateFlow"><a href="#状态流-StateFlow" class="headerlink" title="状态流(StateFlow)"></a>状态流(StateFlow)</h2><p>处理缓冲区溢出的一种流行方法是放弃最老的事件,只保留最新和最新的事件。 特别是,这是为状态变量建模应用程序的绝佳方法。 这是一个非常广泛的用例,它有自己的专门的<code>StateFlow</code>类型,可用作过时的<code>ConflatedBroadcastChannel</code>的替代品。</p>
+<p>共享流的所有订阅者都在自己的上下文中异步收集事件。 发射器不等待订阅者完成处理事件。 但是,当共享流缓冲区已满时,发射器将暂停,直到缓冲区中有空间。 暂停发射器来处理缓冲区溢出为收集者提供了背压,以降低发射速率。 通过 <code>BufferOverlow</code> 参数支持各种替代策略来处理缓冲区溢出。</p>
+<h2 id="状态流-StateFlow"><a href="#状态流-StateFlow" class="headerlink" title="状态流 (StateFlow)"></a>状态流 (StateFlow)</h2><p>处理缓冲区溢出的一种流行方法是放弃最老的事件,只保留最新和最新的事件。 特别是,这是为状态变量建模应用程序的绝佳方法。 这是一个非常广泛的用例,它有自己的专门的 <code>StateFlow</code> 类型,可用作过时的 <code>ConflatedBroadcastChannel</code> 的替代品。</p>
 <p><img src="kotlin-shard-flow-and-boardcast-channel/kt_state_flow.png" alt="kt_state_flow.png"></p>
 <p>可以将 <code>val x:StateFlow&lt;T&gt; </code>视为 <code>var x:T</code> 的异步和可观察的对应物。 最新的值总是可用的,事实上,只有最新的值才重要,因此更新它总是可能的,无需挂起。</p>
 <p>通过状态流,复杂的频道和简单的流之间的性能差异变得非常明显。 状态流的实现具有无分配更新,这在合并广播通道中并非如此。</p>
-<h2 id="渠道的用例-Channel"><a href="#渠道的用例-Channel" class="headerlink" title="渠道的用例(Channel)"></a>渠道的用例(Channel)</h2><p>随着各种共享流替换了不同种类的广播通道,一个常见的问题是平原的常规通道会发生什么。它们存在的原因有很多。一个原因是通道是实现许多复杂流操作符的低级原语。</p>
+<h2 id="渠道的用例-Channel"><a href="#渠道的用例-Channel" class="headerlink" title="渠道的用例 (Channel)"></a>渠道的用例 (Channel)</h2><p>随着各种共享流替换了不同种类的广播通道,一个常见的问题是平原的常规通道会发生什么。它们存在的原因有很多。一个原因是通道是实现许多复杂流操作符的低级原语。</p>
 <p>但频道也有自己的应用情况。 频道用于处理必须精确处理一次的事件。 当此类事件通常只有一个订阅者,但间歇性地(在启动或某种重新配置期间)没有订阅者时会发生这种情况,并且需要保留发布的所有事件,直到出现订阅者。</p>
 <p><img src="kotlin-shard-flow-and-boardcast-channel/kt_channel.png" alt="kt_channel.png"></p>
-<p><code>BroadcastEventBus</code> 和<code>SingleShotEventBus</code>都公开了<code>Flow&lt;Event&gt;</code>,但它们有一个重要的区别。</p>
+<p><code>BroadcastEventBus</code> 和 <code>SingleShotEventBus</code> 都公开了 <code>Flow&lt;Event&gt;</code>, 但它们有一个重要的区别。</p>
 <p>使用共享流时,事件广播到未知数量(零或多个)的订阅者。 如果没有订阅者,则会立即删除任何已发布的事件。 这是必须立即处理或根本不处理的事件的设计模式。</p>
 <p>使用通道时,每个事件都传递给单个订阅者。 如果没有订阅者,发布事件时,一旦通道缓冲区已满,则会挂起等待订阅者出现。 已发布的事件不会被删除。</p>
 <h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>了解区别并适当使用共享流和通道。 它们都很有用, 并且设计良好,可以很好地协同工作。 但是, 广播通道是过时, 它们将被弃用并在未来删除。</p>
@@ -635,7 +635,15 @@
       
         <div class="post-tags">
           
-            <a href="/tags/kotlin-flow-channel-StateFlow-ShardFlow/" rel="tag"> <i class="fa fa-tag"></i> kotlin,flow,channel,StateFlow,ShardFlow</a>
+            <a href="/tags/flow/" rel="tag"> <i class="fa fa-tag"></i> flow</a>
+          
+            <a href="/tags/kotlin/" rel="tag"> <i class="fa fa-tag"></i> kotlin</a>
+          
+            <a href="/tags/channel/" rel="tag"> <i class="fa fa-tag"></i> channel</a>
+          
+            <a href="/tags/StateFlow/" rel="tag"> <i class="fa fa-tag"></i> StateFlow</a>
+          
+            <a href="/tags/ShardFlow/" rel="tag"> <i class="fa fa-tag"></i> ShardFlow</a>
           
         </div>
       
@@ -772,7 +780,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -1165,7 +1173,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的简单性"><span class="nav-number">2.</span> <span class="nav-text">流的简单性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流是冷的"><span class="nav-number">3.</span> <span class="nav-text">流是冷的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共享流-SharedFlow"><span class="nav-number">4.</span> <span class="nav-text">共享流(SharedFlow)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态流-StateFlow"><span class="nav-number">5.</span> <span class="nav-text">状态流(StateFlow)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渠道的用例-Channel"><span class="nav-number">6.</span> <span class="nav-text">渠道的用例(Channel)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#引言"><span class="nav-number">1.</span> <span class="nav-text">引言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流的简单性"><span class="nav-number">2.</span> <span class="nav-text">流的简单性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流是冷的"><span class="nav-number">3.</span> <span class="nav-text">流是冷的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#共享流-SharedFlow"><span class="nav-number">4.</span> <span class="nav-text">共享流 (SharedFlow)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#状态流-StateFlow"><span class="nav-number">5.</span> <span class="nav-text">状态流 (StateFlow)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#渠道的用例-Channel"><span class="nav-number">6.</span> <span class="nav-text">渠道的用例 (Channel)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
@@ -1186,7 +1194,7 @@
       <h3 class="widget-title">Tag Cloud</h3>
       <div id="myCanvasContainer" class="widget tagcloud">
           <canvas width="250" height="250" id="resCanvas" style="width=100%">
-              <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitignore/">.gitignore</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/adb/">adb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aeyEvent/">aeyEvent</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/">app</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/back/">back</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ble/">ble</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compose/">compose</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flow/">flow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git-svn/">git,svn</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitHub/">gitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/home/">home</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/">jdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/">kotlin</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin-flow-channel-StateFlow-ShardFlow/">kotlin,flow,channel,StateFlow,ShardFlow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/menu/">menu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-native/">react-native</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/router/">router</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql-room/">sql,room</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ui/">ui</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/view/">view</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/修复硬盘/">修复硬盘</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/彩蛋/">彩蛋</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a><span class="tag-list-count">1</span></li></ul>
+              <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitignore/">.gitignore</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ShardFlow/">ShardFlow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/StateFlow/">StateFlow</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/adb/">adb</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/aeyEvent/">aeyEvent</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/android/">android</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/app/">app</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/back/">back</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ble/">ble</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/channel/">channel</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/compose/">compose</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flow/">flow</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/gitHub/">gitHub</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github/">github</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/home/">home</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jdk/">jdk</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/keyboard/">keyboard</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kotlin/">kotlin</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/menu/">menu</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/note/">note</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/react-native/">react-native</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/router/">router</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sql-room/">sql,room</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssh/">ssh</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ui/">ui</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/view/">view</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/修复硬盘/">修复硬盘</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/彩蛋/">彩蛋</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/面试/">面试</a><span class="tag-list-count">1</span></li></ul>
           </canvas>
       </div>
       </div>

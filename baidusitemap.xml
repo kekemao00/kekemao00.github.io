@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel.html</loc>
-    <lastmod>2023-08-20</lastmod>
-  </url>
-  <url>
     <loc>http://kekemao00.github.io/2023/0409/git-vs-svn.html</loc>
     <lastmod>2023-08-20</lastmod>
   </url>
   <url>
     <loc>http://kekemao00.github.io/2023/0409/git-distributed-version-control-system.html</loc>
+    <lastmod>2023-08-20</lastmod>
+  </url>
+  <url>
+    <loc>http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel.html</loc>
     <lastmod>2023-08-20</lastmod>
   </url>
   <url>
