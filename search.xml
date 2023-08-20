@@ -1,24 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>GitHub&#39;s Links</title>
-    <url>/2018/0120/github-links.html</url>
-    <content><![CDATA[<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><ul>
-<li><p><a href="https://github.com/trending" target="_blank" rel="noopener">GitHub 热门项目</a>  </p>
-<p> GitHub 网站上最热门的项目（可按月，周，天查看）  </p>
-</li>
-<li><p><a href="https://octoverse.github.com/" target="_blank" rel="noopener">GitHub 年度报告</a>  </p>
-<p> 去年 GitHub 网站内容综合报告</p>
+    <title>BLE 始终扫描不到蓝牙</title>
+    <url>/2018/0120/ble-android6.html</url>
+    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>  <em>基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。</em></p>
+<h2 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h2><p>  码好代码，运行，发现蓝牙始终徘徊在</p>
+<blockquote>
+<p>扫描 &gt; 扫描结束 (timeout)</p>
+</blockquote>
+<p>  各种查阅资料后，找到根本原因：</p>
+  <a id="more"></a>
+
+<p>  android 6.0之后要用蓝牙还需要添加一个模糊定位的权限  </p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">android.permission.ACCESS_COARSE_LOCATION</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li><p>Google 官方文档这样描述</p>
+<blockquote>
+<p><strong>Access to Hardware Identifier</strong><br>To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The <a href="https://developer.android.com/reference/android/net/wifi/WifiInfo.html#getMacAddress()" target="_blank" rel="noopener">WifiInfo.getMacAddress()</a> and the <a href="https://developer.android.com/reference/android/bluetooth/BluetoothAdapter.html#getAddress()" target="_blank" rel="noopener">BluetoothAdapter.getAddress()</a> methods now return a constant value of <em>02:00:00:00:00:00</em><br>To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_FINE_LOCATION" target="_blank" rel="noopener">ACCESS_FINE_LOCATION</a> or <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_COARSE_LOCATION" target="_blank" rel="noopener">ACCESS_COARSE_LOCATION</a> permissions:<br><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.html#getScanResults()" target="_blank" rel="noopener">WifiManager.getScanResults()</a><br><a href="https://developer.android.com/reference/android/bluetooth/BluetoothDevice.html#ACTION_FOUND" target="_blank" rel="noopener">BluetoothDevice.ACTION_FOUND</a><br><a href="https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback)" target="_blank" rel="noopener">BluetoothLeScanner.startScan()</a><br><strong>Note:</strong> When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address.</p>
+</blockquote>
 </li>
 </ul>
-<a id="more"></a>
+<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul>
+<li><p>只需要在扫描 BLE 设备之前动态向用户申请位置权限</p>
+<p>  我的代码：</p>
+</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;<span class="comment">//如果 API level 是大于等于 23(Android 6.0) 时</span></span><br><span class="line">      <span class="comment">//判断是否具有权限</span></span><br><span class="line">      <span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>,</span><br><span class="line">              Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">          <span class="comment">//判断是否需要向用户解释为什么需要申请该权限</span></span><br><span class="line">          <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>,</span><br><span class="line">                  Manifest.permission.ACCESS_COARSE_LOCATION)) &#123;</span><br><span class="line">              Toast.makeText(<span class="keyword">this</span>, <span class="string">"自Android 6.0开始需要打开位置权限才可以搜索到Ble设备"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="comment">//请求权限</span></span><br><span class="line">          ActivityCompat.requestPermissions(<span class="keyword">this</span>,</span><br><span class="line">                  <span class="keyword">new</span> String[]&#123;Manifest.permission.ACCESS_COARSE_LOCATION&#125;,</span><br><span class="line">                  REQUEST_CODE_ACCESS_COARSE_LOCATION);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></div>
+
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>问题解决。</p>
+<!--以下是本文用到的超链接-->
 
 ]]></content>
       <categories>
-        <category>gitHub</category>
+        <category>android</category>
+        <category>ble</category>
       </categories>
       <tags>
-        <tag>gitHub</tag>
+        <tag>ble</tag>
+        <tag>android</tag>
       </tags>
   </entry>
   <entry>
@@ -91,188 +111,6 @@
       <tags>
         <tag>git</tag>
         <tag>.gitignore</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一句话解决硬盘打不开提示格式化</title>
-    <url>/2018/0507/chkdsk.html</url>
-    <content><![CDATA[<h2 id="需要使用的命令（若故障磁盘为-F）"><a href="#需要使用的命令（若故障磁盘为-F）" class="headerlink" title="需要使用的命令（若故障磁盘为 F）"></a>需要使用的命令（若故障磁盘为 F）</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">chkdsk F: /f</span><br></pre></td></tr></table></figure></div>
-
-<a id="more"></a>
-<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><blockquote>
-1、单击“开始”，点击“运行”，输入cmd并回车打开命令提示符窗口；
-2、在此窗口输入以下命令：
-例如检查并修复 F 分区：
-
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">chkdsk F: /f</span><br></pre></td></tr></table></figure></div>
-
-<p>回车就会启动 chkdsk 磁盘检查工具扫描D分区了，坐等程序完成就 OK 啦 ！不必格式化几百 G 的数据。<br>检查其他分区类似。</p>
-</blockquote>
-<hr>
-
-<h2 id="详细的参数说明如下"><a href="#详细的参数说明如下" class="headerlink" title="详细的参数说明如下"></a>详细的参数说明如下</h2><blockquote>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">CHKDSK [volume[[path]filename]]] [/F] [/V] [/R] [/X] [/I] [/C] [/L[:size]]</span><br></pre></td></tr></table></figure></div>
-
-</blockquote>
-volume 指定驱动器(后面跟一个冒号)、装入点
-或卷名。
-filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
-`/F` 修复磁盘上的错误。
-`/V` 在 FAT/FAT32 上: 显示磁盘上每个文件的完整路径和名称。
-在 NTFS 上: 如果有清除消息，将其显示。
-`/R` 查找不正确的扇区并恢复可读信息(隐含 /F)。
-`/L`:size 仅用于 NTFS: 将日志文件大小改成指定的 KB 数。
-如果没有指定大小，则显示当前的大小。
-`/X` 如果必要，强制卷先卸下。
-卷的所有打开的句柄就会无效(隐含 /F)。
-`/I` 仅用于 NTFS: 对索引项进行强度较小的检查。
-`/C` 仅用于 NTFS: 跳过文件夹结构的循环检查。
-
-<p><code>/I</code> 和 /C 命令行开关跳过卷的某些检查，减少运行 Chkdsk 所需的时间。</p>
-<h2 id="报告磁盘错误"><a href="#报告磁盘错误" class="headerlink" title="报告磁盘错误"></a>报告磁盘错误</h2><p>chkdsk 命令会检查磁盘空间和文件分配表 (FAT)以及 NTFS 文件系统的使用情况。Chkdsk 在状态报告中提供特定于每个文件系统的信息。状态报告显示文件系统中找到的错误。在活动分区上运行 chkdsk 时，如果未含 /f 命令行选项，则它可能会因为无法锁定该驱动器而报告虚假信息。应该不定期使用 chkdsk 检查每个磁盘上的错误。</p>
-<h2 id="修复磁盘错误"><a href="#修复磁盘错误" class="headerlink" title="修复磁盘错误"></a>修复磁盘错误</h2><p>只有指定 /f 命令行选项，chkdsk 命令才修复磁盘错误。Chkdsk 必须可以锁定驱动器以纠正错误。由于修复通常会更改磁盘的文件分配表，有时还会丢失数据，所以 chkdsk 会首先发送如下所示的确认消息：</p>
-<blockquote>
-　　10 lost allocation units found in 3 chains.
-　　Convert lost chains to files?
-</blockquote>
-　　如果按 Y，Windows 会在根目录中将所有丢失链保存在一个名为 Filennnn.chk 的文件中。chkdsk 结束后，可以查看这些文件是否包含了所需的数据。如果按 N，Windows 会修复磁盘，但对于丢失的分配单元，它不保存其内容。
-　　如果不使用 /f 命令行选项，则在有文件需要修复时，chkdsk 会发送消息，但它不修复任何错误。
-　　如果在大磁盘（例如，70 GB）或有大量文件（数百万）的磁盘上使用 chkdsk /f，这可能要花很长时间（比如说，数天）才能完成。因为 chkdsk 直到工作完成它才会交出控制权，所以计算机在这段时间内将不可用。
-　　检查 FAT 磁盘
-　　Windows 以下列格式显示 FAT 磁盘的 chkdsk 状态报告：
-　　检查 NTFS 磁盘
-　　Windows 以下列格式显示 NTFS 磁盘的 chkdsk 状态报告：
-　　存在打开文件的情况下使用 chkdsk
-　　如果该驱动器上有打开的文件，则指定 /f 命令行选项后，chkdsk 会发送错误消息。如果未指定 /f 命令行选项并且存在打开的文件，则 chkdsk 会报告磁盘上丢失的分配单元。如果打开的文件没有记录在文件分配表时，可能会发生这种情况。如果 chkdsk 报告大量分配单元丢失，可以考虑修复该磁盘。
-　　查找物理磁盘错误
-　　使用 /r 命令行选项可查找文件系统中的物理磁盘错误。有关使用 recover 修复物理性损坏文件的信息，请参阅“”。
-　　报告磁盘坏扇区
-　　在磁盘第一次准备运行时，chkdsk 报告的坏扇区标记为损坏。它们不会造成危险。
-
-<p>参：<a href="<http://www.jb51.net/softjc/60642.html>" target="_blank">http://www.jb51.net/softjc/60642.html</a></p>
-<p><a href="http://blog.kekemao.top" target="_blank" rel="noopener">独角博客</a><i>-更新于-2017-9-20</i></p>
-]]></content>
-      <categories>
-        <category>其他</category>
-      </categories>
-      <tags>
-        <tag>修复硬盘</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hiding the Navigation Bar</title>
-    <url>/2018/0120/hiding-navigationBar.html</url>
-    <content><![CDATA[<p>去除虚拟导航</p>
-<p>developer.android.com: <a href="https://developer.android.com/training/system-ui/navigation.html#behind" target="_blank" rel="noopener">Hiding the Navigation Bar</a></p>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideSystemNavigationBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt; <span class="number">11</span> &amp;&amp; Build.VERSION.SDK_INT &lt; <span class="number">19</span>) &#123;</span><br><span class="line">            View view = <span class="keyword">this</span>.getWindow().getDecorView();</span><br><span class="line">            view.setSystemUiVisibility(View.GONE);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">19</span>) &#123;</span><br><span class="line">            View decorView = getWindow().getDecorView();</span><br><span class="line">            <span class="keyword">int</span> uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br><span class="line">                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;</span><br><span class="line">            decorView.setSystemUiVisibility(uiOptions);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
-
-<a id="more"></a>
-
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>ui</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git 提交到远程的正确操作</title>
-    <url>/2018/0123/git-push-remote.html</url>
-    <content><![CDATA[<p>git 提交代码到远程仓库如何做</p>
-<h2 id="第一种-暂存工作区的方式-stash"><a href="#第一种-暂存工作区的方式-stash" class="headerlink" title="第一种,暂存工作区的方式 (stash)"></a>第一种,暂存工作区的方式 (stash)</h2><ol>
-<li><p>保存当前的工作进度。会分别对暂存区和工作区的状态进行保存</p>
-<blockquote>
-<p>stash changes</p>
-</blockquote>
-</li>
-<li><p>从远程仓库拉去最新 Code</p>
-<blockquote>
-<p>pull</p>
-</blockquote>
-</li>
-<li><p>恢复暂存的工作状态</p>
-<blockquote>
-<p>unstash changes (Pop stash)</p>
-</blockquote>
-</li>
-<li><p>若本地和远程仓库修改了同一行需要整理下代码(若没有,可略过)</p>
-<blockquote>
-<p>修改重复行</p>
-</blockquote>
-</li>
-<li><p>此时自己本地的是最新 Code, 跑起来检查下,没问题可以提交了</p>
-<blockquote>
-<p>commit files</p>
-</blockquote>
-</li>
-<li><p>推到远程仓库</p>
-<blockquote>
-<p>push to remote</p>
-</blockquote>
-</li>
-</ol>
-<h2 id="第二种-合并分支的方式"><a href="#第二种-合并分支的方式" class="headerlink" title="第二种, 合并分支的方式"></a>第二种, 合并分支的方式</h2><blockquote>
-<p>commit -&gt; pull -&gt; merge -&gt; push  </p>
-</blockquote>
-<p>方式不同, 但思想都是一样的: 将远程更新的代码和自己的修改在本地合并, 然后再将手中最新 Code 推到远程仓库.</p>
-]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Android 屏幕相关代码笔记</title>
-    <url>/2018/0803/note_screen.html</url>
-    <content><![CDATA[<p>在需要设置进制截屏的 Activity 的生命周期 onCreate() 方法中添加一行代码即可：</p>
-<ul>
-<li>禁止截屏</li>
-</ul>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li>屏幕常亮  </li>
-</ul>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">getWindow.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)</span><br></pre></td></tr></table></figure></div>
-
-<a id="more"></a>
-
-<p>可放在 BaseActivity 的 onCreate()  中</p>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>note</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>MAC OS 卸载 JDK</title>
-    <url>/2018/0516/uninstall-jdk-for-mac.html</url>
-    <content><![CDATA[<ol>
-<li>单击位于停靠栏中的 Finder 图标</li>
-<li>单击实用程序文件夹</li>
-<li>双击终端图标</li>
-<li>在“终端”窗口中，复制和粘贴命令：</li>
-</ol>
-<a id="more"></a>
-
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">sudo rm -fr /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin</span><br><span class="line">sudo rm -fr /Library/PreferencesPanes/JavaControlPanel.prefPane</span><br><span class="line">sudo rm -fr ~/Library/Application\ Support/Java</span><br></pre></td></tr></table></figure></div>
-
-<blockquote>
-<p>请勿尝试通过从 /usr/bin 删除 Java 工具来卸载 Java。此目录是系统软件的一部分，下次对操作系统执行更新时，Apple 会重置所有更改。</p>
-</blockquote>
-<hr>
-<p>参: <a href="https://www.java.com/zh_CN/download/help/mac_uninstall_java.xml" target="_blank" rel="noopener">使用终端卸载 Oracle Java</a></p>
-]]></content>
-      <categories>
-        <category>java</category>
-      </categories>
-      <tags>
-        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>
@@ -457,17 +295,115 @@ filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
       </tags>
   </entry>
   <entry>
-    <title>Java 获取当前行</title>
-    <url>/2018/0120/java-line.html</url>
-    <content><![CDATA[<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取当前代码行号</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> FileName:LineNumber</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getLineInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    StackTraceElement ste = <span class="keyword">new</span> Throwable().getStackTrace()[<span class="number">1</span>];</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     ste.isNativeMethod();//本机方法</span></span><br><span class="line"><span class="comment">     ste.getClassName();//类名</span></span><br><span class="line"><span class="comment">     ste.getFileName();//文件名</span></span><br><span class="line"><span class="comment">     ste.getLineNumber();//行号</span></span><br><span class="line"><span class="comment">     ste.getMethodName();//方法名*/</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"--- File: "</span> + ste.getFileName() + <span class="string">",  Class: "</span> + ste.getClassName() + <span class="string">",  Method: "</span> + ste.getMethodName() + <span class="string">"(),  Line: "</span> + ste.getLineNumber();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+    <title>GitHub&#39;s Links</title>
+    <url>/2018/0120/github-links.html</url>
+    <content><![CDATA[<h2 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a>GitHub</h2><ul>
+<li><p><a href="https://github.com/trending" target="_blank" rel="noopener">GitHub 热门项目</a>  </p>
+<p> GitHub 网站上最热门的项目（可按月，周，天查看）  </p>
+</li>
+<li><p><a href="https://octoverse.github.com/" target="_blank" rel="noopener">GitHub 年度报告</a>  </p>
+<p> 去年 GitHub 网站内容综合报告</p>
+</li>
+</ul>
+<a id="more"></a>
+
+]]></content>
+      <categories>
+        <category>gitHub</category>
+      </categories>
+      <tags>
+        <tag>gitHub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git 提交到远程的正确操作</title>
+    <url>/2018/0123/git-push-remote.html</url>
+    <content><![CDATA[<p>git 提交代码到远程仓库如何做</p>
+<h2 id="第一种-暂存工作区的方式-stash"><a href="#第一种-暂存工作区的方式-stash" class="headerlink" title="第一种,暂存工作区的方式 (stash)"></a>第一种,暂存工作区的方式 (stash)</h2><ol>
+<li><p>保存当前的工作进度。会分别对暂存区和工作区的状态进行保存</p>
+<blockquote>
+<p>stash changes</p>
+</blockquote>
+</li>
+<li><p>从远程仓库拉去最新 Code</p>
+<blockquote>
+<p>pull</p>
+</blockquote>
+</li>
+<li><p>恢复暂存的工作状态</p>
+<blockquote>
+<p>unstash changes (Pop stash)</p>
+</blockquote>
+</li>
+<li><p>若本地和远程仓库修改了同一行需要整理下代码(若没有,可略过)</p>
+<blockquote>
+<p>修改重复行</p>
+</blockquote>
+</li>
+<li><p>此时自己本地的是最新 Code, 跑起来检查下,没问题可以提交了</p>
+<blockquote>
+<p>commit files</p>
+</blockquote>
+</li>
+<li><p>推到远程仓库</p>
+<blockquote>
+<p>push to remote</p>
+</blockquote>
+</li>
+</ol>
+<h2 id="第二种-合并分支的方式"><a href="#第二种-合并分支的方式" class="headerlink" title="第二种, 合并分支的方式"></a>第二种, 合并分支的方式</h2><blockquote>
+<p>commit -&gt; pull -&gt; merge -&gt; push  </p>
+</blockquote>
+<p>方式不同, 但思想都是一样的: 将远程更新的代码和自己的修改在本地合并, 然后再将手中最新 Code 推到远程仓库.</p>
+]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hiding the Navigation Bar</title>
+    <url>/2018/0120/hiding-navigationBar.html</url>
+    <content><![CDATA[<p>去除虚拟导航</p>
+<p>developer.android.com: <a href="https://developer.android.com/training/system-ui/navigation.html#behind" target="_blank" rel="noopener">Hiding the Navigation Bar</a></p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">hideSystemNavigationBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt; <span class="number">11</span> &amp;&amp; Build.VERSION.SDK_INT &lt; <span class="number">19</span>) &#123;</span><br><span class="line">            View view = <span class="keyword">this</span>.getWindow().getDecorView();</span><br><span class="line">            view.setSystemUiVisibility(View.GONE);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= <span class="number">19</span>) &#123;</span><br><span class="line">            View decorView = getWindow().getDecorView();</span><br><span class="line">            <span class="keyword">int</span> uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION</span><br><span class="line">                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;</span><br><span class="line">            decorView.setSystemUiVisibility(uiOptions);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></div>
 
 <a id="more"></a>
+
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>ui</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>MAC OS 卸载 JDK</title>
+    <url>/2018/0516/uninstall-jdk-for-mac.html</url>
+    <content><![CDATA[<ol>
+<li>单击位于停靠栏中的 Finder 图标</li>
+<li>单击实用程序文件夹</li>
+<li>双击终端图标</li>
+<li>在“终端”窗口中，复制和粘贴命令：</li>
+</ol>
+<a id="more"></a>
+
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">sudo rm -fr /Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin</span><br><span class="line">sudo rm -fr /Library/PreferencesPanes/JavaControlPanel.prefPane</span><br><span class="line">sudo rm -fr ~/Library/Application\ Support/Java</span><br></pre></td></tr></table></figure></div>
+
+<blockquote>
+<p>请勿尝试通过从 /usr/bin 删除 Java 工具来卸载 Java。此目录是系统软件的一部分，下次对操作系统执行更新时，Apple 会重置所有更改。</p>
+</blockquote>
+<hr>
+<p>参: <a href="https://www.java.com/zh_CN/download/help/mac_uninstall_java.xml" target="_blank" rel="noopener">使用终端卸载 Oracle Java</a></p>
 ]]></content>
       <categories>
         <category>java</category>
       </categories>
       <tags>
-        <tag>java</tag>
+        <tag>jdk</tag>
       </tags>
   </entry>
   <entry>
@@ -521,6 +457,111 @@ filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
       </tags>
   </entry>
   <entry>
+    <title>一句话解决硬盘打不开提示格式化</title>
+    <url>/2018/0507/chkdsk.html</url>
+    <content><![CDATA[<h2 id="需要使用的命令（若故障磁盘为-F）"><a href="#需要使用的命令（若故障磁盘为-F）" class="headerlink" title="需要使用的命令（若故障磁盘为 F）"></a>需要使用的命令（若故障磁盘为 F）</h2><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">chkdsk F: /f</span><br></pre></td></tr></table></figure></div>
+
+<a id="more"></a>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><blockquote>
+1、单击“开始”，点击“运行”，输入cmd并回车打开命令提示符窗口；
+2、在此窗口输入以下命令：
+例如检查并修复 F 分区：
+
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">chkdsk F: /f</span><br></pre></td></tr></table></figure></div>
+
+<p>回车就会启动 chkdsk 磁盘检查工具扫描D分区了，坐等程序完成就 OK 啦 ！不必格式化几百 G 的数据。<br>检查其他分区类似。</p>
+</blockquote>
+<hr>
+
+<h2 id="详细的参数说明如下"><a href="#详细的参数说明如下" class="headerlink" title="详细的参数说明如下"></a>详细的参数说明如下</h2><blockquote>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">CHKDSK [volume[[path]filename]]] [/F] [/V] [/R] [/X] [/I] [/C] [/L[:size]]</span><br></pre></td></tr></table></figure></div>
+
+</blockquote>
+volume 指定驱动器(后面跟一个冒号)、装入点
+或卷名。
+filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
+`/F` 修复磁盘上的错误。
+`/V` 在 FAT/FAT32 上: 显示磁盘上每个文件的完整路径和名称。
+在 NTFS 上: 如果有清除消息，将其显示。
+`/R` 查找不正确的扇区并恢复可读信息(隐含 /F)。
+`/L`:size 仅用于 NTFS: 将日志文件大小改成指定的 KB 数。
+如果没有指定大小，则显示当前的大小。
+`/X` 如果必要，强制卷先卸下。
+卷的所有打开的句柄就会无效(隐含 /F)。
+`/I` 仅用于 NTFS: 对索引项进行强度较小的检查。
+`/C` 仅用于 NTFS: 跳过文件夹结构的循环检查。
+
+<p><code>/I</code> 和 /C 命令行开关跳过卷的某些检查，减少运行 Chkdsk 所需的时间。</p>
+<h2 id="报告磁盘错误"><a href="#报告磁盘错误" class="headerlink" title="报告磁盘错误"></a>报告磁盘错误</h2><p>chkdsk 命令会检查磁盘空间和文件分配表 (FAT)以及 NTFS 文件系统的使用情况。Chkdsk 在状态报告中提供特定于每个文件系统的信息。状态报告显示文件系统中找到的错误。在活动分区上运行 chkdsk 时，如果未含 /f 命令行选项，则它可能会因为无法锁定该驱动器而报告虚假信息。应该不定期使用 chkdsk 检查每个磁盘上的错误。</p>
+<h2 id="修复磁盘错误"><a href="#修复磁盘错误" class="headerlink" title="修复磁盘错误"></a>修复磁盘错误</h2><p>只有指定 /f 命令行选项，chkdsk 命令才修复磁盘错误。Chkdsk 必须可以锁定驱动器以纠正错误。由于修复通常会更改磁盘的文件分配表，有时还会丢失数据，所以 chkdsk 会首先发送如下所示的确认消息：</p>
+<blockquote>
+　　10 lost allocation units found in 3 chains.
+　　Convert lost chains to files?
+</blockquote>
+　　如果按 Y，Windows 会在根目录中将所有丢失链保存在一个名为 Filennnn.chk 的文件中。chkdsk 结束后，可以查看这些文件是否包含了所需的数据。如果按 N，Windows 会修复磁盘，但对于丢失的分配单元，它不保存其内容。
+　　如果不使用 /f 命令行选项，则在有文件需要修复时，chkdsk 会发送消息，但它不修复任何错误。
+　　如果在大磁盘（例如，70 GB）或有大量文件（数百万）的磁盘上使用 chkdsk /f，这可能要花很长时间（比如说，数天）才能完成。因为 chkdsk 直到工作完成它才会交出控制权，所以计算机在这段时间内将不可用。
+　　检查 FAT 磁盘
+　　Windows 以下列格式显示 FAT 磁盘的 chkdsk 状态报告：
+　　检查 NTFS 磁盘
+　　Windows 以下列格式显示 NTFS 磁盘的 chkdsk 状态报告：
+　　存在打开文件的情况下使用 chkdsk
+　　如果该驱动器上有打开的文件，则指定 /f 命令行选项后，chkdsk 会发送错误消息。如果未指定 /f 命令行选项并且存在打开的文件，则 chkdsk 会报告磁盘上丢失的分配单元。如果打开的文件没有记录在文件分配表时，可能会发生这种情况。如果 chkdsk 报告大量分配单元丢失，可以考虑修复该磁盘。
+　　查找物理磁盘错误
+　　使用 /r 命令行选项可查找文件系统中的物理磁盘错误。有关使用 recover 修复物理性损坏文件的信息，请参阅“”。
+　　报告磁盘坏扇区
+　　在磁盘第一次准备运行时，chkdsk 报告的坏扇区标记为损坏。它们不会造成危险。
+
+<p>参：<a href="<http://www.jb51.net/softjc/60642.html>" target="_blank">http://www.jb51.net/softjc/60642.html</a></p>
+<p><a href="http://blog.kekemao.top" target="_blank" rel="noopener">独角博客</a><i>-更新于-2017-9-20</i></p>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>修复硬盘</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Java 获取当前行</title>
+    <url>/2018/0120/java-line.html</url>
+    <content><![CDATA[<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取当前代码行号</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> FileName:LineNumber</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getLineInfo</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    StackTraceElement ste = <span class="keyword">new</span> Throwable().getStackTrace()[<span class="number">1</span>];</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     ste.isNativeMethod();//本机方法</span></span><br><span class="line"><span class="comment">     ste.getClassName();//类名</span></span><br><span class="line"><span class="comment">     ste.getFileName();//文件名</span></span><br><span class="line"><span class="comment">     ste.getLineNumber();//行号</span></span><br><span class="line"><span class="comment">     ste.getMethodName();//方法名*/</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"--- File: "</span> + ste.getFileName() + <span class="string">",  Class: "</span> + ste.getClassName() + <span class="string">",  Method: "</span> + ste.getMethodName() + <span class="string">"(),  Line: "</span> + ste.getLineNumber();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<a id="more"></a>
+]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android 屏幕相关代码笔记</title>
+    <url>/2018/0803/note_screen.html</url>
+    <content><![CDATA[<p>在需要设置进制截屏的 Activity 的生命周期 onCreate() 方法中添加一行代码即可：</p>
+<ul>
+<li>禁止截屏</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);</span><br></pre></td></tr></table></figure></div>
+
+<ul>
+<li>屏幕常亮  </li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">getWindow.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)</span><br></pre></td></tr></table></figure></div>
+
+<a id="more"></a>
+
+<p>可放在 BaseActivity 的 onCreate()  中</p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>note</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>描述 View 的绘制原 理</title>
     <url>/2018/0420/view-customize.html</url>
     <content><![CDATA[<p>View 的绘制流程主要分为三步：</p>
@@ -541,47 +582,6 @@ filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
       </categories>
       <tags>
         <tag>view</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>BLE 始终扫描不到蓝牙</title>
-    <url>/2018/0120/ble-android6.html</url>
-    <content><![CDATA[<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>  <em>基于公司业务，APP 需要集成蓝牙的扫描，连接，订阅通知等。</em></p>
-<h2 id="遇到问题"><a href="#遇到问题" class="headerlink" title="遇到问题"></a>遇到问题</h2><p>  码好代码，运行，发现蓝牙始终徘徊在</p>
-<blockquote>
-<p>扫描 &gt; 扫描结束 (timeout)</p>
-</blockquote>
-<p>  各种查阅资料后，找到根本原因：</p>
-  <a id="more"></a>
-
-<p>  android 6.0之后要用蓝牙还需要添加一个模糊定位的权限  </p>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">android.permission.ACCESS_COARSE_LOCATION</span><br></pre></td></tr></table></figure></div>
-
-<ul>
-<li><p>Google 官方文档这样描述</p>
-<blockquote>
-<p><strong>Access to Hardware Identifier</strong><br>To provide users with greater data protection, starting in this release, Android removes programmatic access to the device’s local hardware identifier for apps using the Wi-Fi and Bluetooth APIs. The <a href="https://developer.android.com/reference/android/net/wifi/WifiInfo.html#getMacAddress()" target="_blank" rel="noopener">WifiInfo.getMacAddress()</a> and the <a href="https://developer.android.com/reference/android/bluetooth/BluetoothAdapter.html#getAddress()" target="_blank" rel="noopener">BluetoothAdapter.getAddress()</a> methods now return a constant value of <em>02:00:00:00:00:00</em><br>To access the hardware identifiers of nearby external devices via Bluetooth and Wi-Fi scans, your app must now have the <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_FINE_LOCATION" target="_blank" rel="noopener">ACCESS_FINE_LOCATION</a> or <a href="https://developer.android.com/reference/android/Manifest.permission.html#ACCESS_COARSE_LOCATION" target="_blank" rel="noopener">ACCESS_COARSE_LOCATION</a> permissions:<br><a href="https://developer.android.com/reference/android/net/wifi/WifiManager.html#getScanResults()" target="_blank" rel="noopener">WifiManager.getScanResults()</a><br><a href="https://developer.android.com/reference/android/bluetooth/BluetoothDevice.html#ACTION_FOUND" target="_blank" rel="noopener">BluetoothDevice.ACTION_FOUND</a><br><a href="https://developer.android.com/reference/android/bluetooth/le/BluetoothLeScanner.html#startScan(android.bluetooth.le.ScanCallback)" target="_blank" rel="noopener">BluetoothLeScanner.startScan()</a><br><strong>Note:</strong> When a device running Android 6.0 (API level 23) initiates a background Wi-Fi or Bluetooth scan, the operation is visible to external devices as originating from a randomized MAC address.</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="解决问题"><a href="#解决问题" class="headerlink" title="解决问题"></a>解决问题</h2><ul>
-<li><p>只需要在扫描 BLE 设备之前动态向用户申请位置权限</p>
-<p>  我的代码：</p>
-</li>
-</ul>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;<span class="comment">//如果 API level 是大于等于 23(Android 6.0) 时</span></span><br><span class="line">      <span class="comment">//判断是否具有权限</span></span><br><span class="line">      <span class="keyword">if</span> (ContextCompat.checkSelfPermission(<span class="keyword">this</span>,</span><br><span class="line">              Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line">          <span class="comment">//判断是否需要向用户解释为什么需要申请该权限</span></span><br><span class="line">          <span class="keyword">if</span> (ActivityCompat.shouldShowRequestPermissionRationale(<span class="keyword">this</span>,</span><br><span class="line">                  Manifest.permission.ACCESS_COARSE_LOCATION)) &#123;</span><br><span class="line">              Toast.makeText(<span class="keyword">this</span>, <span class="string">"自Android 6.0开始需要打开位置权限才可以搜索到Ble设备"</span>, Toast.LENGTH_SHORT).show();</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="comment">//请求权限</span></span><br><span class="line">          ActivityCompat.requestPermissions(<span class="keyword">this</span>,</span><br><span class="line">                  <span class="keyword">new</span> String[]&#123;Manifest.permission.ACCESS_COARSE_LOCATION&#125;,</span><br><span class="line">                  REQUEST_CODE_ACCESS_COARSE_LOCATION);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></div>
-
-<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>问题解决。</p>
-<!--以下是本文用到的超链接-->
-
-]]></content>
-      <categories>
-        <category>android</category>
-        <category>ble</category>
-      </categories>
-      <tags>
-        <tag>ble</tag>
-        <tag>android</tag>
       </tags>
   </entry>
   <entry>
@@ -647,62 +647,40 @@ filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
       </tags>
   </entry>
   <entry>
-    <title>React Native 环境搭建</title>
-    <url>/2020/0903/react-native-environment-setup.html</url>
-    <content><![CDATA[<p>这里主要记录了 Windows 环境下的 React Native 环境搭建，Ubuntu 环境下有包管理器搭建会相对方便。</p>
+    <title>记一次 hhkb 装键帽的经历</title>
+    <url>/2019/1010/hhkb-keycap.html</url>
+    <content><![CDATA[<p>hhkb type-s 键帽看似相同，实则每行有些差别的。安装上去不是以前的样子总觉得别扭。安装完键帽用了很长时间。</p>
 <a id="more"></a>
 
-<h2 id="首先搭建好-Android-的原生开发环境"><a href="#首先搭建好-Android-的原生开发环境" class="headerlink" title="首先搭建好 Android 的原生开发环境"></a>首先搭建好 Android 的原生开发环境</h2><p>React-Native 的开发需要 JDK (不低于 1.8 版本), Android-Studio</p>
-<h2 id="接下来搭建-React-Native-的环境"><a href="#接下来搭建-React-Native-的环境" class="headerlink" title="接下来搭建 React-Native 的环境"></a>接下来搭建 React-Native 的环境</h2><ul>
-<li>安装 Chocolatey 包管理器</li>
-</ul>
-<p>安装方式：在 Windows 命令提示符中直接输入：</p>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">@powershell -NoProfile -ExecutionPolicy Bypass -Command <span class="string">"iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"</span> &amp;&amp; SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin</span><br></pre></td></tr></table></figure></div>
-
-<p><strong>如果 Chocolatey 没有安装成功 (可能是需要科学上网)，包管理器装不上关系不大，只需要手动去官方找到安装下面依赖即可。</strong></p>
-<ul>
-<li>安装 Python2</li>
-</ul>
-<p>打开命令提示符窗口，使用 Chocolatey 来安装 Python 2.</p>
-<blockquote>
-<p>注意：官方指出必须是 python2 , 不支持 python3  </p>
-</blockquote>
-<p><code>choco install python2</code></p>
-<ul>
-<li>安装 node</li>
-</ul>
-<p>打开命令提示符窗口，使用 Chocolatey 来安装 NodeJS.</p>
-<p><code>choco install nodejs.install</code></p>
-<ul>
-<li>安装 React Native命令行工具</li>
-</ul>
-<p><code>npm install -g react-native-cli</code></p>
-<p>到这里环境就基本搭建好了。如果是 Ubuntu 的话，则使用自带的包管理工具：apt 安装。</p>
-<p>那就赶紧试一试吧</p>
-<p>依然是在 windows 的命令指示符中 (其实 PowerShell 更好用)</p>
-<p>新建一个 MyProject 工程：</p>
-<p><code>react-native init AwesomeProject</code></p>
-<p>切换到 MyProject 目录下：</p>
-<p><code>cd MyProject</code></p>
-<p>运行 packager：</p>
-<p><code>react-native start</code></p>
-<p>这时可以用浏览器访问 <a href="http://localhost:8081/index.android.bundle?platform=android" target="_blank" rel="noopener">http://localhost:8081/index.android.bundle?platform=android</a> 看看是否可以看到打包后的脚本（看到很长的 js 代码就对了）。第一次访问通常需要十几秒，并且在 packager 的命令行可以看到形如 [====] 的进度条。</p>
-<p>运行模拟器</p>
-<p>运行之后，保持 packager 开启，另外打开一个命令行窗口，然后在工程目录下运行：</p>
-<p><code>react-native run-android</code></p>
-<p>首次运行需要等待一段时间，因为要从网上下载 gradle 依赖。</p>
-<p><a href="https://reactnative.dev/docs/environment-setup" target="_blank" rel="noopener">React Native 开发者</a></p>
-<p><a href="https://reactnative.cn/docs/getting-started.html" target="_blank" rel="noopener">React Native 中文网</a></p>
-<p><a href="https://juejin.im/entry/6844903448115150855" target="_blank" rel="noopener">原文链接(掘金)</a></p>
+<p><img src="https://image-kekemao.oss-cn-hongkong.aliyuncs.com/hexo-image/hhkb_takout_key.JPG" alt="hhkb type-s"></p>
+<p>键盘用久了，里面就会累积一些东西，灰尘，口水渍，蟑螂 …</p>
+<h2 id="清理键盘"><a href="#清理键盘" class="headerlink" title="清理键盘"></a>清理键盘</h2><ol>
+<li>将键帽从键盘扣下来;</li>
+</ol>
+<p>这一步使用拔键器会轻松许多</p>
+<ol>
+<li>清洗键帽和键盘内部;</li>
+</ol>
+<p>清理键帽我使用的洗衣液，泡一会儿，干干净净</p>
+<p>清理键盘内部使用电动牙刷，换上退休的刷头，会简单很多</p>
+<ol>
+<li>将晾干后的键帽重新安装到键盘上。</li>
+</ol>
+<p>时间都用在这里了，60 个键帽，不同的样式（这里「样式」指每一行键帽高低的一致性，如上图：第一排看着很整齐, 则没有问题; 最后一排能明显感觉到参差不齐，则此位置键帽不对）</p>
+<p>如何快速地安装呢？</p>
+<p>a. 可以先装最外面一圈的，因为最外面一圈是功能键，比较特殊，无论是形状还是颜色（如上面图片那样）。</p>
+<p>b. 剩下的按键是中间三排的，可以先找出两个基准键位 (“F”,”J”), 这一排的键帽最矮最平很好找 (11 个)</p>
+<p>c. 现在只剩两种键帽（第 2 排和第 4 排）了，这两种的样式差别还是很大的，把他们分成 2 堆，第 2 排的 12 个，第 4 排的 11 个。</p>
+<p>好的，到现在为止所有的键帽都应该安装完成了吧！ 怎么检查每一个位置是否都正确呢？</p>
+<p>很简单，从你的键盘侧面看出去，如果每一行都很整齐就没问题啦！</p>
+<p>像这样子：</p>
+<p><img src="https://image-kekemao.oss-cn-hongkong.aliyuncs.com/hexo-image/gaitubao_HHKB_typeC20191011.JPG" alt="hhkb type-s"></p>
 ]]></content>
       <categories>
-        <category>android</category>
+        <category>外设</category>
       </categories>
       <tags>
-        <tag>android</tag>
-        <tag>react-native</tag>
-        <tag>app</tag>
-        <tag>ios</tag>
+        <tag>keyboard</tag>
       </tags>
   </entry>
   <entry>
@@ -743,6 +721,30 @@ filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
       </tags>
   </entry>
   <entry>
+    <title>Java 的 Android 项目中添加 Kotlin 类</title>
+    <url>/2021/1103/android-java-kotlin.html</url>
+    <content><![CDATA[<p>Kotlin 的语法很简洁，像一些实体类，单例，工具类的创建非常方便，并且和 Java 代码可以相互调用。所以在原来的项目中合理使用 Kotlin 是个不错的注意。</p>
+<a id="more"></a>
+
+<h2 id="安装-Kotlin-插件"><a href="#安装-Kotlin-插件" class="headerlink" title="安装 Kotlin 插件"></a>安装 Kotlin 插件</h2><p>使用 IntelliJ IDEA 中集成的 Kotlin 插件，可以轻松开始使用 Kotlin。 从代码高亮显示、代码补全、重构、调试与 Kotlin 的其他可用特性中获益。</p>
+<p><img src="android-java-kotlin/kotlin_plugin.jpeg" alt="Kotlin Plugin"><br>[图片来源：kekemao.me]</p>
+<h2 id="配置项目支持-Kotlin"><a href="#配置项目支持-Kotlin" class="headerlink" title="配置项目支持 Kotlin"></a>配置项目支持 Kotlin</h2><p>编写好 kotlin 类的代码，就可以从 Java 类中调用了。但是，点击编译提示找不到 Kotlin 类中的方法：</p>
+<p><img src="android-java-kotlin/kotlin_build_err.png" alt="Error of build"><br>[图片来源：kekemao.me]</p>
+<p>出现上图的情况需要在 App Model 下配置 <code>build.gradle</code> 文件，添加 <code>kotlin-android</code>.</p>
+<h2 id="app-目录下配置-build-gradle-文件"><a href="#app-目录下配置-build-gradle-文件" class="headerlink" title="app 目录下配置 build.gradle 文件"></a>app 目录下配置 <code>build.gradle</code> 文件</h2><p><img src="android-java-kotlin/kotlin_app_id.png" alt="Config app"><br>[图片来源：kekemao.me]</p>
+<h2 id="根目录下配置-build-gradle-文件"><a href="#根目录下配置-build-gradle-文件" class="headerlink" title="根目录下配置 build.gradle 文件"></a>根目录下配置 <code>build.gradle</code> 文件</h2><p><img src="android-java-kotlin/kotlin_prj.png" alt="Config Prj"><br>[图片来源：kekemao.me]</p>
+<p>添加好以上配置后，就可以在原 Java 项目中，同时使用了 Kotlin 了。</p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>java</tag>
+        <tag>kotlin</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>分享几个 GitHub 的彩蛋</title>
     <url>/2021/1026/github-special-repositories.html</url>
     <content><![CDATA[<p>GitHub 提供了一些特殊的仓库，这些仓库有着特殊的用法。</p>
@@ -769,188 +771,81 @@ filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
       </tags>
   </entry>
   <entry>
-    <title>Java 的 Android 项目中添加 Kotlin 类</title>
-    <url>/2021/1103/android-java-kotlin.html</url>
-    <content><![CDATA[<p>Kotlin 的语法很简洁，像一些实体类，单例，工具类的创建非常方便，并且和 Java 代码可以相互调用。所以在原来的项目中合理使用 Kotlin 是个不错的注意。</p>
+    <title>JDK 版本特性</title>
+    <url>/2019/0917/jdk-version-feature.html</url>
+    <content><![CDATA[<p>记录了 <strong>JDK5</strong> 至 <strong>JDK13</strong> 的每个版本特性</p>
 <a id="more"></a>
 
-<h2 id="安装-Kotlin-插件"><a href="#安装-Kotlin-插件" class="headerlink" title="安装 Kotlin 插件"></a>安装 Kotlin 插件</h2><p>使用 IntelliJ IDEA 中集成的 Kotlin 插件，可以轻松开始使用 Kotlin。 从代码高亮显示、代码补全、重构、调试与 Kotlin 的其他可用特性中获益。</p>
-<p><img src="android-java-kotlin/kotlin_plugin.jpeg" alt="Kotlin Plugin"><br>[图片来源：kekemao.me]</p>
-<h2 id="配置项目支持-Kotlin"><a href="#配置项目支持-Kotlin" class="headerlink" title="配置项目支持 Kotlin"></a>配置项目支持 Kotlin</h2><p>编写好 kotlin 类的代码，就可以从 Java 类中调用了。但是，点击编译提示找不到 Kotlin 类中的方法：</p>
-<p><img src="android-java-kotlin/kotlin_build_err.png" alt="Error of build"><br>[图片来源：kekemao.me]</p>
-<p>出现上图的情况需要在 App Model 下配置 <code>build.gradle</code> 文件，添加 <code>kotlin-android</code>.</p>
-<h2 id="app-目录下配置-build-gradle-文件"><a href="#app-目录下配置-build-gradle-文件" class="headerlink" title="app 目录下配置 build.gradle 文件"></a>app 目录下配置 <code>build.gradle</code> 文件</h2><p><img src="android-java-kotlin/kotlin_app_id.png" alt="Config app"><br>[图片来源：kekemao.me]</p>
-<h2 id="根目录下配置-build-gradle-文件"><a href="#根目录下配置-build-gradle-文件" class="headerlink" title="根目录下配置 build.gradle 文件"></a>根目录下配置 <code>build.gradle</code> 文件</h2><p><img src="android-java-kotlin/kotlin_prj.png" alt="Config Prj"><br>[图片来源：kekemao.me]</p>
-<p>添加好以上配置后，就可以在原 Java 项目中，同时使用了 Kotlin 了。</p>
+<h2 id="JDK5-新特性"><a href="#JDK5-新特性" class="headerlink" title="JDK5 新特性"></a>JDK5 新特性</h2><ul>
+<li><code>foreach</code> 迭代方式</li>
+<li>可变参数</li>
+<li>枚举</li>
+<li>自动拆装箱</li>
+<li>泛型</li>
+<li>注解等重要特性。</li>
+</ul>
+<h2 id="JDK6-新特性"><a href="#JDK6-新特性" class="headerlink" title="JDK6 新特性"></a>JDK6 新特性</h2><ul>
+<li><code>Desktop</code> 类和 <code>SystemTray</code> 类，</li>
+<li>使用 <code>Complier</code> API,</li>
+<li>轻量级 <code>HTTPServer</code> API,  </li>
+<li>对脚步语言得支持,  </li>
+<li>Common Annotations 等重要特性。</li>
+</ul>
+<h2 id="JDK7-新特性"><a href="#JDK7-新特性" class="headerlink" title="JDK7 新特性"></a>JDK7 新特性</h2><ul>
+<li><code>Switch</code> 支持字符串作为匹配条件  </li>
+<li>泛型类型自动推断</li>
+<li><code>try-with-resources</code> 资源关闭技巧</li>
+<li><code>Object</code> 工具类</li>
+<li><code>ForkJoinPool</code> 等重要类与特性。</li>
+</ul>
+<h2 id="JDK8-新特性"><a href="#JDK8-新特性" class="headerlink" title="JDK8 新特性"></a>JDK8 新特性</h2><ul>
+<li>接口得默认方法实现与静态方法  </li>
+<li><code>Lambda</code> 表达式  </li>
+<li>函数式接口  </li>
+<li>方法与构造函数引用  </li>
+<li>新的日期与时间 API</li>
+<li>流式处理等重要特性。</li>
+</ul>
+<h2 id="JDK9-新特性"><a href="#JDK9-新特性" class="headerlink" title="JDK9 新特性"></a>JDK9 新特性</h2><ul>
+<li>Jigsaw 模块化项目</li>
+<li>简化进程 API</li>
+<li>轻量级 JSON API  </li>
+<li>钱和货币 API  </li>
+<li>进程改善和锁机制优化</li>
+<li>代码分段缓存等重要特性。</li>
+</ul>
+<h2 id="JDK10-新特性"><a href="#JDK10-新特性" class="headerlink" title="JDK10 新特性"></a><a href="http://openjdk.java.net/projects/jdk/10/" title="JDK10" target="_blank" rel="noopener">JDK10</a> 新特性</h2><ul>
+<li>局部变量得自动推断，</li>
+<li>改进 GC 和内存管理  </li>
+<li>线程本地握手</li>
+<li>备用内存设备上的堆分配等重要特性。</li>
+</ul>
+<h2 id="JDK11-新特性"><a href="#JDK11-新特性" class="headerlink" title="JDK11 新特性"></a><a href="http://openjdk.java.net/projects/jdk/11/" title="JDK11" target="_blank" rel="noopener">JDK11</a> 新特性</h2><ul>
+<li>删除了 Java EE 和 CORBA 模块</li>
+<li>增加了嵌套的访问控制</li>
+<li>支持动态类文件常量</li>
+<li>改进 Aarch64 内联函数</li>
+<li>提供实验性质得可扩展的的延迟垃圾收集器 ZGC 等重要特性。</li>
+</ul>
+<h2 id="JDK12-新特性"><a href="#JDK12-新特性" class="headerlink" title="JDK12 新特性"></a><a href="http://openjdk.java.net/projects/jdk/12/" title="JDK12" target="_blank" rel="noopener">JDK12</a> 新特性</h2><ul>
+<li>对 Switch 进行了增强，除了使用 statement 还可以使用 expression, <a href="http://openjdk.java.net/jeps/325" title="JPE 325" target="_blank" rel="noopener">325：Switch Expressions(Preview)</a></li>
+</ul>
+<h2 id="JDK13-新特性"><a href="#JDK13-新特性" class="headerlink" title="JDK13 新特性"></a><a href="http://openjdk.java.net/projects/jdk/13/" title="JDK13" target="_blank" rel="noopener">JDK13</a> 新特性</h2><ul>
+<li>扩展应用程序类-数据共享 <a href="https://openjdk.java.net/jeps/350" title="JPE 350" target="_blank" rel="noopener">JPE 350</a></li>
+<li>增强 ZGC 以将未使用的堆内存返回给操作系统 <a href="https://openjdk.java.net/jeps/351" title="JPE 351" target="_blank" rel="noopener">JPE 351</a></li>
+<li>使用易于维护和调试的更简单、更现代的实现替换 java.net.Socket 和 java.net.ServerSocket API 使用的底层实现 <a href="https://openjdk.java.net/jeps/353" title="JPE 353" target="_blank" rel="noopener">JPE 353</a></li>
+<li>可在生产环境中使用的 switch 表达式，JDK 13 中将带来一个 beta 版本实现 <a href="https://openjdk.java.net/jeps/354" title="JPE 354" target="_blank" rel="noopener">JPE 354</a></li>
+<li>将文本块添加到 Java 语言。<a href="https://openjdk.java.net/jeps/355" title="JPE 355" target="_blank" rel="noopener">JPE 355</a></li>
+<li>文本块是一个多行字符串文字，它避免了对大多数转义序列的需要，以可预测的方式自动格式化字符串，并在需要时让开发人员控制格式。</li>
+</ul>
+<hr>
 ]]></content>
       <categories>
-        <category>android</category>
+        <category>Java</category>
       </categories>
       <tags>
+        <tag>jdk</tag>
         <tag>java</tag>
-        <tag>android</tag>
-        <tag>kotlin</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git 客户端设置 Windows 下的字符编码</title>
-    <url>/2021/1118/git-windows-encoding.html</url>
-    <content><![CDATA[<p>Git 从 Mac 平台提交的日志，Windows 平台拉下来，使用 <code>git log</code> 查看日志时发现是乱码的， 刚开始也没有太不习惯，就使用 <a href="https://desktop.github.com/" target="_blank" rel="noopener">GitHub Desktop</a> 查看代码，感觉还行。今天将代码同步到一台新电脑上，没有装其他的图形工具，看到英文提交的日志正常，中文的则完全没法看。于是查找资料，冷静分析，将 git 在 Windows 下日志乱码的问题整理出来。</p>
-<a id="more"></a>
-
-<p>Mac 平台正常显示的的日志是这样：</p>
-<p><img src="git-windows-encoding/git_log_encod_1.png" alt="Mac 没有乱码的效果"></p>
-<p>乱码成了这样：</p>
-<p><img src="git-windows-encoding/git_log_encod_2.jpg" alt="Win 乱码的效果"></p>
-<p>因为 Mac 提交时为 <code>Unix-style</code>，如果 Windows 设置了 <code>Checkout Windows-style</code>，则会出现乱码。 需要重新安装 git，设置查看格式为<code>Checkout as-is</code></p>
-<blockquote>
-<p>建议选择第二个: <code>Checkout as-is,Commit Unix=style line endings</code></p>
-</blockquote>
-<p>因为 Mac 安装 Git 时默认是以 <code>Unix-style</code> 提交与查看的。</p>
-<p><img src="git-windows-encoding/git_setting_checkout_style.png" alt="设置查看格式"></p>
-<p>正确设置后的效果：</p>
-<p><img src="git-windows-encoding/git_log_encod_3.png" alt="Win 正常的效果"></p>
-]]></content>
-      <categories>
-        <category>git</category>
-        <category>encoding</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Android 基础知识点记录</title>
-    <url>/2020/0515/interview_android.html</url>
-    <content><![CDATA[<h2 id="Android-篇"><a href="#Android-篇" class="headerlink" title="Android 篇"></a>Android 篇</h2><p>收集了 Android 面试相关的知识点</p>
-<a id="more"></a>
-
-<h3 id="Android-系统架构分为四层"><a href="#Android-系统架构分为四层" class="headerlink" title="Android 系统架构分为四层"></a>Android 系统架构分为四层</h3><ul>
-<li>应用程序 (Applications)</li>
-<li>应用程序框架 (Application Frameworks)</li>
-<li>系统运行库与 Android 运行环境 (Libraris &amp; Android Runtime)</li>
-<li>Linux 内核 (Linux Kernel)</li>
-</ul>
-<h3 id="Activity-四种启动模式"><a href="#Activity-四种启动模式" class="headerlink" title="Activity 四种启动模式"></a>Activity 四种启动模式</h3><ul>
-<li><p>standard</p>
-<p>标准模式，每次都新建一个 Activity 实例，即使栈中已经存在该 Activity 实例，只要不在栈顶也会重新创建。过于浪费，为了优化应该尽量考虑余下三种方式。</p>
-</li>
-<li><p>singleTop</p>
-<p>如果在__任务栈顶__已有该 Activity 的实例则重用（会调用实例的 onNewIntent() ），否则新建并压入栈顶。</p>
-<p>场景：新闻，阅读类 App 的内容页面。</p>
-</li>
-<li><p>singTask</p>
-<p>如果在__任务栈中__已有该 Activity 的实例，将其上面的任务终止并移除，重用该实例（调用 Activity 的 onNewIntent() ）。否则新建实例并压入栈顶。</p>
-<p>场景：浏览器的主页，不管从多少个应用启动浏览器，只会启动主页面一次，其余情况都会走 onNewIntent(), 并且清空主页上面的其他页面。</p>
-</li>
-<li><p>singleinstance</p>
-<p>允许不同应用，进程线程等共用一个实例，无论从何应用调用该实例，都重用（onNewIntent() ）。</p>
-<p>场景：闹铃，将闹铃提醒与闹铃设置分离。</p>
-</li>
-</ul>
-<p>配置方法;</p>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="XML"><figure class="iseeu highlight /xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:name</span>=<span class="string">".SingleTopActivity"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:label</span>=<span class="string">"@string/singletop"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:launchMode</span>=<span class="string">"singleTop"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
-
-<h3 id="Activity-生命周期"><a href="#Activity-生命周期" class="headerlink" title="Activity 生命周期"></a>Activity 生命周期</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">onCreate() -&gt; onStart() -&gt; onResume() -&gt; onPause() -&gt; onStop() -&gt; onDestroy()</span><br></pre></td></tr></table></figure></div>
-
-<h3 id="Service-生命周期"><a href="#Service-生命周期" class="headerlink" title="Service 生命周期"></a>Service 生命周期</h3><p>Service 得启动方式有两种（ startService() 和 bindService() ），不同的启动方式他们的生命周期是不一样的。</p>
-<ul>
-<li>startService()  生命周期：</li>
-</ul>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">startService() -&gt; onCreate() -&gt; onStartCommand() -&gt; onDestory()</span><br></pre></td></tr></table></figure></div>
-
-<p>startService() 启动服务时，通过 intent 传值，在 onCommand() 方法中获取值的时候，一定要判断 intent 是否为 null。<br>startService() 启动服务后，再多次调用 ,startService() 和 onCreate() 方法也只会被调用一次。而 onStartCommand() 会被多次调用。stopService() 的时候，onDestory() 就会被调用，从而销毁服务。</p>
-<ul>
-<li>bindService() 生命周期：</li>
-</ul>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">bindService() -&gt; onCreate() -&gt; onBind() -&gt; onUnBind() -&gt; onDestory()</span><br></pre></td></tr></table></figure></div>
-
-<p> 这种方式启动 Service 的好处是更方便在 Activity 中操作 Service , 比如 Service 中有几个方法：a,b, 如果要在 Activity 中调用，需要在 Activity 中获取 ServiceConnection 对象，通过 ServiceConnection 来获取 Service 中内部类的类对象，然后通过这个类对象就可以调用类中的方法，当然这个类需要继承 Binder 对象。</p>
-<h3 id="Broadcast-注册方式与区别"><a href="#Broadcast-注册方式与区别" class="headerlink" title="Broadcast 注册方式与区别"></a>Broadcast 注册方式与区别</h3><ul>
-<li>静态注册</li>
-</ul>
-<p>也可以称为常驻型广播，这种广播需要在 AndroidManifest.xml 中进行注册，这种方式注册的广播，不受页面生命周期的影响，即使退出了页面，也可以接收到广播，一般用于开机启动等，由于这种事常驻行广播，所以会占用 CPU 的资源。</p>
-<ul>
-<li>动态注册</li>
-</ul>
-<p>动态注册实在代码中注册了，这种注册也叫非常驻型广播，收到生命周期的影响，退出页面后，就不会收到广播，我们通常运用在更新 UI 方面。这种注册方式优先级较高。最后需要解绑，否则会内存泄漏。</p>
-<p>广播是分为有序广播和无序广播。</p>
-<h3 id="View-的绘制流程"><a href="#View-的绘制流程" class="headerlink" title="View 的绘制流程"></a>View 的绘制流程</h3><ul>
-<li>自定义控件：</li>
-</ul>
-<ol>
-<li>组合控件。这种自定义控件不需要我们手动绘制，而是使用原生控件组合成新的控件。如标题栏。</li>
-<li>继承原有控件。这种自定义控件在原生控件提供的方法外，可以自己添加一些方法。如制作圆角，圆形图片。</li>
-<li>完全自定义控件。这个 View 上所展示的内容全部都是我们自己绘制出来的，比如说制作水波纹进度条。</li>
-</ol>
-<ul>
-<li><p>View 的绘制流程： onMeasure() -&gt; onLayout() -&gt; onDraw()</p>
-<ul>
-<li>onMeasure(): 测量视图大小，从顶层父 View 到子 View 递归调用 measure 方法，measure 方法又返回 onMeasure。</li>
-<li>onLayout(): 确定 View 位置，进行页面布局。从顶层父 View 向子 View 的递归调用 view.layout() 方法的过程，即父 View 根据上一步 measure 子 View 所得到的布局大小和布局参数，将子 View 放在合适的位置上。</li>
-<li>onDraw(): 绘制视图。ViewRoot 创建一个 Canvas 对象，然后调用 onDraw() 。</li>
-</ul>
-<p>六个步骤：</p>
-<blockquote>
-<p>① 绘制视图的背景；</p>
-<p>② 保存画布的图层（Layer）；</p>
-<p>③ 绘制 View 的内容；</p>
-<p>④ 绘制 View 子视图，如果没有就不用；</p>
-<p>⑤ 还原图层（Layer）；</p>
-<p>⑥ 绘制滚动条。</p>
-</blockquote>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>android</category>
-      </categories>
-      <tags>
-        <tag>面试</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kotlin 中的共享流(Shared Flow)和广播通道(Broadcast Channel)</title>
-    <url>/2023/0820/kotlin-shard-flow-and-boardcast-channel.html</url>
-    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 <code>Channel </code>作为协程间通信的原语。但是 <code>Channel</code> 有其局限性,不适合一对多或者多对多的通信场景。</p>
-<p>因此 Kotlin 后来引入了 <code>BroadcastChannel</code> 接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用, <code>BroadcastChannel</code> 也暴露出了设计缺陷。</p>
-<p>从 Kotlin 协程 1.4 版本开始, 我们引入了一个更好的解决方案——共享流 (Shared Flow)。本文将详细介绍共享流的思想以及如何使用它。</p>
-<a id="more"></a>
-
-<h2 id="流的简单性"><a href="#流的简单性" class="headerlink" title="流的简单性"></a>流的简单性</h2><p>在库的早期版本中,我们只有<code>channels</code>,我们试图通过将 <code>channel</code> 作为参数和返回值来实现各种异步序列的转换。这意味着例如 <code>filter</code>操作符会在自己的协程中运行。</p>
-<p>但是这样的性能远远不如直接使用if语句。回想一下,这并不奇怪,因为 <code>channel</code> 是一个同步原语。任何 <code>channel</code>, 即使是优化过的单生产者单消费者实现,也必须支持并发的通信协程,它们之间的数据传输需要同步,这在现代多核系统中代价昂贵。</p>
-<p>当你开始在异步数据流的基础上构建应用程序体系结构时,对转换的需求自然而然地出现了,并且 <code>channel</code> 的成本开始积累。</p>
-<p>Kotlin Flow 的简单设计允许高效实现转换操作符。在基本情况下,值是在同一个协程中发出、转换和收集的,不需要任何同步。</p>
-<h2 id="流是冷的"><a href="#流是冷的" class="headerlink" title="流是冷的"></a>流是冷的</h2><p>然而,流通常是冷的——通过 <code>flow { ... }</code> 构建器函数创建的 <code>Flow&lt;Value&gt; </code>是一个被动实体。考虑下面的代码:</p>
-<p><img src="kotlin-shard-flow-and-boardcast-channel/kt_cold_flow.png" alt="kt_cold_flow.png"></p>
-<p>流本身没有备份的任何计算,也没有任何状态,直到它开始被收集。每个收集协程都执行自己的发送代码实例。“冷流,热通道”的故事描述了 Kotlin 流背后的原因,并展示了其比频道更适合的用例——按需计算返回的异步值流。</p>
-<h2 id="共享流-SharedFlow"><a href="#共享流-SharedFlow" class="headerlink" title="共享流 (SharedFlow)"></a>共享流 (SharedFlow)</h2><p>那么,该如何处理像用户操作、外部设备事件、状态更新等内容呢?它们与是否有任何对它们感兴趣的代码无关而独立操作。它们应支持应用程序内的多个观察者。这些是所谓的热事件源。</p>
-<p>这就是共享流的概念登场的地方。共享流存在与否与其是否被收集无关。共享流的收集器称为订阅者。共享流的所有订阅者接收相同的一系列值。它有效地像一个“广播频道”,没有大部分频道开销。它使广播频道的概念过时了。</p>
-<p>本质上,共享流是一个轻量级的广播事件总线,您可以在应用程序体系结构中创建和使用它。</p>
-<p><img src="kotlin-shard-flow-and-boardcast-channel/kt_shard_flow.png" alt="kt_shard_flow.png"></p>
-<p>它具有可调的参数,例如要为新订阅者保留和重播的旧事件数量以及额外的缓冲区容量,以便快速发射器和慢订阅者之间提供缓冲。</p>
-<p>共享流的所有订阅者都在自己的上下文中异步收集事件。 发射器不等待订阅者完成处理事件。 但是,当共享流缓冲区已满时,发射器将暂停,直到缓冲区中有空间。 暂停发射器来处理缓冲区溢出为收集者提供了背压,以降低发射速率。 通过 <code>BufferOverlow</code> 参数支持各种替代策略来处理缓冲区溢出。</p>
-<h2 id="状态流-StateFlow"><a href="#状态流-StateFlow" class="headerlink" title="状态流 (StateFlow)"></a>状态流 (StateFlow)</h2><p>处理缓冲区溢出的一种流行方法是放弃最老的事件,只保留最新和最新的事件。 特别是,这是为状态变量建模应用程序的绝佳方法。 这是一个非常广泛的用例,它有自己的专门的 <code>StateFlow</code> 类型,可用作过时的 <code>ConflatedBroadcastChannel</code> 的替代品。</p>
-<p><img src="kotlin-shard-flow-and-boardcast-channel/kt_state_flow.png" alt="kt_state_flow.png"></p>
-<p>可以将 <code>val x:StateFlow&lt;T&gt; </code>视为 <code>var x:T</code> 的异步和可观察的对应物。 最新的值总是可用的,事实上,只有最新的值才重要,因此更新它总是可能的,无需挂起。</p>
-<p>通过状态流,复杂的频道和简单的流之间的性能差异变得非常明显。 状态流的实现具有无分配更新,这在合并广播通道中并非如此。</p>
-<h2 id="渠道的用例-Channel"><a href="#渠道的用例-Channel" class="headerlink" title="渠道的用例 (Channel)"></a>渠道的用例 (Channel)</h2><p>随着各种共享流替换了不同种类的广播通道,一个常见的问题是平原的常规通道会发生什么。它们存在的原因有很多。一个原因是通道是实现许多复杂流操作符的低级原语。</p>
-<p>但频道也有自己的应用情况。 频道用于处理必须精确处理一次的事件。 当此类事件通常只有一个订阅者,但间歇性地(在启动或某种重新配置期间)没有订阅者时会发生这种情况,并且需要保留发布的所有事件,直到出现订阅者。</p>
-<p><img src="kotlin-shard-flow-and-boardcast-channel/kt_channel.png" alt="kt_channel.png"></p>
-<p><code>BroadcastEventBus</code> 和 <code>SingleShotEventBus</code> 都公开了 <code>Flow&lt;Event&gt;</code>, 但它们有一个重要的区别。</p>
-<p>使用共享流时,事件广播到未知数量(零或多个)的订阅者。 如果没有订阅者,则会立即删除任何已发布的事件。 这是必须立即处理或根本不处理的事件的设计模式。</p>
-<p>使用通道时,每个事件都传递给单个订阅者。 如果没有订阅者,发布事件时,一旦通道缓冲区已满,则会挂起等待订阅者出现。 已发布的事件不会被删除。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>了解区别并适当使用共享流和通道。 它们都很有用, 并且设计良好,可以很好地协同工作。 但是, 广播通道是过时, 它们将被弃用并在未来删除。</p>
-]]></content>
-      <categories>
-        <category>Kotlin</category>
-      </categories>
-      <tags>
-        <tag>kotlin</tag>
-        <tag>flow</tag>
-        <tag>channel</tag>
-        <tag>StateFlow</tag>
-        <tag>ShardFlow</tag>
       </tags>
   </entry>
   <entry>
@@ -1050,118 +945,342 @@ filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
       </tags>
   </entry>
   <entry>
-    <title>JDK 版本特性</title>
-    <url>/2019/0917/jdk-version-feature.html</url>
-    <content><![CDATA[<p>记录了 <strong>JDK5</strong> 至 <strong>JDK13</strong> 的每个版本特性</p>
+    <title>Git 客户端设置 Windows 下的字符编码</title>
+    <url>/2021/1118/git-windows-encoding.html</url>
+    <content><![CDATA[<p>Git 从 Mac 平台提交的日志，Windows 平台拉下来，使用 <code>git log</code> 查看日志时发现是乱码的， 刚开始也没有太不习惯，就使用 <a href="https://desktop.github.com/" target="_blank" rel="noopener">GitHub Desktop</a> 查看代码，感觉还行。今天将代码同步到一台新电脑上，没有装其他的图形工具，看到英文提交的日志正常，中文的则完全没法看。于是查找资料，冷静分析，将 git 在 Windows 下日志乱码的问题整理出来。</p>
 <a id="more"></a>
 
-<h2 id="JDK5-新特性"><a href="#JDK5-新特性" class="headerlink" title="JDK5 新特性"></a>JDK5 新特性</h2><ul>
-<li><code>foreach</code> 迭代方式</li>
-<li>可变参数</li>
-<li>枚举</li>
-<li>自动拆装箱</li>
-<li>泛型</li>
-<li>注解等重要特性。</li>
-</ul>
-<h2 id="JDK6-新特性"><a href="#JDK6-新特性" class="headerlink" title="JDK6 新特性"></a>JDK6 新特性</h2><ul>
-<li><code>Desktop</code> 类和 <code>SystemTray</code> 类，</li>
-<li>使用 <code>Complier</code> API,</li>
-<li>轻量级 <code>HTTPServer</code> API,  </li>
-<li>对脚步语言得支持,  </li>
-<li>Common Annotations 等重要特性。</li>
-</ul>
-<h2 id="JDK7-新特性"><a href="#JDK7-新特性" class="headerlink" title="JDK7 新特性"></a>JDK7 新特性</h2><ul>
-<li><code>Switch</code> 支持字符串作为匹配条件  </li>
-<li>泛型类型自动推断</li>
-<li><code>try-with-resources</code> 资源关闭技巧</li>
-<li><code>Object</code> 工具类</li>
-<li><code>ForkJoinPool</code> 等重要类与特性。</li>
-</ul>
-<h2 id="JDK8-新特性"><a href="#JDK8-新特性" class="headerlink" title="JDK8 新特性"></a>JDK8 新特性</h2><ul>
-<li>接口得默认方法实现与静态方法  </li>
-<li><code>Lambda</code> 表达式  </li>
-<li>函数式接口  </li>
-<li>方法与构造函数引用  </li>
-<li>新的日期与时间 API</li>
-<li>流式处理等重要特性。</li>
-</ul>
-<h2 id="JDK9-新特性"><a href="#JDK9-新特性" class="headerlink" title="JDK9 新特性"></a>JDK9 新特性</h2><ul>
-<li>Jigsaw 模块化项目</li>
-<li>简化进程 API</li>
-<li>轻量级 JSON API  </li>
-<li>钱和货币 API  </li>
-<li>进程改善和锁机制优化</li>
-<li>代码分段缓存等重要特性。</li>
-</ul>
-<h2 id="JDK10-新特性"><a href="#JDK10-新特性" class="headerlink" title="JDK10 新特性"></a><a href="http://openjdk.java.net/projects/jdk/10/" title="JDK10" target="_blank" rel="noopener">JDK10</a> 新特性</h2><ul>
-<li>局部变量得自动推断，</li>
-<li>改进 GC 和内存管理  </li>
-<li>线程本地握手</li>
-<li>备用内存设备上的堆分配等重要特性。</li>
-</ul>
-<h2 id="JDK11-新特性"><a href="#JDK11-新特性" class="headerlink" title="JDK11 新特性"></a><a href="http://openjdk.java.net/projects/jdk/11/" title="JDK11" target="_blank" rel="noopener">JDK11</a> 新特性</h2><ul>
-<li>删除了 Java EE 和 CORBA 模块</li>
-<li>增加了嵌套的访问控制</li>
-<li>支持动态类文件常量</li>
-<li>改进 Aarch64 内联函数</li>
-<li>提供实验性质得可扩展的的延迟垃圾收集器 ZGC 等重要特性。</li>
-</ul>
-<h2 id="JDK12-新特性"><a href="#JDK12-新特性" class="headerlink" title="JDK12 新特性"></a><a href="http://openjdk.java.net/projects/jdk/12/" title="JDK12" target="_blank" rel="noopener">JDK12</a> 新特性</h2><ul>
-<li>对 Switch 进行了增强，除了使用 statement 还可以使用 expression, <a href="http://openjdk.java.net/jeps/325" title="JPE 325" target="_blank" rel="noopener">325：Switch Expressions(Preview)</a></li>
-</ul>
-<h2 id="JDK13-新特性"><a href="#JDK13-新特性" class="headerlink" title="JDK13 新特性"></a><a href="http://openjdk.java.net/projects/jdk/13/" title="JDK13" target="_blank" rel="noopener">JDK13</a> 新特性</h2><ul>
-<li>扩展应用程序类-数据共享 <a href="https://openjdk.java.net/jeps/350" title="JPE 350" target="_blank" rel="noopener">JPE 350</a></li>
-<li>增强 ZGC 以将未使用的堆内存返回给操作系统 <a href="https://openjdk.java.net/jeps/351" title="JPE 351" target="_blank" rel="noopener">JPE 351</a></li>
-<li>使用易于维护和调试的更简单、更现代的实现替换 java.net.Socket 和 java.net.ServerSocket API 使用的底层实现 <a href="https://openjdk.java.net/jeps/353" title="JPE 353" target="_blank" rel="noopener">JPE 353</a></li>
-<li>可在生产环境中使用的 switch 表达式，JDK 13 中将带来一个 beta 版本实现 <a href="https://openjdk.java.net/jeps/354" title="JPE 354" target="_blank" rel="noopener">JPE 354</a></li>
-<li>将文本块添加到 Java 语言。<a href="https://openjdk.java.net/jeps/355" title="JPE 355" target="_blank" rel="noopener">JPE 355</a></li>
-<li>文本块是一个多行字符串文字，它避免了对大多数转义序列的需要，以可预测的方式自动格式化字符串，并在需要时让开发人员控制格式。</li>
-</ul>
-<hr>
+<p>Mac 平台正常显示的的日志是这样：</p>
+<p><img src="git-windows-encoding/git_log_encod_1.png" alt="Mac 没有乱码的效果"></p>
+<p>乱码成了这样：</p>
+<p><img src="git-windows-encoding/git_log_encod_2.jpg" alt="Win 乱码的效果"></p>
+<p>因为 Mac 提交时为 <code>Unix-style</code>，如果 Windows 设置了 <code>Checkout Windows-style</code>，则会出现乱码。 需要重新安装 git，设置查看格式为<code>Checkout as-is</code></p>
+<blockquote>
+<p>建议选择第二个: <code>Checkout as-is,Commit Unix=style line endings</code></p>
+</blockquote>
+<p>因为 Mac 安装 Git 时默认是以 <code>Unix-style</code> 提交与查看的。</p>
+<p><img src="git-windows-encoding/git_setting_checkout_style.png" alt="设置查看格式"></p>
+<p>正确设置后的效果：</p>
+<p><img src="git-windows-encoding/git_log_encod_3.png" alt="Win 正常的效果"></p>
 ]]></content>
       <categories>
-        <category>Java</category>
+        <category>git</category>
+        <category>encoding</category>
       </categories>
       <tags>
-        <tag>jdk</tag>
-        <tag>java</tag>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
-    <title>记一次 hhkb 装键帽的经历</title>
-    <url>/2019/1010/hhkb-keycap.html</url>
-    <content><![CDATA[<p>hhkb type-s 键帽看似相同，实则每行有些差别的。安装上去不是以前的样子总觉得别扭。安装完键帽用了很长时间。</p>
+    <title>Jetpack Compose 基本使用</title>
+    <url>/2023/0228/android-jetpack-compose.html</url>
+    <content><![CDATA[<p>Jetpack Compose 是一个全新的 Android UI 工具包，它提供了一种基于 Kotlin 的声明式 UI 开发方式，可以简化 Android 应用程序的 UI 开发流程。与传统的 XML 布局相比，Jetpack Compose 采用了一种基于函数的组合方式，可以更加直观、灵活地构建 UI 界面，同时还支持实时预览和交互式设计，可以提高开发效率和用户体验。</p>
 <a id="more"></a>
 
-<p><img src="https://image-kekemao.oss-cn-hongkong.aliyuncs.com/hexo-image/hhkb_takout_key.JPG" alt="hhkb type-s"></p>
-<p>键盘用久了，里面就会累积一些东西，灰尘，口水渍，蟑螂 …</p>
-<h2 id="清理键盘"><a href="#清理键盘" class="headerlink" title="清理键盘"></a>清理键盘</h2><ol>
-<li>将键帽从键盘扣下来;</li>
-</ol>
-<p>这一步使用拔键器会轻松许多</p>
+<p>Jetpack Compose 的主要优势包括：</p>
 <ol>
-<li>清洗键帽和键盘内部;</li>
+<li>简化开发：Jetpack Compose 采用了一种声明式的方式来构建 UI，开发者可以更加直观地定义 UI 的外观和行为，而且代码量更少、更易于维护。</li>
+<li>提高效率：Jetpack Compose 提供了实时预览和交互式设计功能，可以在开发过程中即时查看 UI 效果，同时还支持热重载，可以加快开发速度。</li>
+<li>支持动态性：Jetpack Compose 支持动态组合 UI，可以根据不同的条件来动态构建不同的 UI，而且不会影响性能。</li>
 </ol>
-<p>清理键帽我使用的洗衣液，泡一会儿，干干净净</p>
-<p>清理键盘内部使用电动牙刷，换上退休的刷头，会简单很多</p>
+<p>使用 Jetpack Compose 可以分为以下几个步骤：</p>
 <ol>
-<li>将晾干后的键帽重新安装到键盘上。</li>
+<li>定义 UI 元素：使用 Composable 函数来定义 UI 元素，每个 Composable 函数都是一个独立的 UI 组件。</li>
+<li>组合 UI 元素：使用组合函数来组合多个 UI 元素，从而构建出复杂的 UI 界面。</li>
+<li>添加交互：使用 Modifier 和事件处理函数来为 UI 元素添加交互，比如点击事件、滑动事件等等。</li>
 </ol>
-<p>时间都用在这里了，60 个键帽，不同的样式（这里「样式」指每一行键帽高低的一致性，如上图：第一排看着很整齐, 则没有问题; 最后一排能明显感觉到参差不齐，则此位置键帽不对）</p>
-<p>如何快速地安装呢？</p>
-<p>a. 可以先装最外面一圈的，因为最外面一圈是功能键，比较特殊，无论是形状还是颜色（如上面图片那样）。</p>
-<p>b. 剩下的按键是中间三排的，可以先找出两个基准键位 (“F”,”J”), 这一排的键帽最矮最平很好找 (11 个)</p>
-<p>c. 现在只剩两种键帽（第 2 排和第 4 排）了，这两种的样式差别还是很大的，把他们分成 2 堆，第 2 排的 12 个，第 4 排的 11 个。</p>
-<p>好的，到现在为止所有的键帽都应该安装完成了吧！ 怎么检查每一个位置是否都正确呢？</p>
-<p>很简单，从你的键盘侧面看出去，如果每一行都很整齐就没问题啦！</p>
-<p>像这样子：</p>
-<p><img src="https://image-kekemao.oss-cn-hongkong.aliyuncs.com/hexo-image/gaitubao_HHKB_typeC20191011.JPG" alt="hhkb type-s"></p>
+<p>以下是一个简单的 Jetpack Compose 示例代码，展示如何使用 Composable 函数和组合函数来创建 UI 界面：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="KOTLIN"><figure class="iseeu highlight /kotlin"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">Greeting</span><span class="params">(name: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    Text(text = <span class="string">"Hello, <span class="variable">$name</span>!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">MyApp</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Column &#123;</span><br><span class="line">        Greeting(name = <span class="string">"Android"</span>)</span><br><span class="line">        Greeting(name = <span class="string">"Jetpack Compose"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>在这个示例中，我们首先定义了一个 Greeting 函数，它接受一个字符串参数 name，并显示“Hello, name!”的文本。然后我们使用 Column 组合函数来将两个 Greeting 组件垂直排列，从而构建出一个包含两个文本组件的 UI 界面。可以看到，Jetpack Compose 的代码非常简单、直观，而且可以轻松实现复杂的 UI 界面。</p>
+<p>当我们需要在 Android 应用程序中构建动态、复杂、可交互的 UI 时，可以考虑使用 Jetpack Compose。特别是在需要提高开发效率、降低维护成本、提高用户体验等方面，Jetpack Compose 都具有很大的优势。</p>
 ]]></content>
       <categories>
-        <category>外设</category>
+        <category>UI</category>
       </categories>
       <tags>
-        <tag>keyboard</tag>
+        <tag>compose</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Flow 的基本使用</title>
+    <url>/2023/0228/kotlin-flow.html</url>
+    <content><![CDATA[<p>Kotlin Flow 是一个基于协程的异步数据流库，它提供了一种类似于 RxJava 的响应式编程模型，但是比 RxJava 更加轻量、更加易用。Flow 可以使用类似于序列（Sequence）的方式来处理异步数据流，可以实现类似于 RxJava 中的操作符链式调用等功能，同时还支持背压（Backpressure）和取消（Cancellation）。</p>
+<a id="more"></a>
+
+<p>Flow 的主要优势包括：</p>
+<ol>
+<li>简单易用：Flow 提供了简单的 API，可以轻松地实现异步数据流的操作，而且与 Kotlin 协程紧密集成，代码编写起来更加自然。</li>
+<li>灵活性：Flow 支持多种类型的数据流，可以使用不同的数据源和操作符来实现不同的异步数据流处理需求。</li>
+<li>高效性：Flow 基于协程实现，不会像 RxJava 一样引入过多的性能开销，而且支持协程的挂起和恢复机制，可以更好地管理异步操作的资源和状态。</li>
+</ol>
+<p>使用 Flow 可以分为以下几个步骤：</p>
+<ol>
+<li>创建数据流：使用 <code>flow</code> 或者 <code>flowOf</code> 函数来创建一个数据流，可以是任何类型的数据流，比如字符串、整数、对象等等。</li>
+<li>转换操作：使用操作符（例如 <code>map</code>、<code>filter</code>、<code>flatMap</code> 等等）对数据流进行转换操作，从而生成新的数据流。</li>
+<li>终止操作：使用终止操作（例如 <code>collect</code>、<code>reduce</code>、<code>fold</code> 等等）对数据流进行最终的处理，并获取最终的结果。</li>
+</ol>
+<p>以下是一个简单的 Flow 示例代码，展示如何使用 Flow 来创建、转换和终止数据流：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="MEL"><figure class="iseeu highlight /mel"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="comment">// 创建数据流</span></span><br><span class="line">val <span class="keyword">flow</span> = <span class="keyword">flow</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10</span>) &#123;</span><br><span class="line">        <span class="keyword">emit</span>(i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转换数据流</span></span><br><span class="line">val newFlow = <span class="keyword">flow</span></span><br><span class="line">    .<span class="keyword">filter</span> &#123; it % <span class="number">2</span> == <span class="number">0</span> &#125;</span><br><span class="line">    .map &#123; it * it &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 终止数据流</span></span><br><span class="line">val result = newFlow.reduce &#123; accumulator, value -&gt;</span><br><span class="line">    accumulator + value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Log.d(TAG, <span class="string">"Result is $result"</span>) <span class="comment">// 输出：Result is 220</span></span><br></pre></td></tr></table></figure></div>
+
+<p>在这个示例中，我们首先使用 <code>flow</code> 函数来创建一个数据流，其中包含了从 1 到 10 的整数。然后我们使用 <code>filter</code> 操作符来过滤出其中的偶数，并使用 <code>map</code> 操作符来将偶数平方。最后我们使用 <code>reduce</code> 终止操作符对数据流进行累加操作，得到最终的结果 220。这个示例展示了 Flow 的基本操作，可以根据实际需求进行更加复杂的操作。</p>
+]]></content>
+      <categories>
+        <category>kotlin</category>
+      </categories>
+      <tags>
+        <tag>flow</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Android 基础知识点记录</title>
+    <url>/2020/0515/interview_android.html</url>
+    <content><![CDATA[<h2 id="Android-篇"><a href="#Android-篇" class="headerlink" title="Android 篇"></a>Android 篇</h2><p>收集了 Android 面试相关的知识点</p>
+<a id="more"></a>
+
+<h3 id="Android-系统架构分为四层"><a href="#Android-系统架构分为四层" class="headerlink" title="Android 系统架构分为四层"></a>Android 系统架构分为四层</h3><ul>
+<li>应用程序 (Applications)</li>
+<li>应用程序框架 (Application Frameworks)</li>
+<li>系统运行库与 Android 运行环境 (Libraris &amp; Android Runtime)</li>
+<li>Linux 内核 (Linux Kernel)</li>
+</ul>
+<h3 id="Activity-四种启动模式"><a href="#Activity-四种启动模式" class="headerlink" title="Activity 四种启动模式"></a>Activity 四种启动模式</h3><ul>
+<li><p>standard</p>
+<p>标准模式，每次都新建一个 Activity 实例，即使栈中已经存在该 Activity 实例，只要不在栈顶也会重新创建。过于浪费，为了优化应该尽量考虑余下三种方式。</p>
+</li>
+<li><p>singleTop</p>
+<p>如果在__任务栈顶__已有该 Activity 的实例则重用（会调用实例的 onNewIntent() ），否则新建并压入栈顶。</p>
+<p>场景：新闻，阅读类 App 的内容页面。</p>
+</li>
+<li><p>singTask</p>
+<p>如果在__任务栈中__已有该 Activity 的实例，将其上面的任务终止并移除，重用该实例（调用 Activity 的 onNewIntent() ）。否则新建实例并压入栈顶。</p>
+<p>场景：浏览器的主页，不管从多少个应用启动浏览器，只会启动主页面一次，其余情况都会走 onNewIntent(), 并且清空主页上面的其他页面。</p>
+</li>
+<li><p>singleinstance</p>
+<p>允许不同应用，进程线程等共用一个实例，无论从何应用调用该实例，都重用（onNewIntent() ）。</p>
+<p>场景：闹铃，将闹铃提醒与闹铃设置分离。</p>
+</li>
+</ul>
+<p>配置方法;</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="XML"><figure class="iseeu highlight /xml"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:name</span>=<span class="string">".SingleTopActivity"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:label</span>=<span class="string">"@string/singletop"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">android:launchMode</span>=<span class="string">"singleTop"</span> &gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Activity-生命周期"><a href="#Activity-生命周期" class="headerlink" title="Activity 生命周期"></a>Activity 生命周期</h3><div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">onCreate() -&gt; onStart() -&gt; onResume() -&gt; onPause() -&gt; onStop() -&gt; onDestroy()</span><br></pre></td></tr></table></figure></div>
+
+<h3 id="Service-生命周期"><a href="#Service-生命周期" class="headerlink" title="Service 生命周期"></a>Service 生命周期</h3><p>Service 得启动方式有两种（ startService() 和 bindService() ），不同的启动方式他们的生命周期是不一样的。</p>
+<ul>
+<li>startService()  生命周期：</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">startService() -&gt; onCreate() -&gt; onStartCommand() -&gt; onDestory()</span><br></pre></td></tr></table></figure></div>
+
+<p>startService() 启动服务时，通过 intent 传值，在 onCommand() 方法中获取值的时候，一定要判断 intent 是否为 null。<br>startService() 启动服务后，再多次调用 ,startService() 和 onCreate() 方法也只会被调用一次。而 onStartCommand() 会被多次调用。stopService() 的时候，onDestory() 就会被调用，从而销毁服务。</p>
+<ul>
+<li>bindService() 生命周期：</li>
+</ul>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="JAVA"><figure class="iseeu highlight /java"><table><tr><td class="code"><pre><span class="line">bindService() -&gt; onCreate() -&gt; onBind() -&gt; onUnBind() -&gt; onDestory()</span><br></pre></td></tr></table></figure></div>
+
+<p> 这种方式启动 Service 的好处是更方便在 Activity 中操作 Service , 比如 Service 中有几个方法：a,b, 如果要在 Activity 中调用，需要在 Activity 中获取 ServiceConnection 对象，通过 ServiceConnection 来获取 Service 中内部类的类对象，然后通过这个类对象就可以调用类中的方法，当然这个类需要继承 Binder 对象。</p>
+<h3 id="Broadcast-注册方式与区别"><a href="#Broadcast-注册方式与区别" class="headerlink" title="Broadcast 注册方式与区别"></a>Broadcast 注册方式与区别</h3><ul>
+<li>静态注册</li>
+</ul>
+<p>也可以称为常驻型广播，这种广播需要在 AndroidManifest.xml 中进行注册，这种方式注册的广播，不受页面生命周期的影响，即使退出了页面，也可以接收到广播，一般用于开机启动等，由于这种事常驻行广播，所以会占用 CPU 的资源。</p>
+<ul>
+<li>动态注册</li>
+</ul>
+<p>动态注册实在代码中注册了，这种注册也叫非常驻型广播，收到生命周期的影响，退出页面后，就不会收到广播，我们通常运用在更新 UI 方面。这种注册方式优先级较高。最后需要解绑，否则会内存泄漏。</p>
+<p>广播是分为有序广播和无序广播。</p>
+<h3 id="View-的绘制流程"><a href="#View-的绘制流程" class="headerlink" title="View 的绘制流程"></a>View 的绘制流程</h3><ul>
+<li>自定义控件：</li>
+</ul>
+<ol>
+<li>组合控件。这种自定义控件不需要我们手动绘制，而是使用原生控件组合成新的控件。如标题栏。</li>
+<li>继承原有控件。这种自定义控件在原生控件提供的方法外，可以自己添加一些方法。如制作圆角，圆形图片。</li>
+<li>完全自定义控件。这个 View 上所展示的内容全部都是我们自己绘制出来的，比如说制作水波纹进度条。</li>
+</ol>
+<ul>
+<li><p>View 的绘制流程： onMeasure() -&gt; onLayout() -&gt; onDraw()</p>
+<ul>
+<li>onMeasure(): 测量视图大小，从顶层父 View 到子 View 递归调用 measure 方法，measure 方法又返回 onMeasure。</li>
+<li>onLayout(): 确定 View 位置，进行页面布局。从顶层父 View 向子 View 的递归调用 view.layout() 方法的过程，即父 View 根据上一步 measure 子 View 所得到的布局大小和布局参数，将子 View 放在合适的位置上。</li>
+<li>onDraw(): 绘制视图。ViewRoot 创建一个 Canvas 对象，然后调用 onDraw() 。</li>
+</ul>
+<p>六个步骤：</p>
+<blockquote>
+<p>① 绘制视图的背景；</p>
+<p>② 保存画布的图层（Layer）；</p>
+<p>③ 绘制 View 的内容；</p>
+<p>④ 绘制 View 子视图，如果没有就不用；</p>
+<p>⑤ 还原图层（Layer）；</p>
+<p>⑥ 绘制滚动条。</p>
+</blockquote>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>面试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Room 的基本使用</title>
+    <url>/2023/0228/android-room.html</url>
+    <content><![CDATA[<p>Room 是一个 Jetpack 组件，它是 Google 推出的用于本地数据库操作的 ORM 框架，可以帮助开发者更轻松地在应用程序中操作 SQLite 数据库。Room 提供了一些强大的功能，如编译时检查、类型安全、可观察的查询等，使得数据库操作更加安全、高效和方便。</p>
+<a id="more"></a>
+
+<p>使用 Room 的主要优势包括：</p>
+<ol>
+<li>编译时检查：Room 在编译时会检查 SQL 语句的语法和正确性，避免了在运行时发生 SQL 错误的问题。</li>
+<li>类型安全：Room 使用注解来定义数据库表和查询语句，可以将 SQL 查询映射到类型安全的 Kotlin 对象上，避免了手动解析和转换数据的问题。</li>
+<li>可观察的查询：Room 支持使用 LiveData 或 Flow 来观察查询结果的变化，可以自动更新 UI。</li>
+</ol>
+<p>使用 Room 可以分为以下几个步骤：</p>
+<ol>
+<li>添加 Room 依赖：在 build.gradle 文件中添加 Room 依赖。</li>
+<li>创建实体类：使用注解 <code>@Entity</code> 来定义数据库表和字段，可以使用 <code>@PrimaryKey</code> 和其他注解来定义主键和索引等。</li>
+<li>创建 DAO 接口：使用注解 <code>@Dao</code> 来定义数据库访问对象接口，使用方法注解来定义 SQL 查询语句和参数，可以使用 <code>suspend</code> 修饰符来支持协程异步调用。</li>
+<li>创建数据库：使用注解 <code>@Database</code> 来定义数据库类，指定数据库名称和版本号，定义数据库表和 DAO 接口等。</li>
+<li>使用 Room：在应用程序中使用 Room 对象来访问数据库，可以使用异步查询方法和可观察查询方法来获取数据。</li>
+</ol>
+<p>以下是一个简单的 Room 示例代码，展示如何使用 Room 来创建和操作数据库：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="KOTLIN"><figure class="iseeu highlight /kotlin"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="comment">// 定义实体类</span></span><br><span class="line"><span class="meta">@Entity(tableName = <span class="meta-string">"users"</span>)</span></span><br><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(</span><br><span class="line">    <span class="meta">@PrimaryKey</span> <span class="keyword">val</span> id: <span class="built_in">Int</span>,</span><br><span class="line">    <span class="keyword">val</span> name: String,</span><br><span class="line">    <span class="keyword">val</span> age: <span class="built_in">Int</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义 DAO 接口</span></span><br><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">UserDao</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Query(<span class="meta-string">"SELECT * FROM users"</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getAll</span><span class="params">()</span></span>: List&lt;User&gt;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Insert</span></span><br><span class="line">    <span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">insert</span><span class="params">(user: <span class="type">User</span>)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义数据库类</span></span><br><span class="line"><span class="meta">@Database(entities = [User::class], version = 1)</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AppDatabase</span> : <span class="type">RoomDatabase</span></span>() &#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">userDao</span><span class="params">()</span></span>: UserDao</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 Room</span></span><br><span class="line"><span class="keyword">val</span> db = Room.databaseBuilder(</span><br><span class="line">    applicationContext,</span><br><span class="line">    AppDatabase::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">"my-db"</span></span></span><br><span class="line">).build()</span><br><span class="line"></span><br><span class="line">GlobalScope.launch &#123;</span><br><span class="line">    <span class="comment">// 异步插入用户</span></span><br><span class="line">    db.userDao().insert(User(<span class="number">1</span>, <span class="string">"Alice"</span>, <span class="number">23</span>))</span><br><span class="line">    <span class="comment">// 异步查询用户</span></span><br><span class="line">    <span class="keyword">val</span> users = db.userDao().getAll()</span><br><span class="line">    <span class="comment">// 更新 UI</span></span><br><span class="line">    withContext(Dispatchers.Main) &#123;</span><br><span class="line">        updateUi(users)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>在这个示例中，我们定义了一个名为 <code>User</code> 的实体类，并使用注解 <code>@Entity</code> 来定义了一个名为 <code>users</code> 的数据库表。然后我们定义了一个名为 UserDao 的 DAO 接口，使用注解 @Dao 来定义，包含了一个查询所有用户的方法和一个插入用户的方法。最后我们定义了一个名为 AppDatabase 的抽象类，并使用注解 @Database 来定义了一个名为 my-db 的数据库，其中包含了一个 User 表和一个 UserDao 接口。在最后的代码中，我们使用 Room 对象来获取 AppDatabase 实例，并异步插入和查询用户数据，并使用 withContext() 函数将 UI 更新操作切换到主线程。</p>
+]]></content>
+      <categories>
+        <category>sql</category>
+      </categories>
+      <tags>
+        <tag>sql,room</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React Native 环境搭建</title>
+    <url>/2020/0903/react-native-environment-setup.html</url>
+    <content><![CDATA[<p>这里主要记录了 Windows 环境下的 React Native 环境搭建，Ubuntu 环境下有包管理器搭建会相对方便。</p>
+<a id="more"></a>
+
+<h2 id="首先搭建好-Android-的原生开发环境"><a href="#首先搭建好-Android-的原生开发环境" class="headerlink" title="首先搭建好 Android 的原生开发环境"></a>首先搭建好 Android 的原生开发环境</h2><p>React-Native 的开发需要 JDK (不低于 1.8 版本), Android-Studio</p>
+<h2 id="接下来搭建-React-Native-的环境"><a href="#接下来搭建-React-Native-的环境" class="headerlink" title="接下来搭建 React-Native 的环境"></a>接下来搭建 React-Native 的环境</h2><ul>
+<li>安装 Chocolatey 包管理器</li>
+</ul>
+<p>安装方式：在 Windows 命令提示符中直接输入：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="BASH"><figure class="iseeu highlight /bash"><table><tr><td class="code"><pre><span class="line">@powershell -NoProfile -ExecutionPolicy Bypass -Command <span class="string">"iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"</span> &amp;&amp; SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin</span><br></pre></td></tr></table></figure></div>
+
+<p><strong>如果 Chocolatey 没有安装成功 (可能是需要科学上网)，包管理器装不上关系不大，只需要手动去官方找到安装下面依赖即可。</strong></p>
+<ul>
+<li>安装 Python2</li>
+</ul>
+<p>打开命令提示符窗口，使用 Chocolatey 来安装 Python 2.</p>
+<blockquote>
+<p>注意：官方指出必须是 python2 , 不支持 python3  </p>
+</blockquote>
+<p><code>choco install python2</code></p>
+<ul>
+<li>安装 node</li>
+</ul>
+<p>打开命令提示符窗口，使用 Chocolatey 来安装 NodeJS.</p>
+<p><code>choco install nodejs.install</code></p>
+<ul>
+<li>安装 React Native命令行工具</li>
+</ul>
+<p><code>npm install -g react-native-cli</code></p>
+<p>到这里环境就基本搭建好了。如果是 Ubuntu 的话，则使用自带的包管理工具：apt 安装。</p>
+<p>那就赶紧试一试吧</p>
+<p>依然是在 windows 的命令指示符中 (其实 PowerShell 更好用)</p>
+<p>新建一个 MyProject 工程：</p>
+<p><code>react-native init AwesomeProject</code></p>
+<p>切换到 MyProject 目录下：</p>
+<p><code>cd MyProject</code></p>
+<p>运行 packager：</p>
+<p><code>react-native start</code></p>
+<p>这时可以用浏览器访问 <a href="http://localhost:8081/index.android.bundle?platform=android" target="_blank" rel="noopener">http://localhost:8081/index.android.bundle?platform=android</a> 看看是否可以看到打包后的脚本（看到很长的 js 代码就对了）。第一次访问通常需要十几秒，并且在 packager 的命令行可以看到形如 [====] 的进度条。</p>
+<p>运行模拟器</p>
+<p>运行之后，保持 packager 开启，另外打开一个命令行窗口，然后在工程目录下运行：</p>
+<p><code>react-native run-android</code></p>
+<p>首次运行需要等待一段时间，因为要从网上下载 gradle 依赖。</p>
+<p><a href="https://reactnative.dev/docs/environment-setup" target="_blank" rel="noopener">React Native 开发者</a></p>
+<p><a href="https://reactnative.cn/docs/getting-started.html" target="_blank" rel="noopener">React Native 中文网</a></p>
+<p><a href="https://juejin.im/entry/6844903448115150855" target="_blank" rel="noopener">原文链接(掘金)</a></p>
+]]></content>
+      <categories>
+        <category>android</category>
+      </categories>
+      <tags>
+        <tag>android</tag>
+        <tag>react-native</tag>
+        <tag>app</tag>
+        <tag>ios</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kotlin 协程 (Coroutines) 基本使用</title>
+    <url>/2023/0228/kotlin-coroutines.html</url>
+    <content><![CDATA[<p>Kotlin Coroutines 是 Kotlin 语言中一种用于异步编程的工具。它提供了一种协作式的并发模型，可以让开发者使用类似于同步代码的方式编写异步任务，使得异步代码更加简洁、易读、易维护，并且可以提高应用程序的性能和响应性。</p>
+<a id="more"></a>
+
+<p>Kotlin Coroutines 可以让开发者使用一种称为“挂起函数”的特殊函数，这些函数可以在不阻塞线程的情况下暂停和恢复执行。这种方式比传统的异步回调和线程池模型更加灵活和高效。</p>
+<p>Kotlin Coroutines 的主要优势包括：</p>
+<ol>
+<li>简化异步编程：使用挂起函数编写异步代码，避免了传统回调模式中的回调地狱问题，并且可以使用 try-catch 和其他同步代码结构处理异步代码。</li>
+<li>提高性能：Kotlin Coroutines 可以使用更少的线程处理更多的任务，避免线程上下文切换的开销，并且可以更好地利用现代 CPU 的多核性能。</li>
+<li>提高代码可读性和可维护性：使用 Kotlin Coroutines 可以将异步代码写成顺序执行的形式，减少代码嵌套和复杂度，使得代码更加易读和易于维护。</li>
+</ol>
+<p>使用 Kotlin Coroutines 可以分为以下几个步骤：</p>
+<ol>
+<li>添加 Kotlin Coroutines 库依赖。</li>
+<li>创建一个 CoroutineScope 对象，用于管理协程的生命周期。</li>
+<li>在协程中使用挂起函数执行异步任务。</li>
+<li>可以使用协程的各种语法来处理异常、取消协程等问题。</li>
+</ol>
+<p>以下是一个简单的 Kotlin Coroutines 示例代码，展示如何使用协程来执行异步任务：</p>
+<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="KOTLIN"><figure class="iseeu highlight /kotlin"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="keyword">import</span> kotlinx.coroutines.*</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> scope = CoroutineScope(Dispatchers.Default)</span><br><span class="line"></span><br><span class="line">    scope.launch &#123;</span><br><span class="line">        <span class="comment">// 使用挂起函数执行异步任务</span></span><br><span class="line">        <span class="keyword">val</span> result = fetchFromNetwork()</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用协程语法处理异步结果</span></span><br><span class="line">        withContext(Dispatchers.Main) &#123;</span><br><span class="line">            updateUi(result)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 取消协程</span></span><br><span class="line">    scope.cancel()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">fetchFromNetwork</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">    <span class="comment">// 模拟网络请求</span></span><br><span class="line">    delay(<span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Data from network"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">updateUi</span><span class="params">(<span class="keyword">data</span>: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 更新 UI</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
+
+<p>在这个示例中，我们创建了一个 CoroutineScope 对象来管理协程的生命周期，使用 <code>launch</code> 函数启动一个新的协程，并在其中使用 <code>fetchFromNetwork</code> 函数来模拟一个异步网络请求。在请求完成后，我们使用 <code>withContext</code> 函数将结果切换回主线程，并调用 <code>updateUi</code> 函数来更新 UI。最后，我们可以使用 <code>cancel</code> 函数取消协程。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Kotlin 中的共享流(Shared Flow)和广播通道(Broadcast Channel)</title>
+    <url>/2023/0820/kotlin-shard-flow-and-boardcast-channel.html</url>
+    <content><![CDATA[<h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 <code>Channel </code>作为协程间通信的原语。但是 <code>Channel</code> 有其局限性,不适合一对多或者多对多的通信场景。</p>
+<p>因此 Kotlin 后来引入了 <code>BroadcastChannel</code> 接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用, <code>BroadcastChannel</code> 也暴露出了设计缺陷。</p>
+<p>从 Kotlin 协程 1.4 版本开始, 我们引入了一个更好的解决方案——共享流 (Shared Flow)。本文将详细介绍共享流的思想以及如何使用它。</p>
+<a id="more"></a>
+
+<h2 id="流的简单性"><a href="#流的简单性" class="headerlink" title="流的简单性"></a>流的简单性</h2><p>在库的早期版本中,我们只有<code>channels</code>,我们试图通过将 <code>channel</code> 作为参数和返回值来实现各种异步序列的转换。这意味着例如 <code>filter</code>操作符会在自己的协程中运行。</p>
+<p>但是这样的性能远远不如直接使用if语句。回想一下,这并不奇怪,因为 <code>channel</code> 是一个同步原语。任何 <code>channel</code>, 即使是优化过的单生产者单消费者实现,也必须支持并发的通信协程,它们之间的数据传输需要同步,这在现代多核系统中代价昂贵。</p>
+<p>当你开始在异步数据流的基础上构建应用程序体系结构时,对转换的需求自然而然地出现了,并且 <code>channel</code> 的成本开始积累。</p>
+<p>Kotlin Flow 的简单设计允许高效实现转换操作符。在基本情况下,值是在同一个协程中发出、转换和收集的,不需要任何同步。</p>
+<h2 id="流是冷的"><a href="#流是冷的" class="headerlink" title="流是冷的"></a>流是冷的</h2><p>然而,流通常是冷的——通过 <code>flow { ... }</code> 构建器函数创建的 <code>Flow&lt;Value&gt; </code>是一个被动实体。考虑下面的代码:</p>
+<p><img src="kotlin-shard-flow-and-boardcast-channel/kt_cold_flow.png" alt="kt_cold_flow.png"></p>
+<p>流本身没有备份的任何计算,也没有任何状态,直到它开始被收集。每个收集协程都执行自己的发送代码实例。“冷流,热通道”的故事描述了 Kotlin 流背后的原因,并展示了其比频道更适合的用例——按需计算返回的异步值流。</p>
+<h2 id="共享流-SharedFlow"><a href="#共享流-SharedFlow" class="headerlink" title="共享流 (SharedFlow)"></a>共享流 (SharedFlow)</h2><p>那么,该如何处理像用户操作、外部设备事件、状态更新等内容呢?它们与是否有任何对它们感兴趣的代码无关而独立操作。它们应支持应用程序内的多个观察者。这些是所谓的热事件源。</p>
+<p>这就是共享流的概念登场的地方。共享流存在与否与其是否被收集无关。共享流的收集器称为订阅者。共享流的所有订阅者接收相同的一系列值。它有效地像一个“广播频道”,没有大部分频道开销。它使广播频道的概念过时了。</p>
+<p>本质上,共享流是一个轻量级的广播事件总线,您可以在应用程序体系结构中创建和使用它。</p>
+<p><img src="kotlin-shard-flow-and-boardcast-channel/kt_shard_flow.png" alt="kt_shard_flow.png"></p>
+<p>它具有可调的参数,例如要为新订阅者保留和重播的旧事件数量以及额外的缓冲区容量,以便快速发射器和慢订阅者之间提供缓冲。</p>
+<p>共享流的所有订阅者都在自己的上下文中异步收集事件。 发射器不等待订阅者完成处理事件。 但是,当共享流缓冲区已满时,发射器将暂停,直到缓冲区中有空间。 暂停发射器来处理缓冲区溢出为收集者提供了背压,以降低发射速率。 通过 <code>BufferOverlow</code> 参数支持各种替代策略来处理缓冲区溢出。</p>
+<h2 id="状态流-StateFlow"><a href="#状态流-StateFlow" class="headerlink" title="状态流 (StateFlow)"></a>状态流 (StateFlow)</h2><p>处理缓冲区溢出的一种流行方法是放弃最老的事件,只保留最新和最新的事件。 特别是,这是为状态变量建模应用程序的绝佳方法。 这是一个非常广泛的用例,它有自己的专门的 <code>StateFlow</code> 类型,可用作过时的 <code>ConflatedBroadcastChannel</code> 的替代品。</p>
+<p><img src="kotlin-shard-flow-and-boardcast-channel/kt_state_flow.png" alt="kt_state_flow.png"></p>
+<p>可以将 <code>val x:StateFlow&lt;T&gt; </code>视为 <code>var x:T</code> 的异步和可观察的对应物。 最新的值总是可用的,事实上,只有最新的值才重要,因此更新它总是可能的,无需挂起。</p>
+<p>通过状态流,复杂的频道和简单的流之间的性能差异变得非常明显。 状态流的实现具有无分配更新,这在合并广播通道中并非如此。</p>
+<h2 id="渠道的用例-Channel"><a href="#渠道的用例-Channel" class="headerlink" title="渠道的用例 (Channel)"></a>渠道的用例 (Channel)</h2><p>随着各种共享流替换了不同种类的广播通道,一个常见的问题是平原的常规通道会发生什么。它们存在的原因有很多。一个原因是通道是实现许多复杂流操作符的低级原语。</p>
+<p>但频道也有自己的应用情况。 频道用于处理必须精确处理一次的事件。 当此类事件通常只有一个订阅者,但间歇性地(在启动或某种重新配置期间)没有订阅者时会发生这种情况,并且需要保留发布的所有事件,直到出现订阅者。</p>
+<p><img src="kotlin-shard-flow-and-boardcast-channel/kt_channel.png" alt="kt_channel.png"></p>
+<p><code>BroadcastEventBus</code> 和 <code>SingleShotEventBus</code> 都公开了 <code>Flow&lt;Event&gt;</code>, 但它们有一个重要的区别。</p>
+<p>使用共享流时,事件广播到未知数量(零或多个)的订阅者。 如果没有订阅者,则会立即删除任何已发布的事件。 这是必须立即处理或根本不处理的事件的设计模式。</p>
+<p>使用通道时,每个事件都传递给单个订阅者。 如果没有订阅者,发布事件时,一旦通道缓冲区已满,则会挂起等待订阅者出现。 已发布的事件不会被删除。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>了解区别并适当使用共享流和通道。 它们都很有用, 并且设计良好,可以很好地协同工作。 但是, 广播通道是过时的产物, 它们将被弃用并在未来删除。</p>
+]]></content>
+      <categories>
+        <category>Kotlin</category>
+      </categories>
+      <tags>
+        <tag>kotlin</tag>
+        <tag>flow</tag>
+        <tag>channel</tag>
+        <tag>StateFlow</tag>
+        <tag>ShardFlow</tag>
       </tags>
   </entry>
   <entry>
@@ -1198,64 +1317,26 @@ filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
       </tags>
   </entry>
   <entry>
-    <title>Flow 的基本使用</title>
-    <url>/2023/0228/kotlin-flow.html</url>
-    <content><![CDATA[<p>Kotlin Flow 是一个基于协程的异步数据流库，它提供了一种类似于 RxJava 的响应式编程模型，但是比 RxJava 更加轻量、更加易用。Flow 可以使用类似于序列（Sequence）的方式来处理异步数据流，可以实现类似于 RxJava 中的操作符链式调用等功能，同时还支持背压（Backpressure）和取消（Cancellation）。</p>
+    <title>Android 路由有哪些</title>
+    <url>/2023/0228/android-router.html</url>
+    <content><![CDATA[<p>在 Android 中，路由通常指应用程序中不同界面之间的跳转。它是指导用户在应用程序中导航的机制，使得用户可以通过点击屏幕上的按钮、菜单、导航栏等来跳转到其他界面，以达到用户想要的操作和目标。</p>
 <a id="more"></a>
 
-<p>Flow 的主要优势包括：</p>
+<p>在 Android 中，有很多路由框架可供选择。以下是一些常见的路由框架及其优缺点：</p>
 <ol>
-<li>简单易用：Flow 提供了简单的 API，可以轻松地实现异步数据流的操作，而且与 Kotlin 协程紧密集成，代码编写起来更加自然。</li>
-<li>灵活性：Flow 支持多种类型的数据流，可以使用不同的数据源和操作符来实现不同的异步数据流处理需求。</li>
-<li>高效性：Flow 基于协程实现，不会像 RxJava 一样引入过多的性能开销，而且支持协程的挂起和恢复机制，可以更好地管理异步操作的资源和状态。</li>
+<li>Android 路由框架：Android 提供的原生路由框架，可以使用 Intent 进行 Activity 之间的页面跳转。优点是简单易用，不需要引入额外的依赖库，缺点是只能用于Activity之间的跳转。</li>
+<li>ARouter：阿里巴巴出品的路由框架，支持 Activity、Service、Fragment 等组件的跳转，同时支持注解和反射两种方式实现路由。优点是功能强大，支持多种跳转方式，支持拦截器等高级特性，缺点是初始化较慢，性能略有影响。</li>
+<li>RouterX：腾讯出品的路由框架，支持 Activity、Service、Fragment 等组件的跳转，同时支持注解和反射两种方式实现路由。优点是功能强大，支持多种跳转方式，支持模块化开发，缺点是对项目结构要求较高。</li>
+<li>Conductor：Square 出品的路由框架，支持 Activity、Controller 等组件的跳转，使用简单。优点是轻量级，不需要引入额外的依赖库，同时支持多种跳转方式，缺点是不支持拦截器等高级特性。</li>
+<li>Fragmentation：类似 Conductor，支持Activity、Fragment 等组件的跳转，使用简单。优点是支持多种跳转方式，支持 Fragment 的管理，缺点是对项目结构要求较高，且不支持拦截器等高级特性。</li>
 </ol>
-<p>使用 Flow 可以分为以下几个步骤：</p>
-<ol>
-<li>创建数据流：使用 <code>flow</code> 或者 <code>flowOf</code> 函数来创建一个数据流，可以是任何类型的数据流，比如字符串、整数、对象等等。</li>
-<li>转换操作：使用操作符（例如 <code>map</code>、<code>filter</code>、<code>flatMap</code> 等等）对数据流进行转换操作，从而生成新的数据流。</li>
-<li>终止操作：使用终止操作（例如 <code>collect</code>、<code>reduce</code>、<code>fold</code> 等等）对数据流进行最终的处理，并获取最终的结果。</li>
-</ol>
-<p>以下是一个简单的 Flow 示例代码，展示如何使用 Flow 来创建、转换和终止数据流：</p>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="MEL"><figure class="iseeu highlight /mel"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="comment">// 创建数据流</span></span><br><span class="line">val <span class="keyword">flow</span> = <span class="keyword">flow</span> &#123;</span><br><span class="line">    <span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1.</span><span class="number">.10</span>) &#123;</span><br><span class="line">        <span class="keyword">emit</span>(i)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转换数据流</span></span><br><span class="line">val newFlow = <span class="keyword">flow</span></span><br><span class="line">    .<span class="keyword">filter</span> &#123; it % <span class="number">2</span> == <span class="number">0</span> &#125;</span><br><span class="line">    .map &#123; it * it &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 终止数据流</span></span><br><span class="line">val result = newFlow.reduce &#123; accumulator, value -&gt;</span><br><span class="line">    accumulator + value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Log.d(TAG, <span class="string">"Result is $result"</span>) <span class="comment">// 输出：Result is 220</span></span><br></pre></td></tr></table></figure></div>
-
-<p>在这个示例中，我们首先使用 <code>flow</code> 函数来创建一个数据流，其中包含了从 1 到 10 的整数。然后我们使用 <code>filter</code> 操作符来过滤出其中的偶数，并使用 <code>map</code> 操作符来将偶数平方。最后我们使用 <code>reduce</code> 终止操作符对数据流进行累加操作，得到最终的结果 220。这个示例展示了 Flow 的基本操作，可以根据实际需求进行更加复杂的操作。</p>
+<p>这些路由框架都有各自的优点和缺点，选择路由框架需要根据具体项目的需求和特点进行选择。</p>
 ]]></content>
       <categories>
-        <category>kotlin</category>
+        <category>router</category>
       </categories>
       <tags>
-        <tag>flow</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Jetpack Compose 基本使用</title>
-    <url>/2023/0228/android-jetpack-compose.html</url>
-    <content><![CDATA[<p>Jetpack Compose 是一个全新的 Android UI 工具包，它提供了一种基于 Kotlin 的声明式 UI 开发方式，可以简化 Android 应用程序的 UI 开发流程。与传统的 XML 布局相比，Jetpack Compose 采用了一种基于函数的组合方式，可以更加直观、灵活地构建 UI 界面，同时还支持实时预览和交互式设计，可以提高开发效率和用户体验。</p>
-<a id="more"></a>
-
-<p>Jetpack Compose 的主要优势包括：</p>
-<ol>
-<li>简化开发：Jetpack Compose 采用了一种声明式的方式来构建 UI，开发者可以更加直观地定义 UI 的外观和行为，而且代码量更少、更易于维护。</li>
-<li>提高效率：Jetpack Compose 提供了实时预览和交互式设计功能，可以在开发过程中即时查看 UI 效果，同时还支持热重载，可以加快开发速度。</li>
-<li>支持动态性：Jetpack Compose 支持动态组合 UI，可以根据不同的条件来动态构建不同的 UI，而且不会影响性能。</li>
-</ol>
-<p>使用 Jetpack Compose 可以分为以下几个步骤：</p>
-<ol>
-<li>定义 UI 元素：使用 Composable 函数来定义 UI 元素，每个 Composable 函数都是一个独立的 UI 组件。</li>
-<li>组合 UI 元素：使用组合函数来组合多个 UI 元素，从而构建出复杂的 UI 界面。</li>
-<li>添加交互：使用 Modifier 和事件处理函数来为 UI 元素添加交互，比如点击事件、滑动事件等等。</li>
-</ol>
-<p>以下是一个简单的 Jetpack Compose 示例代码，展示如何使用 Composable 函数和组合函数来创建 UI 界面：</p>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="KOTLIN"><figure class="iseeu highlight /kotlin"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">Greeting</span><span class="params">(name: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    Text(text = <span class="string">"Hello, <span class="variable">$name</span>!"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Composable</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">MyApp</span><span class="params">()</span></span> &#123;</span><br><span class="line">    Column &#123;</span><br><span class="line">        Greeting(name = <span class="string">"Android"</span>)</span><br><span class="line">        Greeting(name = <span class="string">"Jetpack Compose"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>在这个示例中，我们首先定义了一个 Greeting 函数，它接受一个字符串参数 name，并显示“Hello, name!”的文本。然后我们使用 Column 组合函数来将两个 Greeting 组件垂直排列，从而构建出一个包含两个文本组件的 UI 界面。可以看到，Jetpack Compose 的代码非常简单、直观，而且可以轻松实现复杂的 UI 界面。</p>
-<p>当我们需要在 Android 应用程序中构建动态、复杂、可交互的 UI 时，可以考虑使用 Jetpack Compose。特别是在需要提高开发效率、降低维护成本、提高用户体验等方面，Jetpack Compose 都具有很大的优势。</p>
-]]></content>
-      <categories>
-        <category>UI</category>
-      </categories>
-      <tags>
-        <tag>compose</tag>
+        <tag>router</tag>
       </tags>
   </entry>
   <entry>
@@ -1311,87 +1392,6 @@ filename 仅用于 FAT/FAT32: 指定要检查是否有碎片的文件。
         <tag>Android</tag>
         <tag>Preview</tag>
         <tag>Android Studio</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Room 的基本使用</title>
-    <url>/2023/0228/android-room.html</url>
-    <content><![CDATA[<p>Room 是一个 Jetpack 组件，它是 Google 推出的用于本地数据库操作的 ORM 框架，可以帮助开发者更轻松地在应用程序中操作 SQLite 数据库。Room 提供了一些强大的功能，如编译时检查、类型安全、可观察的查询等，使得数据库操作更加安全、高效和方便。</p>
-<a id="more"></a>
-
-<p>使用 Room 的主要优势包括：</p>
-<ol>
-<li>编译时检查：Room 在编译时会检查 SQL 语句的语法和正确性，避免了在运行时发生 SQL 错误的问题。</li>
-<li>类型安全：Room 使用注解来定义数据库表和查询语句，可以将 SQL 查询映射到类型安全的 Kotlin 对象上，避免了手动解析和转换数据的问题。</li>
-<li>可观察的查询：Room 支持使用 LiveData 或 Flow 来观察查询结果的变化，可以自动更新 UI。</li>
-</ol>
-<p>使用 Room 可以分为以下几个步骤：</p>
-<ol>
-<li>添加 Room 依赖：在 build.gradle 文件中添加 Room 依赖。</li>
-<li>创建实体类：使用注解 <code>@Entity</code> 来定义数据库表和字段，可以使用 <code>@PrimaryKey</code> 和其他注解来定义主键和索引等。</li>
-<li>创建 DAO 接口：使用注解 <code>@Dao</code> 来定义数据库访问对象接口，使用方法注解来定义 SQL 查询语句和参数，可以使用 <code>suspend</code> 修饰符来支持协程异步调用。</li>
-<li>创建数据库：使用注解 <code>@Database</code> 来定义数据库类，指定数据库名称和版本号，定义数据库表和 DAO 接口等。</li>
-<li>使用 Room：在应用程序中使用 Room 对象来访问数据库，可以使用异步查询方法和可观察查询方法来获取数据。</li>
-</ol>
-<p>以下是一个简单的 Room 示例代码，展示如何使用 Room 来创建和操作数据库：</p>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="KOTLIN"><figure class="iseeu highlight /kotlin"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="comment">// 定义实体类</span></span><br><span class="line"><span class="meta">@Entity(tableName = <span class="meta-string">"users"</span>)</span></span><br><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span></span>(</span><br><span class="line">    <span class="meta">@PrimaryKey</span> <span class="keyword">val</span> id: <span class="built_in">Int</span>,</span><br><span class="line">    <span class="keyword">val</span> name: String,</span><br><span class="line">    <span class="keyword">val</span> age: <span class="built_in">Int</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义 DAO 接口</span></span><br><span class="line"><span class="meta">@Dao</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">UserDao</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Query(<span class="meta-string">"SELECT * FROM users"</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">getAll</span><span class="params">()</span></span>: List&lt;User&gt;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Insert</span></span><br><span class="line">    <span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">insert</span><span class="params">(user: <span class="type">User</span>)</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 定义数据库类</span></span><br><span class="line"><span class="meta">@Database(entities = [User::class], version = 1)</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AppDatabase</span> : <span class="type">RoomDatabase</span></span>() &#123;</span><br><span class="line">    <span class="keyword">abstract</span> <span class="function"><span class="keyword">fun</span> <span class="title">userDao</span><span class="params">()</span></span>: UserDao</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 Room</span></span><br><span class="line"><span class="keyword">val</span> db = Room.databaseBuilder(</span><br><span class="line">    applicationContext,</span><br><span class="line">    AppDatabase::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>, <span class="type">"my-db"</span></span></span><br><span class="line">).build()</span><br><span class="line"></span><br><span class="line">GlobalScope.launch &#123;</span><br><span class="line">    <span class="comment">// 异步插入用户</span></span><br><span class="line">    db.userDao().insert(User(<span class="number">1</span>, <span class="string">"Alice"</span>, <span class="number">23</span>))</span><br><span class="line">    <span class="comment">// 异步查询用户</span></span><br><span class="line">    <span class="keyword">val</span> users = db.userDao().getAll()</span><br><span class="line">    <span class="comment">// 更新 UI</span></span><br><span class="line">    withContext(Dispatchers.Main) &#123;</span><br><span class="line">        updateUi(users)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>在这个示例中，我们定义了一个名为 <code>User</code> 的实体类，并使用注解 <code>@Entity</code> 来定义了一个名为 <code>users</code> 的数据库表。然后我们定义了一个名为 UserDao 的 DAO 接口，使用注解 @Dao 来定义，包含了一个查询所有用户的方法和一个插入用户的方法。最后我们定义了一个名为 AppDatabase 的抽象类，并使用注解 @Database 来定义了一个名为 my-db 的数据库，其中包含了一个 User 表和一个 UserDao 接口。在最后的代码中，我们使用 Room 对象来获取 AppDatabase 实例，并异步插入和查询用户数据，并使用 withContext() 函数将 UI 更新操作切换到主线程。</p>
-]]></content>
-      <categories>
-        <category>sql</category>
-      </categories>
-      <tags>
-        <tag>sql,room</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kotlin 协程 (Coroutines) 基本使用</title>
-    <url>/2023/0228/kotlin-coroutines.html</url>
-    <content><![CDATA[<p>Kotlin Coroutines 是 Kotlin 语言中一种用于异步编程的工具。它提供了一种协作式的并发模型，可以让开发者使用类似于同步代码的方式编写异步任务，使得异步代码更加简洁、易读、易维护，并且可以提高应用程序的性能和响应性。</p>
-<a id="more"></a>
-
-<p>Kotlin Coroutines 可以让开发者使用一种称为“挂起函数”的特殊函数，这些函数可以在不阻塞线程的情况下暂停和恢复执行。这种方式比传统的异步回调和线程池模型更加灵活和高效。</p>
-<p>Kotlin Coroutines 的主要优势包括：</p>
-<ol>
-<li>简化异步编程：使用挂起函数编写异步代码，避免了传统回调模式中的回调地狱问题，并且可以使用 try-catch 和其他同步代码结构处理异步代码。</li>
-<li>提高性能：Kotlin Coroutines 可以使用更少的线程处理更多的任务，避免线程上下文切换的开销，并且可以更好地利用现代 CPU 的多核性能。</li>
-<li>提高代码可读性和可维护性：使用 Kotlin Coroutines 可以将异步代码写成顺序执行的形式，减少代码嵌套和复杂度，使得代码更加易读和易于维护。</li>
-</ol>
-<p>使用 Kotlin Coroutines 可以分为以下几个步骤：</p>
-<ol>
-<li>添加 Kotlin Coroutines 库依赖。</li>
-<li>创建一个 CoroutineScope 对象，用于管理协程的生命周期。</li>
-<li>在协程中使用挂起函数执行异步任务。</li>
-<li>可以使用协程的各种语法来处理异常、取消协程等问题。</li>
-</ol>
-<p>以下是一个简单的 Kotlin Coroutines 示例代码，展示如何使用协程来执行异步任务：</p>
-<div class="highlight-wrap"autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" contenteditable="true"data-rel="KOTLIN"><figure class="iseeu highlight /kotlin"><table><tr><td class="code"><pre><span class="line">kotlinCopy code</span><br><span class="line"><span class="keyword">import</span> kotlinx.coroutines.*</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">val</span> scope = CoroutineScope(Dispatchers.Default)</span><br><span class="line"></span><br><span class="line">    scope.launch &#123;</span><br><span class="line">        <span class="comment">// 使用挂起函数执行异步任务</span></span><br><span class="line">        <span class="keyword">val</span> result = fetchFromNetwork()</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 使用协程语法处理异步结果</span></span><br><span class="line">        withContext(Dispatchers.Main) &#123;</span><br><span class="line">            updateUi(result)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 取消协程</span></span><br><span class="line">    scope.cancel()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">suspend</span> <span class="function"><span class="keyword">fun</span> <span class="title">fetchFromNetwork</span><span class="params">()</span></span>: String &#123;</span><br><span class="line">    <span class="comment">// 模拟网络请求</span></span><br><span class="line">    delay(<span class="number">1000</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Data from network"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">updateUi</span><span class="params">(<span class="keyword">data</span>: <span class="type">String</span>)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 更新 UI</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></div>
-
-<p>在这个示例中，我们创建了一个 CoroutineScope 对象来管理协程的生命周期，使用 <code>launch</code> 函数启动一个新的协程，并在其中使用 <code>fetchFromNetwork</code> 函数来模拟一个异步网络请求。在请求完成后，我们使用 <code>withContext</code> 函数将结果切换回主线程，并调用 <code>updateUi</code> 函数来更新 UI。最后，我们可以使用 <code>cancel</code> 函数取消协程。</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>Android 路由有哪些</title>
-    <url>/2023/0228/android-router.html</url>
-    <content><![CDATA[<p>在 Android 中，路由通常指应用程序中不同界面之间的跳转。它是指导用户在应用程序中导航的机制，使得用户可以通过点击屏幕上的按钮、菜单、导航栏等来跳转到其他界面，以达到用户想要的操作和目标。</p>
-<a id="more"></a>
-
-<p>在 Android 中，有很多路由框架可供选择。以下是一些常见的路由框架及其优缺点：</p>
-<ol>
-<li>Android 路由框架：Android 提供的原生路由框架，可以使用 Intent 进行 Activity 之间的页面跳转。优点是简单易用，不需要引入额外的依赖库，缺点是只能用于Activity之间的跳转。</li>
-<li>ARouter：阿里巴巴出品的路由框架，支持 Activity、Service、Fragment 等组件的跳转，同时支持注解和反射两种方式实现路由。优点是功能强大，支持多种跳转方式，支持拦截器等高级特性，缺点是初始化较慢，性能略有影响。</li>
-<li>RouterX：腾讯出品的路由框架，支持 Activity、Service、Fragment 等组件的跳转，同时支持注解和反射两种方式实现路由。优点是功能强大，支持多种跳转方式，支持模块化开发，缺点是对项目结构要求较高。</li>
-<li>Conductor：Square 出品的路由框架，支持 Activity、Controller 等组件的跳转，使用简单。优点是轻量级，不需要引入额外的依赖库，同时支持多种跳转方式，缺点是不支持拦截器等高级特性。</li>
-<li>Fragmentation：类似 Conductor，支持Activity、Fragment 等组件的跳转，使用简单。优点是支持多种跳转方式，支持 Fragment 的管理，缺点是对项目结构要求较高，且不支持拦截器等高级特性。</li>
-</ol>
-<p>这些路由框架都有各自的优点和缺点，选择路由框架需要根据具体项目的需求和特点进行选择。</p>
-]]></content>
-      <categories>
-        <category>router</category>
-      </categories>
-      <tags>
-        <tag>router</tag>
       </tags>
   </entry>
   <entry>

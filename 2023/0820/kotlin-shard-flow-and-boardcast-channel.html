@@ -112,7 +112,7 @@
 <meta property="og:image" content="http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel/kt_shard_flow.png">
 <meta property="og:image" content="http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel/kt_state_flow.png">
 <meta property="og:image" content="http://kekemao00.github.io/2023/0820/kotlin-shard-flow-and-boardcast-channel/kt_channel.png">
-<meta property="og:updated_time" content="2023-08-20T16:46:59.149Z">
+<meta property="og:updated_time" content="2023-08-20T18:17:06.468Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kotlin 中的共享流(Shared Flow)和广播通道(Broadcast Channel)">
 <meta name="twitter:description" content="引言在 Kotlin 协程中,我们经常需要在多个协程之间进行通信。Kotlin 最初提供了 Channel 作为协程间通信的原语。但是 Channel 有其局限性,不适合一对多或者多对多的通信场景。 因此 Kotlin 后来引入了 BroadcastChannel 接口作为广播通道,它允许多个订阅者独立接收事件或状态更新。但是经过一段时间的使用, BroadcastChannel 也暴露出了设计缺">
@@ -541,7 +541,7 @@
 <p><code>BroadcastEventBus</code> 和 <code>SingleShotEventBus</code> 都公开了 <code>Flow&lt;Event&gt;</code>, 但它们有一个重要的区别。</p>
 <p>使用共享流时,事件广播到未知数量(零或多个)的订阅者。 如果没有订阅者,则会立即删除任何已发布的事件。 这是必须立即处理或根本不处理的事件的设计模式。</p>
 <p>使用通道时,每个事件都传递给单个订阅者。 如果没有订阅者,发布事件时,一旦通道缓冲区已满,则会挂起等待订阅者出现。 已发布的事件不会被删除。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>了解区别并适当使用共享流和通道。 它们都很有用, 并且设计良好,可以很好地协同工作。 但是, 广播通道是过时, 它们将被弃用并在未来删除。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>了解区别并适当使用共享流和通道。 它们都很有用, 并且设计良好,可以很好地协同工作。 但是, 广播通道是过时的产物, 它们将被弃用并在未来删除。</p>
 
 
         
